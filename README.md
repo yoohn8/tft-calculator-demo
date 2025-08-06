@@ -2,18 +2,28 @@
 
 ## Disclaimer
 I do not claim this is 100% accurate or even close.
+
 I have currently not done extensive testing to determine accuracy, but have only implemented mechanics to the best of my knowledge and ability.
+
 Some assumptions made for how DPS is calculated is that the chosen unit is standing still and always attacking and casting.
+
 Imagine a unit attacking an unkillable training dummy where they aren't moving, changing targets, or getting CC'd. 
+
 Many generalizations have been made like the durability for steadfast heart and shields are expected to have full value.
+
 A full list of these generalizations will eventually be made.
+
 The 15 second mark is not actually 15 seconds its an approximation.
+
 For example if a unit cast started at 14 seconds and ended at 16 seconds this event and its stats will be included in the stats for 15 seconds.
+
 When an event crosses the 15 second mark the end of that event is when the stats are collected.
 
 ## Summary
 A TFT calculator for set 15 K.O. Coliseum.
+
 Choose a unit, items, and augments to calculate their DPS and other stats.
+
 Power ups (fruits) not yet included.
 
 Stuff it can calculate:
@@ -26,7 +36,9 @@ Stuff it can calculate:
 
 ## Items
 Every craftable item is available.
+
 No artifacts, augment specific items, or emblems YET.
+
 Some items are conditional so they have been generalized:
 - Titans max stats is granted at 15 seconds
 - titans currently only grant max stats to melee units (currently voli only)
@@ -34,6 +46,7 @@ Some items are conditional so they have been generalized:
 - some secondary effects are not shown because they haven't been implemented in general like burning.
 
 The item DPS comparison list shows what items gives the most DPS increase.
+
 This has a toggle to change between DPS at 15 and 30 seconds.
 
 ## Augments
@@ -59,6 +72,7 @@ Gold augments:
 - Ascension
 
 No silver or prismatic augments YET.
+
 Some augments have been simplified like pumping up and scoreboard scrapper to just give a static stat increase.
 
 ## Units
@@ -78,7 +92,9 @@ Some units do AoE damage. Use the "# of Extra Targets" to reflect this.
 
 ## Traits
 Only traits that are related to 4 costs have been implemented.
+
 Some traits have conditional effects and a button is included to control them.
+
 For example, theres a button to enable bastion's doubling their resistance bonus.
 
 Starguardian is not implemented at all except for Jinx's attack speed increase.
