@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
-using TFTCalculator.Data;
 using TFTCalculator.Models;
 using TFTCalculator.ViewModels.Helper;
-//using static TFTCalculator.Data.Reference;
 
 namespace TFTCalculator.ViewModels
 {
@@ -69,10 +67,10 @@ namespace TFTCalculator.ViewModels
         int a_list_mode = 0;
 
         bool comp_enable = false;
-        string ce_text = "Item DPS Comparison OFF";
+        string ce_text = "Comparison OFF";
 
         bool full_flag = true;
-        string mode_text = "Comparison Mode: 30 sec";
+        string mode_text = "Mode: 30 sec";
 
         bool tank_ilist_check = false;
         bool ad_ilist_check = false;
@@ -819,12 +817,12 @@ namespace TFTCalculator.ViewModels
             {
 
                 FULL_FLAG = false;
-                MODE_TEXT = "Comparison Mode: 15 sec";
+                MODE_TEXT = "Mode: 15 sec";
             }
             else
             {
                 FULL_FLAG = true;
-                MODE_TEXT = "Comparison Mode: 30 sec";
+                MODE_TEXT = "Mode: 30 sec";
             }
 
         }
@@ -834,12 +832,12 @@ namespace TFTCalculator.ViewModels
             {
                 
                 COMP_ENABLE = true;
-                CE_TEXT = "Item DPS Comparison ON";
+                CE_TEXT = "Comparison ON";
             }
             else
             {
                 COMP_ENABLE = false;
-                CE_TEXT = "Item DPS Comparison OFF";
+                CE_TEXT = "Comparison OFF";
             }
                
         }

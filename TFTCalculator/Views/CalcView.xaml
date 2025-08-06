@@ -8,11 +8,13 @@
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=DotNetProjects.Input.Toolkit" 
         mc:Ignorable="d"
         Title="Calc" Height="1000" Width="1100" 
-        Background="White"
-        TextElement.Foreground="Black"
+        Background="#36393F"
+        TextElement.Foreground="White"
+        FontWeight="Medium"
+        FontSize="12"
         >
-    
-        <Grid>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
             <RowDefinition Height=".5*"/>
@@ -21,8 +23,11 @@
 
 
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <TextBlock HorizontalAlignment="Center" FontSize="30">
+        <StackPanel Grid.Row="0"
+                    Background="#252525">
+            <TextBlock HorizontalAlignment="Center"
+                       FontSize="30"
+                       FontWeight="Medium">
                         Tft Calculator 0.1.0
             </TextBlock>
 
@@ -30,8 +35,10 @@
             Made by yoohntft
             </TextBlock>
         </StackPanel>
-        
-            
+
+
+
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -48,21 +55,28 @@
                         <ColumnDefinition Width=".3*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="Unit" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Unit" 
+                                   HorizontalAlignment="Center"/>
 
-
-
-                        <ComboBox ItemsSource="{Binding UNITLIST}" SelectedValue="{Binding UNIT_NAME}" 
-                                  SelectedIndex="0" Margin="10 0 10 0" Padding="2" HorizontalContentAlignment="Center">
+                        <ComboBox ItemsSource="{Binding UNITLIST}" 
+                                  SelectedValue="{Binding UNIT_NAME}" 
+                                  SelectedIndex="0"
+                                  Margin="10 0 10 0"
+                                  Padding="2"
+                                  HorizontalContentAlignment="Center">
                         </ComboBox>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
-                        <TextBlock Text="Star Level" HorizontalAlignment="Center"/>
-                        <ComboBox ItemsSource="{Binding STARLIST}" SelectedValue="{Binding STAR}" 
-          SelectedIndex="0" Margin="10 0 10 0" Padding="2" HorizontalContentAlignment="Center">
+                        <TextBlock Text="Star Level"
+                                   HorizontalAlignment="Center"/>
+                        <ComboBox ItemsSource="{Binding STARLIST}"
+                                  SelectedValue="{Binding STAR}" 
+                                  SelectedIndex="0" 
+                                  Margin="10 0 10 0" 
+                                  Padding="2" 
+                                  HorizontalContentAlignment="Center">
                         </ComboBox>
-                        <TextBlock Text="{Binding STAR}" HorizontalAlignment="Center"/>
                     </StackPanel>
 
 
@@ -76,28 +90,49 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="Traits" HorizontalAlignment="Center" Margin="0 5 0 0"/>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                            <TextBlock Text="{Binding TRAIT1}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Traits" 
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 5 5 0">
+                            <TextBlock Text="{Binding TRAIT1}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 10 5 0">
-                            <TextBlock Text="{Binding TRAIT2}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 5 0">
+                            <TextBlock Text="{Binding TRAIT2}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 10 5 0">
-                            <TextBlock Text="{Binding TRAIT3}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 5 0">
+                            <TextBlock Text="{Binding TRAIT3}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
-                        <TextBlock Text="" HorizontalAlignment="Center"/>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 10 10 0">
-                            <TextBlock Text="{Binding TRAIT1_VALUE}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="" 
+                                   HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 10 0">
+                            <TextBlock Text="{Binding TRAIT1_VALUE}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 10 10 0">
-                            <TextBlock Text="{Binding TRAIT2_VALUE}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 10 0">
+                            <TextBlock Text="{Binding TRAIT2_VALUE}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 10 10 0">
-                            <TextBlock Text="{Binding TRAIT3_VALUE}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray"
+                                Margin="10 10 10 0">
+                            <TextBlock Text="{Binding TRAIT3_VALUE}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
                     </StackPanel>
 
@@ -108,20 +143,44 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
-                                <Button Margin="5 22 0 5" Content="+" Padding="2" Command="{Binding TRAIT1PLUS}" Height="20" />
+                                <Button Margin="5 22 0 5" 
+                                        Content="+" 
+                                        Padding="2" 
+                                        Command="{Binding TRAIT1PLUS}" 
+                                        Height="20" />
 
-                                <Button Margin="5 5 0 5" Content="+" Padding="2" Command="{Binding TRAIT2PLUS}" Height="20"/>
+                                <Button Margin="5 5 0 5" 
+                                        Content="+" 
+                                        Padding="2" 
+                                        Command="{Binding TRAIT2PLUS}"
+                                        Height="20"/>
 
-                                <Button Margin="5 5 0 5" Content="+" Padding="2" Command="{Binding TRAIT3PLUS}" Height="20"/>
+                                <Button Margin="5 5 0 5"
+                                        Content="+" 
+                                        Padding="2" 
+                                        Command="{Binding TRAIT3PLUS}" 
+                                        Height="20"/>
 
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
-                                <Button Margin="5 22 0 5" Content="-" Padding="2" Command="{Binding TRAIT1MINUS}" Height="20" />
+                                <Button Margin="5 22 0 5" 
+                                        Content="-" 
+                                        Padding="2" 
+                                        Command="{Binding TRAIT1MINUS}" 
+                                        Height="20" />
 
-                                <Button Margin="5 5 0 5" Content="-" Padding="2" Command="{Binding TRAIT2MINUS}" Height="20"/>
+                                <Button Margin="5 5 0 5" 
+                                        Content="-" 
+                                        Padding="2" 
+                                        Command="{Binding TRAIT2MINUS}" 
+                                        Height="20"/>
 
-                                <Button Margin="5 5 0 5" Content="-" Padding="2" Command="{Binding TRAIT3MINUS}" Height="20"/>
+                                <Button Margin="5 5 0 5" 
+                                        Content="-" 
+                                        Padding="2" 
+                                        Command="{Binding TRAIT3MINUS}" 
+                                        Height="20"/>
 
                             </StackPanel>
                         </Grid>
@@ -131,50 +190,80 @@
 
 
                 </Grid>
-                <Button Margin="0 5 0 0" Content="Reset Trait #s" Padding="2" Command="{Binding TRAITRESET}" Height="20" HorizontalAlignment="Center"/>
+                <Button Margin="0 5 0 0" 
+                        Content="Reset Trait #s" 
+                        Padding="2" 
+                        Command="{Binding TRAITRESET}" 
+                        Height="24" 
+                        HorizontalAlignment="Center"/>
 
             </StackPanel>
 
 
 
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Items" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                    <TextBlock Text="{Binding ITEM1}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Items" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 5 5 0">
+                    <TextBlock Text="{Binding ITEM1}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                    <TextBlock Text="{Binding ITEM2}" HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 5 5 0">
+                    <TextBlock Text="{Binding ITEM2}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                    <TextBlock Text="{Binding ITEM3}" HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 5 5 0">
+                    <TextBlock Text="{Binding ITEM3}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <Button Margin="0 5 0 0" Content="Reset Items" Padding="2" Command="{Binding ITEMRESET}" Height="20" HorizontalAlignment="Center"/>
+                <Button Margin="0 5 0 0" 
+                        Content="Reset Items" 
+                        Padding="2" 
+                        Command="{Binding ITEMRESET}" 
+                        Height="24" 
+                        HorizontalAlignment="Center"/>
 
             </StackPanel>
 
 
             <StackPanel Grid.Column="2">
 
-                <TextBlock Text="Item Selection" HorizontalAlignment="Center"/>
+                <TextBlock Text="Item Selection" 
+                           HorizontalAlignment="Center"/>
 
-                <ComboBox SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" SelectedValue="{Binding ITEM1}"
-                          Height="18"
-                          >
+                <ComboBox SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          SelectedValue="{Binding ITEM1}"
+                          Height="18" >
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="0">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="0">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="1">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST2}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="1">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST2}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="2">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST3}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="2">
+                                    <Setter Property="ItemsSource"
+                                            Value="{Binding ITEMLIST3}"/>
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -183,21 +272,31 @@
                     </ComboBox.Style>
                 </ComboBox>
 
-                <ComboBox SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" SelectedValue="{Binding ITEM2}"
+                <ComboBox SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          SelectedValue="{Binding ITEM2}"
                           Height="18"
                           >
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="0">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="0">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="1">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST2}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="1">
+                                    <Setter Property="ItemsSource"
+                                            Value="{Binding ITEMLIST2}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="2">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST3}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="2">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST3}"/>
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -206,21 +305,31 @@
                     </ComboBox.Style>
                 </ComboBox>
 
-                <ComboBox SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" SelectedValue="{Binding ITEM3}"
+                <ComboBox SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          SelectedValue="{Binding ITEM3}"
                           Height="18"
                           >
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="0">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}"
+                                             Value="0">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="1">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST2}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="1">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST2}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding LIST_MODE}" Value="2">
-                                    <Setter Property="ItemsSource" Value="{Binding ITEMLIST3}"/>
+                                <DataTrigger Binding="{Binding LIST_MODE}" 
+                                             Value="2">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding ITEMLIST3}"/>
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -229,7 +338,9 @@
                     </ComboBox.Style>
                 </ComboBox>
 
-                <TextBlock Margin="0 10 0 0" Text="Item Types (Changes the lists above)" HorizontalAlignment="Center"/>
+                <TextBlock Margin="0 10 0 0" 
+                           Text="Item Types (Changes the lists above)" 
+                           HorizontalAlignment="Center"/>
 
                 <Grid Margin="0 10 0 0">
                     <Grid.ColumnDefinitions>
@@ -238,7 +349,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    
+
 
                     <ToggleButton Content="AD" Grid.Column="1"
                                   Command="{Binding AD_ILIST}" 
@@ -246,13 +357,25 @@
                                   IsChecked="{Binding AD_ILIST_CHECK}"
                                   IsEnabled="{Binding AD_ILIST_E}"
                                   Margin="10 0 10 0"
+                                  FontWeight="Medium"
                                   >
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <Trigger Property="IsChecked" 
+                                             Value="false">
+                                        <Setter Property="Foreground" 
+                                                Value="White" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" 
+                                             Value="True">
+                                        <Setter Property="Foreground" 
+                                                Value="Red" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -265,13 +388,25 @@
                                   IsChecked="{Binding AP_ILIST_CHECK}"
                                   IsEnabled="{Binding AP_ILIST_E}"
                                   Margin="10 0 10 0"
+                                  FontWeight="Medium"
                                   >
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <Trigger Property="IsChecked" 
+                                             Value="false">
+                                        <Setter Property="Foreground" 
+                                                Value="White" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" 
+                                             Value="True">
+                                        <Setter Property="Foreground" 
+                                                Value="Red" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -284,13 +419,25 @@
                                   IsChecked="{Binding TANK_ILIST_CHECK}"
                                   IsEnabled="{Binding TANK_ILIST_E}"
                                   Margin="10 0 10 0"
+                                  FontWeight="Medium"
                                   >
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <Trigger Property="IsChecked" 
+                                             Value="false">
+                                        <Setter Property="Foreground" 
+                                                Value="White" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" 
+                                             Value="True">
+                                        <Setter Property="Foreground" 
+                                                Value="Red" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -299,33 +446,52 @@
 
                 </Grid>
 
-               
-                
+
+
             </StackPanel>
 
             <StackPanel Grid.Column="3">
-                <TextBlock Text="Item DPS Comparison" HorizontalAlignment="Center" />
-                <ComboBox ItemsSource="{Binding COMP_LIST}" IsReadOnly="True"
-              SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" Height="18">
+                <TextBlock Text="Item DPS Comparison" 
+                           HorizontalAlignment="Center" />
+                <ComboBox ItemsSource="{Binding COMP_LIST}" 
+                          IsReadOnly="True"
+                          SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          Height="18">
                     <ComboBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ComboBoxItem}">
-                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="IsEnabled" 
+                                    Value="False"/>
                         </Style>
                     </ComboBox.ItemContainerStyle>
                 </ComboBox>
-                <ComboBox ItemsSource="{Binding COMP_LIST2}" IsReadOnly="True"
-             SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" Height="18">
+                <ComboBox ItemsSource="{Binding COMP_LIST2}"
+                          IsReadOnly="True"
+                          SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          Height="18">
                     <ComboBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ComboBoxItem}">
-                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="IsEnabled" 
+                                    Value="False"/>
                         </Style>
                     </ComboBox.ItemContainerStyle>
                 </ComboBox>
-                <ComboBox ItemsSource="{Binding COMP_LIST3}" IsReadOnly="True"
-            SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" Height="18">
+                <ComboBox ItemsSource="{Binding COMP_LIST3}" 
+                          IsReadOnly="True"
+                          SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          Height="18">
                     <ComboBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ComboBoxItem}">
-                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="IsEnabled" 
+                                    Value="False"/>
                         </Style>
                     </ComboBox.ItemContainerStyle>
                 </ComboBox>
@@ -334,10 +500,32 @@
                 <ToggleButton Content="{Binding CE_TEXT}"
                               Command="{Binding COMP_E_CHECK}"
                               CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                              Margin="10 20 10 0" 
+                              Margin="10 10 10 0" 
                               HorizontalAlignment="Center"
-                              
-                              >
+                              Width="100"
+                              Height="20">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" 
+                                         Value="false">
+                                    <Setter Property="Foreground"
+                                            Value="White" />
+                                    <Setter Property="Background" 
+                                            Value="#252525"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked"
+                                         Value="True">
+                                    <Setter Property="Foreground" 
+                                            Value="Red" />
+                                    <Setter Property="Background" 
+                                            Value="#252525"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+
                 </ToggleButton>
 
                 <ToggleButton Content="{Binding MODE_TEXT}"
@@ -345,7 +533,29 @@
                               CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
                               Margin="10 10 10 0" 
                               HorizontalAlignment="Center"
-                              >
+                              Width="100"
+                              Height="20">
+                    <ToggleButton.Style>
+                        <Style TargetType="ToggleButton">
+
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" 
+                                         Value="false">
+                                    <Setter Property="Foreground"
+                                            Value="White" />
+                                    <Setter Property="Background" 
+                                            Value="#252525"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked"
+                                         Value="True">
+                                    <Setter Property="Foreground" 
+                                            Value="Red" />
+                                    <Setter Property="Background" 
+                                            Value="#252525"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
                 </ToggleButton>
 
 
@@ -362,169 +572,288 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
 
-                <TextBlock Text="Stats at 15 seconds" HorizontalAlignment="Center" Margin="0 0 0 0"/>
+                <TextBlock Text="Stats at 15 seconds" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 0 0 0"/>
 
-                <TextBlock Text="Full DPS 15" HorizontalAlignment="Center" Margin="0 10 0 0"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding FULL_DPS15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Full DPS 15" 
+                           HorizontalAlignment="Center"
+                           Margin="0 10 0 0"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding FULL_DPS15}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Auto DPS 15" HorizontalAlignment="Center" />
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding AUTO_DPS15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Auto DPS 15" 
+                           HorizontalAlignment="Center" />
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding AUTO_DPS15}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Spell Magic DPS 15" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding CAST_DPS15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Spell Magic DPS 15" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding CAST_DPS15}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Spell Phys DPS 15" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding P_CAST_DPS15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Spell Phys DPS 15" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding P_CAST_DPS15}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="True Damage DPS 15" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding TRUE_DAMAGE_DPS15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="True Damage DPS 15" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding TRUE_DAMAGE_DPS15}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
 
-                <TextBlock Text="Attack Counter 15" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding ATTACK_COUNTER15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Attack Counter 15" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding ATTACK_COUNTER15}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Cast Counter 15" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding CAST_COUNTER15}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Cast Counter 15" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding CAST_COUNTER15}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
             </StackPanel>
 
             <StackPanel Grid.Column="1">
-                
-                <TextBlock Text="Stats at 30 seconds" HorizontalAlignment="Center" Margin="0 0 0 0"/>
 
-                <TextBlock Text="Full DPS" HorizontalAlignment="Center" Margin="0 10 0 0"/>
+                <TextBlock Text="Stats at 30 seconds" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 0 0 0"/>
 
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding FULL_DPS}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Full DPS" 
+                           HorizontalAlignment="Center"
+                           Margin="0 10 0 0"/>
+
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding FULL_DPS}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Auto DPS" HorizontalAlignment="Center" />
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding AUTO_DPS}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Auto DPS" 
+                           HorizontalAlignment="Center" />
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding AUTO_DPS}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Spell Magic DPS" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding CAST_DPS}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Spell Magic DPS"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding CAST_DPS}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Spell Phys DPS" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding P_CAST_DPS}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Spell Phys DPS" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding P_CAST_DPS}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="True Damage DPS" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding TRUE_DAMAGE_DPS}" HorizontalAlignment="Center"/>
+                <TextBlock Text="True Damage DPS"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding TRUE_DAMAGE_DPS}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
 
-                <TextBlock Text="Attack Counter" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding ATTACK_COUNTER}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Attack Counter"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding ATTACK_COUNTER}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Cast Counter" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding CAST_COUNTER}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Cast Counter" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding CAST_COUNTER}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
             </StackPanel>
-            
+
             <StackPanel Grid.Column="2">
 
-                <TextBlock Text="Unit Stats 1" HorizontalAlignment="Center" Margin="0 0 0 10"/>
+                <TextBlock Text="Unit Stats" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 0 0 10"/>
 
-                <TextBlock Text="Auto attack AD" HorizontalAlignment="Center" />
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding AUTO_AD}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Auto attack AD" 
+                           HorizontalAlignment="Center" />
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding AUTO_AD}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="AD" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding AD}" HorizontalAlignment="Center"/>
+                <TextBlock Text="AD" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding AD}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="AP" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding AP}" HorizontalAlignment="Center"/>
+                <TextBlock Text="AP" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding AP}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Attack Speed" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding ATKS}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Attack Speed" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding ATKS}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
 
-                <TextBlock Text="Increased AS" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding ASI}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Increased AS" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding ASI}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Damage Amp" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding AMP}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Damage Amp" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding AMP}"
+                               HorizontalAlignment="Center"/>
                 </Border>
             </StackPanel>
 
             <StackPanel Grid.Column="3">
 
-                <TextBlock Text="Unit Stats 2" HorizontalAlignment="Center" Margin="0 0 0 0"/>
+                <TextBlock Text="" 
+                           HorizontalAlignment="Center"
+                           Margin="0 0 0 0"/>
 
-                <TextBlock Text="Can Abilities Crit?" HorizontalAlignment="Center" Margin="0 10 0 0"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding ABILITY_CRIT}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Can Abilities Crit?" 
+                           HorizontalAlignment="Center"
+                           Margin="0 10 0 0"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding ABILITY_CRIT}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Critical Hit Chance" HorizontalAlignment="Center" Margin="0 0 0 0"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding CRIT}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Critical Hit Chance" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 0 0 0"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding CRIT}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Critical Multiplier" HorizontalAlignment="Center" />
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding CRIT_MULTI}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Critical Multiplier"
+                           HorizontalAlignment="Center" />
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding CRIT_MULTI}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                
 
 
-                <TextBlock Text="Mana On Hit" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding MANA_OH}" HorizontalAlignment="Center"/>
+
+                <TextBlock Text="Mana On Hit" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding MANA_OH}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Mana Regen" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding MANA_REGEN}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Mana Regen" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding MANA_REGEN}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Mana Multiplier" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding MANA_MULTI}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Mana Multiplier" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding MANA_MULTI}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="2">
+
+
+
+        <Grid Grid.Row="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <StackPanel Grid.Column="0">
 
                 <Grid Grid.Column="0">
@@ -535,47 +864,110 @@
                         <ColumnDefinition Width=".5*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 12 0 0">
-                            <TextBlock Text="# of Extra Targets" HorizontalAlignment="Center" Margin="0 0 0 0" />
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 12 0 0">
+                            <TextBlock Text="# of Extra Targets" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" />
                         </Border>
 
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 12 0 0">
-                            <TextBlock Text="# of Little Buddies" HorizontalAlignment="Center" Margin="0 0 0 0" />
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray"
+                                Margin="10 12 0 0">
+                            <TextBlock Text="# of Little Buddies" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" />
                         </Border>
 
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 12 0 0">
-                            <TextBlock Text="# Item Collector" HorizontalAlignment="Center" Margin="0 0 0 0" />
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 12 0 0">
+                            <TextBlock Text="# Item Collector" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" />
                         </Border>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
 
-                        <Border BorderThickness="1" BorderBrush="Black" Width="50" Margin="0 12 0 0" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding TARGETS}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray"
+                                Width="50" 
+                                Margin="0 12 0 0" 
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding TARGETS}"
+                                       HorizontalAlignment="Center"/>
                         </Border>
 
-                        <Border BorderThickness="1" BorderBrush="Black" Width="50" Margin="0 12 0 0" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding LILB}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Width="50" 
+                                Margin="0 12 0 0"
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding LILB}"
+                                       HorizontalAlignment="Center"/>
                         </Border>
 
-                        <Border BorderThickness="1" BorderBrush="Black" Width="50" Margin="0 12 0 0" HorizontalAlignment="Right">
-                            <TextBlock Text="{Binding ITEM_N}" HorizontalAlignment="Center"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Width="50" 
+                                Margin="0 12 0 0" 
+                                HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding ITEM_N}" 
+                                       HorizontalAlignment="Center"/>
                         </Border>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2">
-                        <Button Margin="5 10 0 5" Content="+" Padding="2" Command="{Binding TARGETPLUS}" HorizontalAlignment="Right" Height="20" Width="32"/>
+                        <Button Margin="5 10 0 5" 
+                                Content="+" 
+                                Padding="2" 
+                                Command="{Binding TARGETPLUS}" 
+                                HorizontalAlignment="Right" 
+                                Height="20"
+                                Width="32"/>
 
-                        <Button Margin="5 5 0 5" Content="+" Padding="2" Command="{Binding LILB_PLUS}" HorizontalAlignment="Right" Height="20" Width="32"/>
+                        <Button Margin="5 5 0 5" 
+                                Content="+" 
+                                Padding="2" 
+                                Command="{Binding LILB_PLUS}"
+                                HorizontalAlignment="Right" 
+                                Height="20" 
+                                Width="32"/>
 
-                        <Button Margin="5 5 0 5" Content="+" Padding="2" Command="{Binding ITEM_N_PLUS}" HorizontalAlignment="Right" Height="20" Width="32"/>
+                        <Button Margin="5 5 0 5" 
+                                Content="+" 
+                                Padding="2" 
+                                Command="{Binding ITEM_N_PLUS}"
+                                HorizontalAlignment="Right" 
+                                Height="20" 
+                                Width="32"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3">
-                        <Button Margin="5 10 0 5" Content="-" Padding="2" Command="{Binding TARGETMINUS}" HorizontalAlignment="Left" Height="20" Width="32"/>
+                        <Button Margin="5 10 0 5" 
+                                Content="-" 
+                                Padding="2" 
+                                Command="{Binding TARGETMINUS}" 
+                                HorizontalAlignment="Left" 
+                                Height="20" 
+                                Width="32"/>
 
-                        <Button Margin="5 5 0 5" Content="-" Padding="2" Command="{Binding LILB_MINUS}" HorizontalAlignment="Left" Height="20" Width="32"/>
+                        <Button Margin="5 5 0 5" 
+                                Content="-" 
+                                Padding="2" 
+                                Command="{Binding LILB_MINUS}"
+                                HorizontalAlignment="Left" 
+                                Height="20"
+                                Width="32"/>
 
-                        <Button Margin="5 5 0 5" Content="-" Padding="2" Command="{Binding ITEM_N_MINUS}" HorizontalAlignment="Left" Height="20" Width="32"/>
+                        <Button Margin="5 5 0 5"
+                                Content="-" 
+                                Padding="2" 
+                                Command="{Binding ITEM_N_MINUS}" 
+                                HorizontalAlignment="Left" 
+                                Height="20" 
+                                Width="32"/>
 
                     </StackPanel>
 
@@ -588,52 +980,71 @@
                         <ColumnDefinition Width=".4*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 10 10 0">
-                            <TextBlock Text="First 10 sec of combat (bastion)" HorizontalAlignment="Center" Margin="0 0 0 0" Height="18"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 10 0">
+                            <TextBlock Text="First 10 sec of combat (bastion)" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" Height="18"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 15 10 10">
-                            <TextBlock Text="Shielded (protectors )" HorizontalAlignment="Center" Margin="0 0 0 0" Height="18"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray"
+                                Margin="10 15 10 10">
+                            <TextBlock Text="Shielded (protectors )" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" 
+                                       Height="18"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 10 10">
-                            <TextBlock Text="Above 50% hp (jugg and hoj)" HorizontalAlignment="Center" Margin="0 0 0 0" Height="18"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 5 10 10">
+                            <TextBlock Text="Above 50% hp (jugg and hoj)" 
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" 
+                                       Height="18"/>
                         </Border>
-                        <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 10 0">
-                            <TextBlock Text="Hitting a tank (GS)" HorizontalAlignment="Center" Margin="0 0 0 0" Height="18"/>
+                        <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 5 10 0">
+                            <TextBlock Text="Hitting a tank (GS)"
+                                       HorizontalAlignment="Center" 
+                                       Margin="0 0 0 0" 
+                                       Height="18"/>
                         </Border>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
                         <ToggleButton Margin="5 10 0 5" 
-                          Padding="2" 
-                          Height="20" 
-                          Content="{Binding FIRST10}"  
-                          Command="{Binding FIRST10_SET}" 
-                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                      Padding="2" 
+                                      Height="20" 
+                                      Content="{Binding FIRST10}"  
+                                      Command="{Binding FIRST10_SET}" 
+                                      CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
                           />
 
                         <ToggleButton Margin="5 10 0 5"  
-                          Padding="2" 
-                          Height="20" 
-                          Content="{Binding SHIELDED}"
-                          Command="{Binding SHIELDED_SET}" 
-                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                          />
+                                      Padding="2" 
+                                      Height="20" 
+                                      Content="{Binding SHIELDED}"
+                                      Command="{Binding SHIELDED_SET}" 
+                                      CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                      />
 
                         <ToggleButton Margin="5 10 0 5" 
-                          Padding="2" 
-                          Height="20" 
-                          Content="{Binding ABOVE50}" 
-                          Command="{Binding ABOVE50_SET}" 
-                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                          />
+                                      Padding="2" 
+                                      Height="20" 
+                                      Content="{Binding ABOVE50}" 
+                                      Command="{Binding ABOVE50_SET}" 
+                                      CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                      />
 
                         <ToggleButton Margin="5 10 0 5" 
-                          Padding="2" 
-                          Height="20" 
-                          Content="{Binding HIT_TANK}"  
-                          Command="{Binding HIT_TANK_SET}" 
-                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                          />
+                                      Padding="2" 
+                                      Height="20" 
+                                      Content="{Binding HIT_TANK}"  
+                                      Command="{Binding HIT_TANK_SET}" 
+                                      CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                      />
 
                     </StackPanel>
 
@@ -643,41 +1054,67 @@
 
 
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Augments" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                    <TextBlock Text="{Binding AUG1}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Augments" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 5 5 0">
+                    <TextBlock Text="{Binding AUG1}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                    <TextBlock Text="{Binding AUG2}" HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 5 5 0">
+                    <TextBlock Text="{Binding AUG2}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 5 5 0">
-                    <TextBlock Text="{Binding AUG3}" HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 5 5 0">
+                    <TextBlock Text="{Binding AUG3}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <Button Margin="0 5 0 0" Content="Reset Augments" Padding="2" Command="{Binding AUG_RESET}" Height="20" HorizontalAlignment="Center"/>
+                <Button Margin="0 5 0 0"
+                        Content="Reset Augments" 
+                        Padding="2" 
+                        Command="{Binding AUG_RESET}" 
+                        Height="24" 
+                        HorizontalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Grid.Column="2">
-                
-                <TextBlock Text="Augment Selection" HorizontalAlignment="Center"/>
 
-                <ComboBox SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" SelectedValue="{Binding AUG1}"
+                <TextBlock Text="Augment Selection" 
+                           HorizontalAlignment="Center"/>
+
+                <ComboBox SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          SelectedValue="{Binding AUG1}"
                           Height="18"
                           >
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="0">
-                                    <Setter Property="ItemsSource" Value="{Binding S_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}" 
+                                             Value="0">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding S_AUGLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="1">
-                                    <Setter Property="ItemsSource" Value="{Binding G_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}" 
+                                             Value="1">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding G_AUGLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="2">
-                                    <Setter Property="ItemsSource" Value="{Binding P_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}" 
+                                             Value="2">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding P_AUGLIST}"/>
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -686,21 +1123,30 @@
                     </ComboBox.Style>
                 </ComboBox>
 
-                <ComboBox SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" SelectedValue="{Binding AUG2}"
-          Height="18"
-          >
+                <ComboBox SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          SelectedValue="{Binding AUG2}"
+                          Height="18">
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="0">
-                                    <Setter Property="ItemsSource" Value="{Binding S_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}"
+                                             Value="0">
+                                    <Setter Property="ItemsSource"
+                                            Value="{Binding S_AUGLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="1">
-                                    <Setter Property="ItemsSource" Value="{Binding G_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}"
+                                             Value="1">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding G_AUGLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="2">
-                                    <Setter Property="ItemsSource" Value="{Binding P_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}"
+                                             Value="2">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding P_AUGLIST}"/>
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -709,21 +1155,30 @@
                     </ComboBox.Style>
                 </ComboBox>
 
-                <ComboBox SelectedIndex="0" Margin="10 5 5 0" Padding="2" HorizontalContentAlignment="Center" SelectedValue="{Binding AUG3}"
-          Height="18"
-          >
+                <ComboBox SelectedIndex="0" 
+                          Margin="10 5 5 0" 
+                          Padding="2" 
+                          HorizontalContentAlignment="Center" 
+                          SelectedValue="{Binding AUG3}"
+                          Height="18" >
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
 
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="0">
-                                    <Setter Property="ItemsSource" Value="{Binding S_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}" 
+                                             Value="0">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding S_AUGLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="1">
-                                    <Setter Property="ItemsSource" Value="{Binding G_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}" 
+                                             Value="1">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding G_AUGLIST}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding A_LIST_MODE}" Value="2">
-                                    <Setter Property="ItemsSource" Value="{Binding P_AUGLIST}"/>
+                                <DataTrigger Binding="{Binding A_LIST_MODE}"
+                                             Value="2">
+                                    <Setter Property="ItemsSource" 
+                                            Value="{Binding P_AUGLIST}"/>
                                 </DataTrigger>
                             </Style.Triggers>
 
@@ -732,7 +1187,9 @@
                     </ComboBox.Style>
                 </ComboBox>
 
-                <TextBlock Margin="0 10 0 0" Text="Augment Types (Changes the lists above)" HorizontalAlignment="Center"/>
+                <TextBlock Margin="0 10 0 0" 
+                           Text="Augment Types (Changes the lists above)" 
+                           HorizontalAlignment="Center"/>
 
                 <Grid Margin="0 10 0 0">
                     <Grid.ColumnDefinitions>
@@ -743,19 +1200,30 @@
 
 
 
-                    <ToggleButton Content="Silver" Grid.Column="1"
-                  Command="{Binding SILVER_AUG}" 
-                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                  IsChecked="{Binding SILVER_LIST_CHECK}"
-                  IsEnabled="{Binding SILVER_LIST_E}"
-                  Margin="10 0 10 0"
-                  >
+                    <ToggleButton Content="Silver" 
+                                  Grid.Column="1"
+                                  Command="{Binding SILVER_AUG}" 
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                  IsChecked="{Binding SILVER_LIST_CHECK}"
+                                  IsEnabled="{Binding SILVER_LIST_E}"
+                                  Margin="10 0 10 0" >
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <Trigger Property="IsChecked" 
+                                             Value="false">
+                                        <Setter Property="Foreground" 
+                                                Value="White" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" 
+                                             Value="True">
+                                        <Setter Property="Foreground" 
+                                                Value="Red" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -763,18 +1231,28 @@
                     </ToggleButton>
 
                     <ToggleButton Content="Gold" Grid.Column="0"
-                  Command="{Binding GOLD_AUG}" 
-                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                  IsChecked="{Binding GOLD_LIST_CHECK}"
-                  IsEnabled="{Binding GOLD_LIST_E}"
-                  Margin="10 0 10 0"
-                  >
+                                  Command="{Binding GOLD_AUG}" 
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                  IsChecked="{Binding GOLD_LIST_CHECK}"
+                                  IsEnabled="{Binding GOLD_LIST_E}"
+                                  Margin="10 0 10 0" >
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <Trigger Property="IsChecked" 
+                                             Value="false">
+                                        <Setter Property="Foreground" 
+                                                Value="White" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" 
+                                             Value="True">
+                                        <Setter Property="Foreground" 
+                                                Value="Red" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -782,18 +1260,28 @@
                     </ToggleButton>
 
                     <ToggleButton Content="Prismatic" Grid.Column="2" 
-                  Command="{Binding PRIS_AUG}" 
-                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                  IsChecked="{Binding PRIS_LIST_CHECK}"
-                  IsEnabled="{Binding PRIS_LIST_E}"
-                  Margin="10 0 10 0"
-                  >
+                                  Command="{Binding PRIS_AUG}" 
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                  IsChecked="{Binding PRIS_LIST_CHECK}"
+                                  IsEnabled="{Binding PRIS_LIST_E}"
+                                  Margin="10 0 10 0">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
-                                    <Trigger Property="IsChecked" Value="True">
-                                        <Setter Property="Foreground" Value="Red" />
+                                    <Trigger Property="IsChecked"
+                                             Value="false">
+                                        <Setter Property="Foreground"
+                                                Value="White" />
+                                        <Setter Property="Background" 
+                                                Value="#252525"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" 
+                                             Value="True">
+                                        <Setter Property="Foreground" 
+                                                Value="Red" />
+                                        <Setter Property="Background"
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -806,47 +1294,84 @@
             </StackPanel>
 
             <StackPanel Grid.Column="3">
-                <TextBlock Text="Tank Stats EHP = effective health pool" HorizontalAlignment="Center"  Margin="0 10 0 0"/>
-                <TextBlock Text="DR = damage reduction" HorizontalAlignment="Center"  Margin="0 0 0 0"/>
+                <TextBlock Text="Tank Stats EHP = effective health pool" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 10 0 0"/>
+                <TextBlock Text="DR = damage reduction"
+                           HorizontalAlignment="Center"
+                           Margin="0 0 0 0"/>
 
-                <TextBlock Text="HP" HorizontalAlignment="Center"  Margin="0 10 0 0"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0" >
-                    <TextBlock Text="{Binding HP}" HorizontalAlignment="Center"/>
+                <TextBlock Text="HP" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 10 0 0"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0" >
+                    <TextBlock Text="{Binding HP}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Armor" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding ARMOR}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Armor"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding ARMOR}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Magic Resistance" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding MR}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Magic Resistance"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding MR}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Physical EHP" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding PHYS_EHP}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Physical EHP" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding PHYS_EHP}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Magic EHP" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding MAGIC_EHP}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Magic EHP"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding MAGIC_EHP}"
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Shield" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding SHIELD}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Shield" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1" 
+                        BorderBrush="DimGray" 
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding SHIELD}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Physical DR" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding FINAL_PHYS_DR}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Physical DR" 
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding FINAL_PHYS_DR}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
-                <TextBlock Text="Magic DR" HorizontalAlignment="Center"/>
-                <Border BorderThickness="1" BorderBrush="Black" Margin="10 0 10 0">
-                    <TextBlock Text="{Binding FINAL_MAGIC_DR}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Magic DR"
+                           HorizontalAlignment="Center"/>
+                <Border BorderThickness="1"
+                        BorderBrush="DimGray"
+                        Margin="10 0 10 0">
+                    <TextBlock Text="{Binding FINAL_MAGIC_DR}" 
+                               HorizontalAlignment="Center"/>
                 </Border>
 
 
@@ -855,8 +1380,7 @@
 
 
         </Grid>
-        
-        
-        
+
+
     </Grid>
 </Window>
