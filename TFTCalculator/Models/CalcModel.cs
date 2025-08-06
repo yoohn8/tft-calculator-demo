@@ -17,17 +17,14 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 /// 
 /// implement rest of 4 costs
 /// 
-/// implement augments
-/// 
-/// implement water lotus
-/// 
 /// implement after cast mana events
 /// star guardian and water lotus
 /// 
-/// implement item flags
-/// stoneplate
+/// implement stoneplate effect
 /// 
-/// make the ui pretty
+/// implement power ups
+/// 
+/// work on ui
 /// 
 /// change crit_flag to be a bool
 /// rename crit_flag2 in combat methods
@@ -44,12 +41,11 @@ namespace TFTCalculator.Models
                 double, double, double, double, double, double, double,
                 double, double, double, double, double, double, double,
                 bool, double, double, double, double, double
-
                 )
-                 Combat_Wrapper(string unit, string star, string item1, string item2, string item3, int trait1_value, int trait2_value, int trait3_value,
-            ObservableCollection<string> outlist, ObservableCollection<string> outlist2, ObservableCollection<string> outlist3, bool comp_enable, bool full_flag,
-                                int targets, bool first10, bool shielded, bool above50, bool hit_tank,
-                                string aug1, string aug2, string aug3, int lilb, int item_n)
+        Combat_Wrapper(string unit, string star, string item1, string item2, string item3, int trait1_value, int trait2_value, int trait3_value,
+                       ObservableCollection<string> outlist, ObservableCollection<string> outlist2, ObservableCollection<string> outlist3, bool comp_enable, bool full_flag,
+                       int targets, bool first10, bool shielded, bool above50, bool hit_tank,
+                       string aug1, string aug2, string aug3, int lilb, int item_n)
         {
             int attack_counter = 0;
             int cast_counter = 0;
@@ -168,9 +164,9 @@ namespace TFTCalculator.Models
         public (int, int, double, double, double, double, double, int, int, double, double, double, double, double,
                 double, double, double, double, double, double, double, double, double, double, double,
                 double, double, double, double, double, double, double, double
-            )
-                FightSim(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                    Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, string star, string unit, Trait_Holder traits)
+                )
+        FightSim(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
+                 Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, string star, string unit, Trait_Holder traits)
         {
             double base_ad = uobj.AD;
 
@@ -309,9 +305,9 @@ namespace TFTCalculator.Models
         }
 
         private static (double, double, double, double, double, int, int, double, double, double,
-                    double, double, int, int, double, double, double, double, double, double,
-                    double, double, double, double, double)
-            Combat_Method(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
+                        double, double, int, int, double, double, double, double, double, double,
+                        double, double, double, double, double)
+        Combat_Method(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
                       Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
                       string star, string unit, Trait_Holder traits)
         {
@@ -1468,8 +1464,8 @@ namespace TFTCalculator.Models
 
         private static (double, double, double, double, double, double, double, double)
         EHP_calc(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                      Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, Trait_Holder traits
-                      )
+                 Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, Trait_Holder traits
+                 )
         /// inputs to add
         /// stoneplate, bastion first 10 sec, shielded for protectors, above below 50% hp for jugg
         ///
@@ -1587,10 +1583,10 @@ namespace TFTCalculator.Models
 
         private static (double, double, bool, double, double, double, double, int, int, double, double, int, bool, double, bool, bool, double, bool)
         Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
-                        double mana_oh, double j_track, double asi, int attack_counter, int rb_counter, double ad,
-                        double rb_flag, double kraken_flag, double aa_flag, bool duelist_flag, bool jinx_flag, int break_counter, double ap,
-                        bool half_flag, double qss_flag, bool sf_flag, double sf_ad, bool sf_t
-                        , double nashors_flag, double nashors_tracker, bool nashors_e
+                     double mana_oh, double j_track, double asi, int attack_counter, int rb_counter, double ad,
+                     double rb_flag, double kraken_flag, double aa_flag, bool duelist_flag, bool jinx_flag, int break_counter, double ap,
+                     bool half_flag, double qss_flag, bool sf_flag, double sf_ad, bool sf_t,
+                     double nashors_flag, double nashors_tracker, bool nashors_e
         )
         {
 
@@ -1740,10 +1736,10 @@ namespace TFTCalculator.Models
 
         private static (double, double, bool, double, double, double, int, int, double, double, bool, double, bool, int, bool, int, double, bool)
             Ashe_Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
-                            double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
-                            double rb_flag, double kraken_flag, double aa_flag, double ap,
-                            bool half_flag, int cast_counter, bool cast_flag, int ashe_counter, bool duelist_flag, double duelist_asi, double qss_flag
-                            , double nashors_flag, double nashors_tracker, bool nashors_e
+                              double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
+                              double rb_flag, double kraken_flag, double aa_flag, double ap,
+                              bool half_flag, int cast_counter, bool cast_flag, int ashe_counter, bool duelist_flag, double duelist_asi, double qss_flag,
+                              double nashors_flag, double nashors_tracker, bool nashors_e
             )
         {
 
@@ -1898,10 +1894,10 @@ namespace TFTCalculator.Models
 
         private static (double, double, bool, double, double, double, int, int, double, double, bool, double, bool, int, bool, double, double, double, double)
             Voli_Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
-                            double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
-                            double rb_flag, double kraken_flag, double aa_flag, double ap,
-                            bool half_flag, int cast_counter, bool cast_flag, double spell_start, double voli_atks, double qss_flag, double voli_tracker,
-                            double nashors_flag
+                              double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
+                              double rb_flag, double kraken_flag, double aa_flag, double ap,
+                              bool half_flag, int cast_counter, bool cast_flag, double spell_start, double voli_atks, double qss_flag, double voli_tracker,
+                              double nashors_flag
             )
         {
 
@@ -2278,10 +2274,10 @@ namespace TFTCalculator.Models
 
         private static (double, double, int, double, double, bool,double, bool, double, bool) 
             Base_Cast_event(double time_s, double time_e, int cast_counter,
-                        double atk_time, double aa_flag, double ap, double rb_flag, double asi, double base_a, double cast_time,
-                        bool half_flag, double qss_flag, bool sf_flag, double sf_ad, double ad, bool sf_t
-                        , double nashors_flag, double nashors_tracker, bool nashors_e
-            )
+                            double atk_time, double aa_flag, double ap, double rb_flag, double asi, double base_a, double cast_time,
+                            bool half_flag, double qss_flag, bool sf_flag, double sf_ad, double ad, bool sf_t,
+                            double nashors_flag, double nashors_tracker, bool nashors_e
+                           )
         {
 
             //double cast_time = 1;
@@ -2440,7 +2436,7 @@ namespace TFTCalculator.Models
 
         }
         private static double Samira_Spell_Damage_Calc(double crit, double crit_multi, double inc_ad, double ap, double amp,
-                                                        double crit_flag, string star, int style, int targets)
+                                                       double crit_flag, string star, int style, int targets)
         {
             double final_crit = 1;
             double base_damage = 0;
@@ -4673,7 +4669,7 @@ namespace TFTCalculator.Models
         #endregion
     }
 
-    #region other classes
+    #region classes
     public class Item_DPS_Obj
     {
         string item_name = "none";

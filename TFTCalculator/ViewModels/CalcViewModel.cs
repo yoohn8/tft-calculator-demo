@@ -19,6 +19,8 @@ namespace TFTCalculator.ViewModels
     public class CalcViewModel : BaseViewModel
     {
         #region properties1
+        private bool canExecute = true;
+        public string unit_name = "No_Unit";
         int attack_counter = 0;
         int cast_counter = 0;
         double auto_dps = 0;
@@ -226,15 +228,13 @@ namespace TFTCalculator.ViewModels
 
         #endregion
 
-        
 
+        #region instantiate model
         CalcModel CM = new();
+        #endregion
 
-        private bool canExecute = true;
 
-
-        public string unit_name = "No_Unit";
-
+        #region properties with calcs on set
         public bool COMP_ENABLE
         {
             get { return comp_enable; }
@@ -446,6 +446,8 @@ namespace TFTCalculator.ViewModels
 
             }
         }
+
+        #endregion
 
         // constructor
         public CalcViewModel()
@@ -1102,32 +1104,6 @@ namespace TFTCalculator.ViewModels
             
         }
 
-
-        //public void Remake_Item_List_Tank(object obj)
-        //{
-        //    if ((bool)obj)
-        //    {
-                
-        //    }
-        //    else
-        //    {
-        //        ITEMLIST.Remove("Warmogs");
-        //    }
-        //}
-        public void DoSomething(object obj)
-        {
-            
-        }
-
-        public void ShowMessage(object obj)
-        {
-            
-        }
-
-        public void ChangeCanExecute(object obj)
-        {
-            canExecute = !canExecute;
-        }
 
         #endregion 
 

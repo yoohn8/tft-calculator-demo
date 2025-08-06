@@ -299,26 +299,7 @@
 
                 </Grid>
 
-
-
-
-
-
-                
-
-                
-                
-                <!--
-                <ComboBox ItemsSource="{Binding ITEMLIST}" SelectedValue="{Binding ITEM1}"
-                          SelectedIndex="0" Margin="10 0 10 0" Padding="2" HorizontalContentAlignment="Center">
-                </ComboBox>
-                <ComboBox ItemsSource="{Binding ITEMLIST}" SelectedValue="{Binding ITEM2}" 
-                         SelectedIndex="0" Margin="10 0 10 0" Padding="2" HorizontalContentAlignment="Center">
-                </ComboBox>
-                <ComboBox ItemsSource="{Binding ITEMLIST}" SelectedValue="{Binding ITEM3}" 
-                        SelectedIndex="0" Margin="10 0 10 0" Padding="2" HorizontalContentAlignment="Center">
-                </ComboBox>
-                -->
+               
                 
             </StackPanel>
 
@@ -349,14 +330,6 @@
                     </ComboBox.ItemContainerStyle>
                 </ComboBox>
 
-                <!--<CheckBox Content ="{Binding CE_TEXT}" IsChecked="False" HorizontalAlignment="Center"
-                          
-                          Command="{Binding COMP_E_CHECK}"
-                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
-
-                <CheckBox Content ="{Binding MODE_TEXT}" IsChecked="False" HorizontalAlignment="Center"
-                          Command="{Binding COMP_MODE_CHECK}"
-                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>-->
 
                 <ToggleButton Content="{Binding CE_TEXT}"
                               Command="{Binding COMP_E_CHECK}"
