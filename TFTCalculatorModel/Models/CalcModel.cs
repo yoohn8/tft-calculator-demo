@@ -1,5 +1,4 @@
-﻿using HandyControl.Controls;
-using System;
+﻿using System;
 using System.Buffers.Text;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -8,9 +7,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
-using System.Windows.Media.TextFormatting;
-using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 
 /// To do list
@@ -30,11 +26,11 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 /// rename crit_flag2 in combat methods
 ///
 
-namespace TFTCalculator.Models
+namespace TFTCalculatorModel
 {
     public class CalcModel
     {
-        
+
         #region methods
         public (int, int, double, double, double, double, double, int, int, double, double, double, double, double,
                 string, string, string,
@@ -93,7 +89,7 @@ namespace TFTCalculator.Models
             double final_phys_dr = 0;
             double final_magic_dr = 0;
             double shield = 0;
-
+            int cost = 0;
 
             Unit_Holder uobj = new();
             Item_Holder iobj1 = new();
@@ -104,7 +100,7 @@ namespace TFTCalculator.Models
             Aug_Holder aobj3 = new();
             Trait_Holder tobj = new();
 
-            
+
 
             Unit_Stat_Setter(uobj, unit, star);
 
@@ -126,11 +122,13 @@ namespace TFTCalculator.Models
 
             tobj.TARGETS = targets;
 
+            cost = uobj.COST;
+
             Trait_Stat_Setter(tobj, first10, shielded, above50);
 
-            Aug_Stat_Setter(aobj1, aug1, lilb, item_n);
-            Aug_Stat_Setter(aobj2, aug2, lilb, item_n);
-            Aug_Stat_Setter(aobj3, aug3, lilb, item_n);
+            Aug_Stat_Setter(aobj1, aug1, lilb, item_n, cost);
+            Aug_Stat_Setter(aobj2, aug2, lilb, item_n, cost);
+            Aug_Stat_Setter(aobj3, aug3, lilb, item_n, cost);
 
 
 
@@ -149,7 +147,7 @@ namespace TFTCalculator.Models
                            hit_tank, above50);
 
 
-            
+
 
             ability_crit = (crit_flag > 0);
 
@@ -314,6 +312,7 @@ namespace TFTCalculator.Models
             double base_atks = uobj.ATKS;
             double max_mana = uobj.MAX_MANA;
             double base_ad = uobj.AD;
+            double mana_counter = uobj.MANA_COUNT;
 
             double titans_flag = item1.TITANS_FLAG + item2.TITANS_FLAG + item3.TITANS_FLAG;
             bool ascend_flag = aug1.ASCEND_FLAG || aug2.ASCEND_FLAG || aug3.ASCEND_FLAG;
@@ -322,7 +321,7 @@ namespace TFTCalculator.Models
             bool m_flag = traits.M_FLAG;
 
             double asi = item1.ATKS + item2.ATKS + item3.ATKS + aug1.ATKS + aug2.ATKS + aug3.ATKS + traits.ATKS;
-            double mana_regen = uobj.MANA_REGEN + item1.MANA_REGEN + item2.MANA_REGEN + item3.MANA_REGEN + 
+            double mana_regen = uobj.MANA_REGEN + item1.MANA_REGEN + item2.MANA_REGEN + item3.MANA_REGEN +
                    aug1.MANA_REGEN + aug2.MANA_REGEN + aug3.MANA_REGEN + traits.MANA_REGEN;
 
             double mana_hit = uobj.MANA_OH + item1.MANA_OH + item2.MANA_OH + item3.MANA_OH + traits.MANA_OH;
@@ -343,16 +342,16 @@ namespace TFTCalculator.Models
                 over_crit = crit - 1;
                 crit = 1;
             }
-            
+
 
             // uobj.CRIT + + aug1.CRIT + aug2.CRIT + aug3.CRIT; item1.CRIT + item2.CRIT + 
             double ie_flag = item1.IE_FLAG + item2.IE_FLAG + item3.IE_FLAG;
 
-            double over_cm = over_crit/2;
+            double over_cm = over_crit / 2;
             double ie_cm = 0;
             double crit_flag2 = aug1.CRIT_FLAG + aug2.CRIT_FLAG + aug3.CRIT_FLAG + traits.CRIT_FLAG;
-            
-            if (crit_flag2>1)
+
+            if (crit_flag2 > 1)
             {
                 ie_cm = ie_flag * .1;
             }
@@ -369,12 +368,12 @@ namespace TFTCalculator.Models
             double amp = item1.D_AMP + item2.D_AMP + item3.D_AMP + aug1.D_AMP + aug2.D_AMP + aug3.D_AMP + traits.D_AMP;
             double inc_ad = item1.AD + item2.AD + item3.AD + aug1.AD + aug2.AD + aug3.AD + traits.AD;
             double ap = item1.AP + item2.AP + item3.AP + aug1.AP + aug2.AP + aug3.AP + traits.AP;
-            
+
             double rb_flag = item1.RB_FLAG + item2.RB_FLAG + item3.RB_FLAG;
             //double rb_flag = 0;
             double kraken_flag = item1.KRAKEN_FLAG + item2.KRAKEN_FLAG + item3.KRAKEN_FLAG;
             double aa_flag = item1.AA_FLAG + item2.AA_FLAG + item3.AA_FLAG;
-            
+
             bool jinx_flag = false;
             double trait1 = traits.TRAIT1_VALUE;
             double trait2 = traits.TRAIT2_VALUE;
@@ -419,8 +418,8 @@ namespace TFTCalculator.Models
             double true_damage_tracker = 0;
             double true_damage_dps15 = 0;
 
-            double mana_counter15 = 0;
-            
+            //double mana_counter15 = 0;
+
 
             int ashe_counter = 0;
             double voli_passive = 0;
@@ -434,7 +433,7 @@ namespace TFTCalculator.Models
 
             double atk_time = Attack_Time_calc(base_atks, asi); // in1 is base attack speed
 
-            double mana_counter = 0;
+
 
             double attack_checker = atk_time;
 
@@ -509,7 +508,7 @@ namespace TFTCalculator.Models
             bool aa_check = false;
 
             double voli_tracker = 0;
-            
+
 
             //int sf_cap = 8;
 
@@ -800,7 +799,7 @@ namespace TFTCalculator.Models
                             cast_dps15 = cast_damage_tracker / 15;
                             attack_counter15 = attack_counter;
                             cast_counter15 = cast_counter;
-                            mana_counter15 = mana_counter;
+                            //mana_counter15 = mana_counter;
 
                             if (ascend_flag)
                             {
@@ -918,7 +917,7 @@ namespace TFTCalculator.Models
                             cast_dps15 = cast_damage_tracker / 15;
                             attack_counter15 = attack_counter;
                             cast_counter15 = cast_counter;
-                            mana_counter15 = mana_counter;
+                            //mana_counter15 = mana_counter;
                             true_damage_dps15 = true_damage_tracker / 15;
                             if (ascend_flag)
                             {
@@ -1020,7 +1019,7 @@ namespace TFTCalculator.Models
 
                         if (attack_flag == true)
                         {
-                            
+
                             // calc auto damage here
                             auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
                             //attack_counter += 1;
@@ -1031,7 +1030,7 @@ namespace TFTCalculator.Models
                             //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
                             //}
                             //else nashors_e = false;
-                            
+
 
                             if (cast_flag)
                             {
@@ -1042,11 +1041,11 @@ namespace TFTCalculator.Models
                                 //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
                                 //}
 
-                                if(nashors_flag > 0 && nashors_e)
+                                if (nashors_flag > 0 && nashors_e)
                                 {
                                     nashors_tracker = 0;
                                 }
-                                   else if (nashors_flag > 0 && !nashors_e)
+                                else if (nashors_flag > 0 && !nashors_e)
                                 {
                                     nashors_e = true;
                                     nashors_tracker = 0;
@@ -1056,7 +1055,7 @@ namespace TFTCalculator.Models
 
                                 phys_cast_damage_tracker += Ashe_Spell_Damage_Calc(crit, crit_multi, amp, crit_flag, star, inc_ad, asi, ap);
 
-                                
+
                             }
                         }
 
@@ -1158,7 +1157,7 @@ namespace TFTCalculator.Models
                             cast_dps15 = cast_damage_tracker / 15;
                             attack_counter15 = attack_counter;
                             cast_counter15 = cast_counter;
-                            mana_counter15 = mana_counter;
+                            //mana_counter15 = mana_counter;
                             true_damage_dps15 = true_damage_tracker / 15;
                             if (ascend_flag)
                             {
@@ -1168,7 +1167,7 @@ namespace TFTCalculator.Models
 
                         if (cast_flag == true)
                         {
-                            if (style <5)
+                            if (style < 5)
                             {
                                 cast_time = .5;
                             }
@@ -1177,9 +1176,9 @@ namespace TFTCalculator.Models
                                 cast_time = 3;
                             }
 
-                                (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                                    Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, cast_time,
-                                                    half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                                Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, cast_time,
+                                                half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
                             //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
                             p_cast_damage = Samira_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, style, targets);
 
@@ -1311,7 +1310,7 @@ namespace TFTCalculator.Models
                             cast_dps15 = cast_damage_tracker / 15;
                             attack_counter15 = attack_counter;
                             cast_counter15 = cast_counter;
-                            mana_counter15 = mana_counter;
+                            //mana_counter15 = mana_counter;
 
                             if (ascend_flag)
                             {
@@ -1409,6 +1408,315 @@ namespace TFTCalculator.Models
                     }
                     break;
 
+                case "Katarina":
+
+                    while (time_s < 30)
+                    {
+                        // attack event
+                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
+
+                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
+                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
+                            half_flag, sf_t, nashors_tracker, nashors_e)
+                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
+                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
+
+                        if (attack_flag == true)
+                        {
+                            // calc auto damage here
+                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            //attack_counter += 1;
+                            auto_damage_tracker += auto_damage;
+
+                            //if (nashors_e && (time_e - nashors_tracker < 5))
+                            //{
+                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
+                            //}
+                            //else nashors_e = false;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                        if (cast_flag == true)
+                        {
+
+                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
+                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            cast_damage = Kat_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star, potential, targets);
+                            cast_damage_tracker += cast_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+
+
+                    }
+                    break;
+
+                case "Malzahar":
+
+                    while (time_s < 30)
+                    {
+                        // attack event
+
+                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
+                            half_flag, sf_t, nashors_tracker, nashors_e)
+                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
+                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+
+
+                        if (attack_flag == true)
+                        {
+                            // calc auto damage here
+                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            auto_damage_tracker += auto_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                        if (cast_flag == true)
+                        {
+
+                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
+                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            cast_damage = Malzahar_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star);
+                            cast_damage_tracker += cast_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+
+
+                    }
+                    break;
+                case "Caitlyn":
+                    while (time_s < 30)
+                    {
+                        // attack event
+
+                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
+                            half_flag, sf_t, nashors_tracker, nashors_e)
+                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
+                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+
+
+                        if (attack_flag == true)
+                        {
+                            // calc auto damage here
+                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            auto_damage_tracker += auto_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                        if (cast_flag == true)
+                        {
+
+                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
+                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            p_cast_damage = Caitlyn_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, potential);
+                            phys_cast_damage_tracker += p_cast_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                    }
+                    break;
+
+                case "Senna":
+                    while (time_s < 30)
+                    {
+                        // attack event
+
+                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
+                            half_flag, sf_t, nashors_tracker, nashors_e)
+                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
+                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+
+
+                        if (attack_flag == true)
+                        {
+                            // calc auto damage here
+                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            auto_damage_tracker += auto_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                        if (cast_flag == true)
+                        {
+
+                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 1,
+                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            p_cast_damage = Senna_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, targets);
+                            phys_cast_damage_tracker += p_cast_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                    }
+                    break;
+
+                case "Lucian":
+                    while (time_s < 30)
+                    {
+                        // attack event
+
+                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
+                            half_flag, sf_t, nashors_tracker, nashors_e)
+                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
+                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+
+
+                        if (attack_flag == true)
+                        {
+                            // calc auto damage here
+                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            auto_damage_tracker += auto_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                        if (cast_flag == true)
+                        {
+
+                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
+                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            cast_damage = Lucian_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star);
+                            cast_damage_tracker += cast_damage;
+                        }
+
+                        if (half_flag)
+                        {
+                            auto_dps15 = auto_damage_tracker / 15;
+                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
+                            cast_dps15 = cast_damage_tracker / 15;
+                            attack_counter15 = attack_counter;
+                            cast_counter15 = cast_counter;
+
+                            if (ascend_flag)
+                            {
+                                amp += .6;
+                            }
+                        }
+
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -1472,7 +1780,7 @@ namespace TFTCalculator.Models
 
 
         {
-            
+
             double base_hp = uobj.HP;
             double hp = item1.HP + item2.HP + item3.HP + aug1.HP + aug2.HP + aug3.HP + traits.HP;
             double hp_mult = item1.HP_MULT + item2.HP_MULT + item3.HP_MULT + aug1.HP_MULT + aug2.HP_MULT + aug3.HP_MULT + traits.HP_MULT;
@@ -1577,7 +1885,7 @@ namespace TFTCalculator.Models
             /// List of on hit effects
             /// kraken, jinx, duelist
             /// flicker
-            
+
 
         }
 
@@ -1630,7 +1938,7 @@ namespace TFTCalculator.Models
             // nashors
             if (nashors_e)
             {
-                if ((nashors_tracker+loop_amount) < 5)
+                if ((nashors_tracker + loop_amount) < 5)
                 {
                     nashors_tracker += loop_amount;
                 }
@@ -1655,7 +1963,7 @@ namespace TFTCalculator.Models
                 }
             }
 
-            
+
 
             // aa
 
@@ -1775,9 +2083,9 @@ namespace TFTCalculator.Models
 
             }
 
-            
 
-            
+
+
 
             // timed events
 
@@ -1932,7 +2240,7 @@ namespace TFTCalculator.Models
 
             //}
 
-            
+
 
 
             // timed events
@@ -1983,14 +2291,14 @@ namespace TFTCalculator.Models
                 ad += .03 * kraken_flag;
             }
 
-            
+
 
             if (cast_flag) // mana lock
             {
                 if ((voli_tracker + loop_amount) < 5)
                 {
                     voli_tracker += loop_amount;
-                    
+
                 }
                 else
                 {
@@ -2009,24 +2317,24 @@ namespace TFTCalculator.Models
             }
             else
             {
-                mana_counter += (mana_r2 * r_counter) + mana_oh;;
+                mana_counter += (mana_r2 * r_counter) + mana_oh; ;
             }
 
             if (mana_counter >= max_mana)
             {
-                
+
                 mana_counter -= max_mana; // overflow mana
-                
+
                 cast_counter += 1;
 
                 cast_flag = true;
-                
+
                 asi += .99;
                 atk_time = Attack_Time_calc(base_a, asi);
                 voli_tracker = 0;
                 //spell_start = time_e;
 
-                if(nashors_flag>0)
+                if (nashors_flag > 0)
                 {
                     asi += (.3 * nashors_flag);
                     atk_time = Attack_Time_calc(base_a, asi);
@@ -2162,7 +2470,7 @@ namespace TFTCalculator.Models
                 sf_t = true;
             }
 
-            return (sf_counter,sf_t);
+            return (sf_counter, sf_t);
 
         }
 
@@ -2272,7 +2580,7 @@ namespace TFTCalculator.Models
 
         }
 
-        private static (double, double, int, double, double, bool,double, bool, double, bool) 
+        private static (double, double, int, double, double, bool, double, bool, double, bool)
             Base_Cast_event(double time_s, double time_e, int cast_counter,
                             double atk_time, double aa_flag, double ap, double rb_flag, double asi, double base_a, double cast_time,
                             bool half_flag, double qss_flag, bool sf_flag, double sf_ad, double ad, bool sf_t,
@@ -2300,10 +2608,10 @@ namespace TFTCalculator.Models
 
             loop_amount = time_e_floor - time_s_floor;
 
-            
-            
 
-            
+
+
+
 
 
             // timed events
@@ -2331,7 +2639,7 @@ namespace TFTCalculator.Models
                 atk_time = Attack_Time_calc(base_a, asi);
             }
 
-            
+
 
 
             if (sf_flag)
@@ -2942,6 +3250,180 @@ namespace TFTCalculator.Models
 
         }
 
+        private static double Kat_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
+                                                        double crit_flag, string star, double potential, int targets)
+        {
+            double final_crit = 1;
+            double base_damage = 0;
+            double base_damage2 = 0;
+            double final_damage = 0;
+            double pot_damage = .13 * potential;
+
+            if (crit_flag > 0)
+            {
+                final_crit = 1 + (crit * crit_multi);
+            }
+
+            switch (star)
+            {
+                case "1":
+                    base_damage = 140;
+                    break;
+                case "2":
+                    base_damage = 210;
+                    break;
+                case "3":
+                    base_damage = 325;
+                    break;
+                default: break;
+            }
+
+            base_damage2 = pot_damage * base_damage;
+            final_damage = base_damage + base_damage2;
+
+            //true_damage_i = 
+
+            //return (final_damage * page_counter * final_crit * (1 + amp), final_damage * pot_page_counter * potential * .32 * final_crit * (1 + amp));
+            return final_damage * (1 + ap) * final_crit * (1 + amp) * (targets + 1);
+
+        }
+
+        private static double Malzahar_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
+                                                        double crit_flag, string star)
+        {
+            double final_crit = 1;
+            double base_damage = 0;
+
+            if (crit_flag > 0)
+            {
+                final_crit = 1 + (crit * crit_multi);
+            }
+
+            switch (star)
+            {
+                case "1":
+                    base_damage = 545;
+                    break;
+                case "2":
+                    base_damage = 820;
+                    break;
+                case "3":
+                    base_damage = 1390;
+                    break;
+                default: break;
+            }
+
+            return base_damage * (1 + ap) * final_crit * (1 + amp);
+
+        }
+
+        private static double Caitlyn_Spell_Damage_Calc(double crit, double crit_multi, double ad, double ap, double amp,
+                                                        double crit_flag, string star, double potential)
+        {
+            double final_crit = 1;
+            double base_damage = 0;
+            double ap_damage = 0;
+            double final_damage = 0;
+            double pot_damage = 0;
+
+            if (crit_flag > 0)
+            {
+                final_crit = 1 + (crit * crit_multi);
+            }
+
+            switch (star)
+            {
+                case "1":
+                    base_damage = 350;
+                    ap_damage = 30;
+                    pot_damage = 95;
+                    break;
+                case "2":
+                    base_damage = 525;
+                    ap_damage = 45;
+                    pot_damage = 145;
+                    break;
+                case "3":
+                    base_damage = 840;
+                    ap_damage = 70;
+                    pot_damage = 240;
+                    break;
+                default: break;
+            }
+
+            final_damage = (base_damage * (1 + ad)) + (ap_damage * (1 + ap)) + (pot_damage * potential * (1 + ad));
+
+            return final_damage * final_crit * (1 + amp);
+
+        }
+
+        private static double Senna_Spell_Damage_Calc(double crit, double crit_multi, double ad, double ap, double amp,
+                                                        double crit_flag, string star, double targets)
+        {
+            double final_crit = 1;
+            double base_damage = 0;
+            double base_damage2 = 0;
+            double ap_damage = 0;
+            double final_damage = 0;
+
+            if (crit_flag > 0)
+            {
+                final_crit = 1 + (crit * crit_multi);
+            }
+
+            switch (star)
+            {
+                case "1":
+                    base_damage = 385;
+                    ap_damage = 35;
+                    break;
+                case "2":
+                    base_damage = 525;
+                    ap_damage = 55;
+                    break;
+                case "3":
+                    base_damage = 870;
+                    ap_damage = 85;
+                    break;
+                default: break;
+            }
+
+            final_damage = (base_damage * (1 + ad)) + (ap_damage * (1 + ap));
+            base_damage2 = final_damage * .22 * targets;
+
+            return (final_damage + base_damage2) * final_crit * (1 + amp);
+
+        }
+
+        private static double Lucian_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
+                                                        double crit_flag, string star)
+        {
+            double final_crit = 1;
+            double base_damage = 0;
+
+            if (crit_flag > 0)
+            {
+                final_crit = 1 + (crit * crit_multi);
+            }
+
+            switch (star)
+            {
+                case "1":
+                    base_damage = 85;
+                    break;
+                case "2":
+                    base_damage = 130;
+                    break;
+                case "3":
+                    base_damage = 200;
+                    break;
+                default: break;
+            }
+
+            return base_damage * 4 * (1 + ap) * final_crit * (1 + amp);
+
+        }
+
         private static (double, double, double, double, double, double, double, double)
 
         // trait related
@@ -3019,8 +3501,8 @@ namespace TFTCalculator.Models
             Item_DPS_Obj AdaptiveBack_o = new(); AdaptiveBack_o.ITEM_NAME = "AdaptiveBack   ";
 
             (List<Item_Holder> list_int, List<string> list_int_s) = Create_Item_List();
-            
-            for(int i=0;i<37;i++)
+
+            for (int i = 0; i < 37; i++)
             {
                 Item_Stat_Setter(list_int[i], list_int_s[i], hit_tank, above50);
             }
@@ -3108,7 +3590,7 @@ namespace TFTCalculator.Models
             }
             else
             {
-                for (int i = 0;i<37;i++)
+                for (int i = 0; i < 37; i++)
                 {
                     out_list[i] = "-";
                     out_list2[i] = "-";
@@ -3364,7 +3846,7 @@ namespace TFTCalculator.Models
             //return out_list;
         }
 
-        private static void Aug_Stat_Setter(Aug_Holder aobj, string aug, int lilb, int item_n)
+        private static void Aug_Stat_Setter(Aug_Holder aobj, string aug, int lilb, int item_n, int cost)
         {
             switch (aug)
             {
@@ -3372,16 +3854,24 @@ namespace TFTCalculator.Models
                     break;
 
                 case "PairOfFours":
-                    aobj.HP = 374;
-                    aobj.ATKS = .24;
+                    if (cost == 4)
+                    {
+                        aobj.HP = 374;
+                        aobj.ATKS = .24;
+                    }
+                    
                     break;
                 case "BestFriends2":
                     aobj.ARMOR = 20;
                     aobj.ATKS = .15;
                     break;
                 case "LittleBuddies":
-                    aobj.HP = lilb * 55;
-                    aobj.ATKS = lilb * .06;
+                    if (cost == 4 || cost == 5)
+                    {
+                        aobj.HP = lilb * 55;
+                        aobj.ATKS = lilb * .06;
+                    }
+                    
                     break;
                 case "MacesWill":
                     aobj.CRIT = .2;
@@ -3581,7 +4071,7 @@ namespace TFTCalculator.Models
                 case "HandOfJustice":
                     iobj.MANA_REGEN = 1;
                     iobj.CRIT = .2;
-                    
+
                     if (above50)
                     {
                         iobj.AP = .3;
@@ -3594,7 +4084,7 @@ namespace TFTCalculator.Models
                         iobj.AD = .15;
                         iobj.OMNIVAMP = .24;
                     }
-                        break;
+                    break;
                 case "BlueBuff":
                     iobj.MANA_REGEN = 5;
                     iobj.AP = .15;
@@ -3695,19 +4185,30 @@ namespace TFTCalculator.Models
                     break;
 
                 case "Jinx":
+                    uobj.TRAIT1 = "Sniper";
+                    uobj.TRAIT2 = "Starguardian";
+                    uobj.MAX_MANA = 80;
+                    uobj.ARMOR = 35;
+                    uobj.MR = 35;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.MANA_COUNT = 10;
+                    uobj.ATKS = .75;
+                    uobj.COST = 4;
+
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 850; uobj.MAX_MANA = 80; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 70;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Sniper"; uobj.TRAIT2 = "Starguardian";
+                            uobj.HP = 850;
+                            uobj.AD = 70;
                             break;
                         case "2":
-                            uobj.HP = 1530; uobj.MAX_MANA = 80; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 105;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Sniper"; uobj.TRAIT2 = "Starguardian";
+                            uobj.HP = 1530;
+                            uobj.AD = 105;
                             break;
                         case "3":
+                            uobj.HP = 2754;
+                            uobj.AD = 158;
                             break;
 
                         default: break;
@@ -3715,235 +4216,555 @@ namespace TFTCalculator.Models
                     break;
 
                 case "Karma":
+                    uobj.TRAIT1 = "Mighty Mech";
+                    uobj.TRAIT2 = "Sorcerer";
+                    uobj.MAX_MANA = 70;
+                    uobj.ARMOR = 35;
+                    uobj.MR = 35;
+                    uobj.ATKS = .75;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.COST = 4;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 850; uobj.MAX_MANA = 70; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 40;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Mighty Mech"; uobj.TRAIT2 = "Sorcerer";
+                            uobj.HP = 850;
+                            uobj.AD = 40;
+
+
                             break;
                         case "2":
-                            uobj.HP = 1530; uobj.MAX_MANA = 70; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 70;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Mighty Mech"; uobj.TRAIT2 = "Sorcerer";
+                            uobj.HP = 1530;
+                            uobj.AD = 60;
                             break;
                         case "3":
+                            uobj.HP = 2754;
+                            uobj.AD = 90;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Ryze":
+                    uobj.TRAIT1 = "Executioner";
+                    uobj.TRAIT2 = "Strategist_B";
+                    uobj.TRAIT3 = "Mentor";
+                    uobj.MAX_MANA = 60;
+                    uobj.ARMOR = 35;
+                    uobj.MR = 35;
+                    uobj.ATKS = .8;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.MANA_COUNT = 10;
+                    uobj.COST = 4;
                     switch (star)
                     {
+
                         case "1":
-                            uobj.HP = 1000; uobj.MAX_MANA = 60; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 50;
-                            uobj.ATKS = .8; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Executioner"; uobj.TRAIT2 = "Strategist_B"; uobj.TRAIT3 = "Mentor";
+                            uobj.HP = 850;
+                            uobj.AD = 50;
+
+
                             break;
                         case "2":
-                            uobj.HP = 1530; uobj.MAX_MANA = 60; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 75;
-                            uobj.ATKS = .8; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Executioner"; uobj.TRAIT2 = "Strategist_B"; uobj.TRAIT3 = "Mentor";
+                            uobj.HP = 1530;
+                            uobj.AD = 75;
+
                             break;
                         case "3":
+                            uobj.HP = 2754;
+                            uobj.AD = 113;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Yuumi":
+                    uobj.TRAIT1 = "Prodigy";
+                    uobj.TRAIT2 = "Battle Academia";
+                    uobj.MAX_MANA = 40;
+                    uobj.ARMOR = 35;
+                    uobj.MR = 35;
+                    uobj.ATKS = .75;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.COST = 4;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 850; uobj.MAX_MANA = 40; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 40;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Prodigy"; uobj.TRAIT2 = "Battle Academia";
+                            uobj.HP = 850;
+                            uobj.AD = 40;
+
+
                             break;
                         case "2":
-                            uobj.HP = 1530; uobj.MAX_MANA = 40; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 60;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Prodigy"; uobj.TRAIT2 = "Battle Academia";
+                            uobj.HP = 1530;
+                            uobj.AD = 60;
                             break;
                         case "3":
+                            uobj.HP = 2754;
+                            uobj.AD = 90;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Ashe":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "Crystal Gambit";
+                    uobj.TRAIT2 = "Duelist";
+                    uobj.ATKS = .8; 
+                    uobj.MANA_OH = 10;
+                    uobj.MAX_MANA = 80; 
+                    uobj.ARMOR = 35; 
+                    uobj.MR = 35;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1000; uobj.MAX_MANA = 80; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 60;
-                            uobj.ATKS = .8; uobj.MANA_OH = 10;
-                            uobj.TRAIT1 = "Crystal Gambit"; uobj.TRAIT2 = "Duelist";
+                            uobj.HP = 850; 
+                            uobj.AD = 60;
+                            
                             break;
                         case "2":
-                            uobj.HP = 1530; uobj.MAX_MANA = 80; uobj.ARMOR = 35; uobj.MR = 35; uobj.AD = 90;
-                            uobj.ATKS = .8; uobj.MANA_OH = 10;
-                            uobj.TRAIT1 = "Crystal Gambit"; uobj.TRAIT2 = "Duelist";
+                            uobj.HP = 1530; 
+                            uobj.AD = 90;
+                            
                             break;
                         case "3":
+                            uobj.HP = 2754;
+                            uobj.AD = 135;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Samira":
+                    uobj.COST = 4;
+                    uobj.ATKS = .75; 
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.TRAIT1 = "Edgelord"; 
+                    uobj.TRAIT2 = "Soul Fighter";
+                    uobj.MAX_MANA = 15; 
+                    uobj.ARMOR = 45; 
+                    uobj.MR = 45;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 850; uobj.MAX_MANA = 15; uobj.ARMOR = 45; uobj.MR = 45; uobj.AD = 50;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Edgelord"; uobj.TRAIT2 = "Soul Fighter";
+                            uobj.HP = 850; 
+                            uobj.AD = 50;
+                            
                             break;
                         case "2":
-                            uobj.HP = 1530; uobj.MAX_MANA = 15; uobj.ARMOR = 45; uobj.MR = 45; uobj.AD = 75;
-                            uobj.ATKS = .75; uobj.MANA_OH = 7; uobj.MANA_REGEN = 2;
-                            uobj.TRAIT1 = "Edgelord"; uobj.TRAIT2 = "Soul Fighter";
+                            uobj.HP = 1530; 
+                            uobj.AD = 75;
+                            
                             break;
                         case "3":
+                            uobj.HP = 2754;
+                            uobj.AD = 113;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Jarvan":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "Mighty Mech"; 
+                    uobj.TRAIT2 = "Strategist_F";
+                    uobj.ATKS = .65;
+                    uobj.MANA_OH = 5; 
+                    uobj.MANA_COUNT = 45;
+                    uobj.MAX_MANA = 150;
+                    uobj.ARMOR = 60; 
+                    uobj.MR = 60;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1100; uobj.MAX_MANA = 150; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 60;
-                            uobj.ATKS = .65; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Mighty Mech"; uobj.TRAIT2 = "Strategist_F";
+                            uobj.HP = 1100; 
+                            uobj.AD = 60;
+                            
+                            
                             break;
                         case "2":
-                            uobj.HP = 1980; uobj.MAX_MANA = 150; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 90;
-                            uobj.ATKS = .65; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Mighty Mech"; uobj.TRAIT2 = "Strategist_F";
+                            uobj.HP = 1980; 
+                            uobj.AD = 90;
+                            
                             break;
                         case "3":
+                            uobj.HP = 3564;
+                            uobj.AD = 135;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Ksante":
+                    uobj.COST = 4;
+                    uobj.ATKS = .7; 
+                    uobj.MANA_OH = 5;
+                    uobj.MANA_COUNT = 30;
+                    uobj.TRAIT1 = "Protector"; 
+                    uobj.TRAIT2 = "Wraith";
+                    uobj.MAX_MANA = 90;
+                    uobj.ARMOR = 60; 
+                    uobj.MR = 60;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1000; uobj.MAX_MANA = 90; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 60;
-                            uobj.ATKS = .7; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Protector"; uobj.TRAIT2 = "Wraith";
+                            uobj.HP = 1000; 
+                            uobj.AD = 60;
+                            
                             break;
                         case "2":
-                            uobj.HP = 1800; uobj.MAX_MANA = 90; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 90;
-                            uobj.ATKS = .7; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Protector"; uobj.TRAIT2 = "Wraith";
+                            uobj.HP = 1800;  
+                            uobj.AD = 90;
+                            
                             break;
                         case "3":
+                            uobj.HP = 3240;
+                            uobj.AD = 135;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Leona":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "Bastion";
+                    uobj.TRAIT2 = "Battle Academia";
+                    uobj.ATKS = .6;
+                    uobj.MANA_OH = 5;
+                    uobj.MANA_COUNT = 30;
+                    uobj.MAX_MANA = 100; 
+                    uobj.ARMOR = 60; 
+                    uobj.MR = 60;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1200; uobj.MAX_MANA = 100; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 60;
-                            uobj.ATKS = .6; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Bastion"; uobj.TRAIT2 = "Battle Academia";
+                            uobj.HP = 1200;  
+                            uobj.AD = 60;
+                            
+                            
                             break;
                         case "2":
-                            uobj.HP = 2160; uobj.MAX_MANA = 100; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 90;
-                            uobj.ATKS = .6; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Bastion"; uobj.TRAIT2 = "Battle Academia";
+                            uobj.HP = 2160; 
+                            uobj.AD = 90;
                             break;
                         case "3":
+                            uobj.HP = 3888;
+                            uobj.AD = 135;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Poppy":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "Heavyweight";
+                    uobj.TRAIT2 = "Star Guardian";
+                    uobj.ATKS = .6;
+                    uobj.MANA_OH = 5;
+                    uobj.MANA_COUNT = 45;
+                    uobj.MAX_MANA = 105;
+                    uobj.ARMOR = 60;
+                    uobj.MR = 60;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1100; uobj.MAX_MANA = 105; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 65;
-                            uobj.ATKS = .6; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Heavyweight"; uobj.TRAIT2 = "Star Guardian";
+                            uobj.HP = 1100;
+                            uobj.AD = 65;
                             break;
                         case "2":
-                            uobj.HP = 1980; uobj.MAX_MANA = 105; uobj.ARMOR = 60; uobj.MR = 60; uobj.AD = 97;
-                            uobj.ATKS = .6; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Heavyweight"; uobj.TRAIT2 = "Star Guardian";
+                            uobj.HP = 1980;
+                            uobj.AD = 98;
                             break;
                         case "3":
+                            uobj.HP = 3564;
+                            uobj.AD = 146;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Sett":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "Juggernaut";
+                    uobj.TRAIT2 = "Soul Fighter";
+                    uobj.ATKS = .7;
+                    uobj.MANA_OH = 5;
+                    uobj.MANA_COUNT = 40;
+                    uobj.MAX_MANA = 100;
+                    uobj.ARMOR = 50;
+                    uobj.MR = 50;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1100; uobj.MAX_MANA = 100; uobj.ARMOR = 50; uobj.MR = 50; uobj.AD = 60;
-                            uobj.ATKS = .7; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Juggernaut"; uobj.TRAIT2 = "Soul Fighter";
+                            uobj.HP = 1100;
+                            uobj.AD = 60;
                             break;
                         case "2":
-                            uobj.HP = 1980; uobj.MAX_MANA = 100; uobj.ARMOR = 50; uobj.MR = 50; uobj.AD = 90;
-                            uobj.ATKS = .7; uobj.MANA_OH = 5;
-                            uobj.TRAIT1 = "Juggernaut"; uobj.TRAIT2 = "Soul Fighter";
+                            uobj.HP = 1980;
+                            uobj.AD = 90;
                             break;
                         case "3":
+                            uobj.HP = 3564;
+                            uobj.AD = 135;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Volibear":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "EdgeLord";
+                    uobj.TRAIT2 = "Luchador";
+                    uobj.ATKS = .9;
+                    uobj.MANA_OH = 10;
+                    uobj.OMNIVAMP = .1;
+                    uobj.MAX_MANA = 40;
+                    uobj.ARMOR = 65;
+                    uobj.MR = 65;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1050; uobj.MAX_MANA = 40; uobj.ARMOR = 65; uobj.MR = 65; uobj.AD = 65;
-                            uobj.ATKS = .9; uobj.MANA_OH = 10; uobj.OMNIVAMP = .1;
-                            uobj.TRAIT1 = "EdgeLord"; uobj.TRAIT2 = "Luchador";
+                            uobj.HP = 1050;
+                            uobj.AD = 65;
+
+
                             break;
                         case "2":
-                            uobj.HP = 1890; uobj.MAX_MANA = 40; uobj.ARMOR = 65; uobj.MR = 65; uobj.AD = 97;
-                            uobj.ATKS = .9; uobj.MANA_OH = 10; uobj.OMNIVAMP = .1;
-                            uobj.TRAIT1 = "EdgeLord"; uobj.TRAIT2 = "Luchador";
+                            uobj.HP = 1890;
+                            uobj.AD = 98;
                             break;
                         case "3":
+                            uobj.HP = 3402;
+                            uobj.AD = 146;
                             break;
 
                         default: break;
                     }
                     break;
                 case "Akali":
+                    uobj.COST = 4;
+                    uobj.TRAIT1 = "Executioner";
+                    uobj.TRAIT2 = "Supreme Cells";
+                    uobj.MAX_MANA = 30;
+                    uobj.ARMOR = 65;
+                    uobj.MR = 65;
+                    uobj.ATKS = .85;
+                    uobj.MANA_OH = 10;
                     switch (star)
                     {
                         case "1":
-                            uobj.HP = 1050; uobj.MAX_MANA = 30; uobj.ARMOR = 65; uobj.MR = 65; uobj.AD = 30;
-                            uobj.ATKS = .85; uobj.MANA_OH = 10;
-                            uobj.TRAIT1 = "Executioner"; uobj.TRAIT2 = "Supreme Cells";
+                            uobj.HP = 1050;
+                            uobj.AD = 30;
                             break;
                         case "2":
-                            uobj.HP = 1990; uobj.MAX_MANA = 30; uobj.ARMOR = 65; uobj.MR = 65; uobj.AD = 45;
-                            uobj.ATKS = .85; uobj.MANA_OH = 10;
-                            uobj.TRAIT1 = "Executioner"; uobj.TRAIT2 = "Supreme Cells";
+                            uobj.HP = 1890;
+                            uobj.AD = 45;
                             break;
                         case "3":
+                            uobj.HP = 3402;
+                            uobj.AD = 68;
                             break;
 
                         default: break;
                     }
                     break;
 
+                // 2 costs 
+
+                case "Katarina":
+                    uobj.COST = 2;
+                    uobj.TRAIT1 = "Executioner";
+                    uobj.TRAIT2 = "Battle Academia";
+                    uobj.ARMOR = 55;
+                    uobj.MR = 55;
+                    uobj.MANA_OH = 10;
+                    uobj.MAX_MANA = 30;
+                    uobj.ATKS = .8;
+
+                    switch (star)
+                    {
+                        case "1":
+                            uobj.HP = 800;
+                            uobj.AD = 35;
+
+                            break;
+                        case "2":
+                            uobj.HP = 1440;
+                            uobj.AD = 53;
+                            break;
+                        case "3":
+                            uobj.HP = 2592;
+                            uobj.AD = 79;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                // 3 cost
+
+                case "Malzahar":
+                    uobj.COST = 3;
+                    uobj.TRAIT1 = "Prodigy";
+                    uobj.TRAIT2 = "Wraith";
+                    uobj.ARMOR = 30;
+                    uobj.MR = 30;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.MAX_MANA = 35;
+                    uobj.ATKS = .7;
+
+                    switch (star)
+                    {
+                        case "1":
+                            uobj.HP = 900;
+                            uobj.AD = 40;
+
+                            break;
+                        case "2":
+                            uobj.HP = 1620;
+                            uobj.AD = 60;
+                            break;
+                        case "3":
+                            uobj.HP = 2916;
+                            uobj.AD = 90;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                case "Caitlyn":
+                    uobj.COST = 3;
+                    uobj.TRAIT1 = "Sniper";
+                    uobj.TRAIT2 = "Battle Academia";
+                    uobj.ARMOR = 30;
+                    uobj.MR = 30;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.MAX_MANA = 60;
+                    uobj.ATKS = .7;
+
+                    switch (star)
+                    {
+                        case "1":
+                            uobj.HP = 650;
+                            uobj.AD = 55;
+
+                            break;
+                        case "2":
+                            uobj.HP = 1170;
+                            uobj.AD = 83;
+                            break;
+                        case "3":
+                            uobj.HP = 2106;
+                            uobj.AD = 124;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                case "Senna":
+                    uobj.COST = 3;
+                    uobj.TRAIT1 = "Executioner";
+                    uobj.TRAIT2 = "Mighty Mech";
+                    uobj.ARMOR = 30;
+                    uobj.MR = 30;
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.MAX_MANA = 75;
+                    uobj.ATKS = .75;
+                    uobj.MANA_COUNT = 15;
+
+                    switch (star)
+                    {
+                        case "1":
+                            uobj.HP = 650;
+                            uobj.AD = 55;
+
+                            break;
+                        case "2":
+                            uobj.HP = 1170;
+                            uobj.AD = 83;
+                            break;
+                        case "3":
+                            uobj.HP = 2106;
+                            uobj.AD = 124;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                case "Smolder": // unfinished
+                    uobj.COST = 3;
+                    uobj.TRAIT1 = "Monster Trainer";
+                    uobj.ARMOR = 55; 
+                    uobj.MR = 55; 
+                    uobj.MANA_OH = 10;
+                    uobj.MAX_MANA = 30;
+                    uobj.ATKS = .8;
+
+                    switch (star)
+                    {
+                        case "1":
+                            uobj.HP = 800;
+                            uobj.AD = 35;
+
+                            break;
+                        case "2":
+                            uobj.HP = 1440;
+                            uobj.AD = 53;
+                            break;
+                        case "3":
+                            uobj.HP = 2592;
+                            uobj.AD = 79;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+                // 1 cost
+                case "Lucian": 
+                    uobj.COST = 1;
+                    uobj.TRAIT1 = "Mighty Mech";
+                    uobj.ARMOR = 20; 
+                    uobj.MR = 20; 
+                    uobj.MANA_OH = 7;
+                    uobj.MANA_REGEN = 2;
+                    uobj.MAX_MANA = 40;
+                    uobj.ATKS = .7;
+
+                    switch (star)
+                    {
+                        case "1":
+                            uobj.HP = 500;
+                            uobj.AD = 30;
+
+                            break;
+                        case "2":
+                            uobj.HP = 900;
+                            uobj.AD = 35;
+                            break;
+                        case "3":
+                            uobj.HP = 1620;
+                            uobj.AD = 68;
+                            break;
+
+                        default: break;
+                    }
+                    break;
+
+
                 default: break;
+
+
             }
         }
 
@@ -4060,7 +4881,7 @@ namespace TFTCalculator.Models
                             tobj.ARMOR = 18;
                             tobj.MR = 18;
                         }
-                            
+
 
                     }
                     else if (tobj.TRAIT1_VALUE >= 4 && tobj.TRAIT1_VALUE < 6)
@@ -4075,7 +4896,7 @@ namespace TFTCalculator.Models
                             tobj.ARMOR = 40;
                             tobj.MR = 40;
                         }
-                        
+
                     }
                     else if (tobj.TRAIT1_VALUE >= 6)
                     {
@@ -4089,7 +4910,7 @@ namespace TFTCalculator.Models
                             tobj.ARMOR = 75;
                             tobj.MR = 75;
                         }
-                        
+
                     }
                     break;
 
@@ -4286,7 +5107,7 @@ namespace TFTCalculator.Models
                     {
                         tobj.ATKS = .05 * (1 + (tobj.TRAIT2_VALUE * .1));
                     }
-                    
+
                     break;
 
                 //case "Juggernaut":
@@ -4330,8 +5151,8 @@ namespace TFTCalculator.Models
             switch (trait3)
             {
                 // for now mentor 1 only works for ryze
-                case "Mentor": 
-                    if(tobj.TRAIT3_VALUE==1)
+                case "Mentor":
+                    if (tobj.TRAIT3_VALUE == 1)
                     {
                         tobj.MANA_OH = 2;
                     }
@@ -4344,7 +5165,7 @@ namespace TFTCalculator.Models
                         tobj.ATKS = .1;
                         tobj.M_FLAG = true;
                     }
-                        break;
+                    break;
                 default: break;
             }
         }
@@ -4477,7 +5298,7 @@ namespace TFTCalculator.Models
 
 
 
-            return (list1,list2);
+            return (list1, list2);
         }
 
         public List<Unit_Holder> Create_Unit_List1()
@@ -4695,10 +5516,15 @@ namespace TFTCalculator.Models
         double mana_oh = 0;
         double omnivamp = 0;
         double mana_regen = 0;
+        double mana_count = 0;
+        int cost = 0;
+
         string trait1 = "none";
         string trait2 = "none";
         string trait3 = "none";
 
+        public int COST { get { return cost; } set { cost = value; } }
+        public double MANA_COUNT { get { return mana_count; } set { mana_count = value; } }
         public double HP { get { return hp; } set { hp = value; } }
         public double MAX_MANA { get { return max_mana; } set { max_mana = value; } }
         public double ARMOR { get { return armor; } set { armor = value; } }

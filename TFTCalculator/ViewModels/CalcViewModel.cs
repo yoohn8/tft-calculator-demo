@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
-using TFTCalculator.Models;
+using TFTCalculatorModel;
 using TFTCalculator.ViewModels.Helper;
 
 namespace TFTCalculator.ViewModels
@@ -18,7 +18,9 @@ namespace TFTCalculator.ViewModels
     {
         #region properties1
         private bool canExecute = true;
+
         public string unit_name = "No_Unit";
+
         int attack_counter = 0;
         int cast_counter = 0;
         double auto_dps = 0;
@@ -106,6 +108,19 @@ namespace TFTCalculator.ViewModels
         int lilb = 0;
         int item_n = 0;
 
+        int u_list_mode = 3;
+        bool u1_list_check = false;
+        bool u2_list_check = false;
+        bool u3_list_check = false;
+        bool u4_list_check = true;
+        bool u5_list_check = false;
+
+        bool u1_list_e = true;
+        bool u2_list_e = true;
+        bool u3_list_e = true;
+        bool u4_list_e = false;
+        bool u5_list_e = true;
+
 
         ObservableCollection<string> comp_list = new() {
                     "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
@@ -126,6 +141,19 @@ namespace TFTCalculator.ViewModels
                     "-",  "-",  "-",  "-",  "-",  "-",  "-"
                 };
 
+        public bool U1_LIST_CHECK { get { return u1_list_check; } set { u1_list_check = value; OnPropertyChanged(); } }
+        public bool U2_LIST_CHECK { get { return u2_list_check; } set { u2_list_check = value; OnPropertyChanged(); } }
+        public bool U3_LIST_CHECK { get { return u3_list_check; } set { u3_list_check = value; OnPropertyChanged(); } }
+        public bool U4_LIST_CHECK { get { return u4_list_check; } set { u4_list_check = value; OnPropertyChanged(); } }
+        public bool U5_LIST_CHECK { get { return u5_list_check; } set { u5_list_check = value; OnPropertyChanged(); } }
+
+        public bool U1_LIST_E { get { return u1_list_e; } set { u1_list_e = value; OnPropertyChanged(); } }
+        public bool U2_LIST_E { get { return u2_list_e; } set { u2_list_e = value; OnPropertyChanged(); } }
+        public bool U3_LIST_E { get { return u3_list_e; } set { u3_list_e = value; OnPropertyChanged(); } }
+        public bool U4_LIST_E { get { return u4_list_e; } set { u4_list_e = value; OnPropertyChanged(); } }
+        public bool U5_LIST_E { get { return u5_list_e; } set { u5_list_e = value; OnPropertyChanged(); } }
+
+        public int U_LIST_MODE { get { return u_list_mode; } set { u_list_mode = value; OnPropertyChanged(); } }
         public double PHYS_EHP { get { return phys_ehp; } set { phys_ehp = value; OnPropertyChanged(); } }
         public double MAGIC_EHP { get { return magic_ehp; } set { magic_ehp = value; OnPropertyChanged(); } }
         public double FINAL_PHYS_DR { get { return final_phys_dr; } set { final_phys_dr = value; OnPropertyChanged(); } }
@@ -271,17 +299,19 @@ namespace TFTCalculator.ViewModels
             get { return unit_name; }
             set
             {
-                unit_name = value.ToString();
-                OnPropertyChanged();
-                //ATTACK_COUNTER += 1;
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD) 
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
-                
+                if (value != null)
+                {
+                    unit_name = value.ToString();
+                    OnPropertyChanged();
+                    //ATTACK_COUNTER += 1;
+                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
+                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
+                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
+                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
+                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
+                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
+                                            aug1, aug2, aug3, lilb, item_n);
+                }
             }
         }
 
@@ -489,6 +519,12 @@ namespace TFTCalculator.ViewModels
             SILVER_AUG = new RelayCommand(Silver_List_Toggle, param => this.canExecute);
             PRIS_AUG = new RelayCommand(Pris_List_Toggle, param => this.canExecute);
 
+            U1_LIST = new RelayCommand(U1_List_Toggle, param => this.canExecute);
+            U2_LIST = new RelayCommand(U2_List_Toggle, param => this.canExecute);
+            U3_LIST = new RelayCommand(U3_List_Toggle, param => this.canExecute);
+            U4_LIST = new RelayCommand(U4_List_Toggle, param => this.canExecute);
+            U5_LIST = new RelayCommand(U5_List_Toggle, param => this.canExecute);
+
             //AS_ILIST = new RelayCommand(AS_IList_Toggle, param => this.canExecute);
         }
 
@@ -496,6 +532,12 @@ namespace TFTCalculator.ViewModels
         private ICommand hiButtonCommand;
 
         private ICommand toggleExecuteCommand { get; set; }
+
+        private ICommand u1_list;
+        private ICommand u2_list;
+        private ICommand u3_list;
+        private ICommand u4_list;
+        private ICommand u5_list;
 
         private ICommand trait1plus;
         private ICommand trait2plus;
@@ -536,6 +578,11 @@ namespace TFTCalculator.ViewModels
         private ICommand above50_set;
         private ICommand hit_tank_set;
 
+        public ICommand U1_LIST { get { return u1_list; } set { u1_list = value; } }
+        public ICommand U2_LIST { get { return u2_list; } set { u2_list = value; } }
+        public ICommand U3_LIST { get { return u3_list; } set { u3_list = value; } }
+        public ICommand U4_LIST { get { return u4_list; } set { u4_list = value; } }
+        public ICommand U5_LIST { get { return u5_list; } set { u5_list = value; } }
         public ICommand AUG_RESET { get { return aug_reset; } set { aug_reset = value; } }
         public ICommand LILB_PLUS { get { return lilb_plus; } set { lilb_plus = value; } }
         public ICommand LILB_MINUS { get { return lilb_minus; } set { lilb_minus = value; } }
@@ -671,6 +718,106 @@ namespace TFTCalculator.ViewModels
 
         }
 
+        public void U1_List_Toggle(object obj)
+        {
+            if ((bool)obj)
+            {
+                U_LIST_MODE = 0;
+
+                U2_LIST_CHECK = false;
+                U3_LIST_CHECK = false;
+                U4_LIST_CHECK = false;
+                U5_LIST_CHECK = false;
+
+                U1_LIST_E = false;
+                U2_LIST_E = true;
+                U3_LIST_E = true;
+                U4_LIST_E = true;
+                U5_LIST_E = true;
+
+            }
+        }
+
+        public void U2_List_Toggle(object obj)
+        {
+            if ((bool)obj)
+            {
+                U_LIST_MODE = 1;
+
+                U1_LIST_CHECK = false;
+                U3_LIST_CHECK = false;
+                U4_LIST_CHECK = false;
+                U5_LIST_CHECK = false;
+
+                U1_LIST_E = true;
+                U2_LIST_E = false;
+                U3_LIST_E = true;
+                U4_LIST_E = true;
+                U5_LIST_E = true;
+
+            }
+        }
+
+        public void U3_List_Toggle(object obj)
+        {
+            if ((bool)obj)
+            {
+                U_LIST_MODE = 2;
+
+                U1_LIST_CHECK = false;
+                U2_LIST_CHECK = false;
+                U4_LIST_CHECK = false;
+                U5_LIST_CHECK = false;
+
+                U1_LIST_E = true;
+                U2_LIST_E = true;
+                U3_LIST_E = false;
+                U4_LIST_E = true;
+                U5_LIST_E = true;
+
+            }
+        }
+
+        public void U4_List_Toggle(object obj)
+        {
+            if ((bool)obj)
+            {
+                U_LIST_MODE = 3;
+
+                U1_LIST_CHECK = false;
+                U2_LIST_CHECK = false;
+                U3_LIST_CHECK = false;
+                U5_LIST_CHECK = false;
+
+                U1_LIST_E = true;
+                U2_LIST_E = true;
+                U3_LIST_E = true;
+                U4_LIST_E = false;
+                U5_LIST_E = true;
+
+            }
+        }
+
+        public void U5_List_Toggle(object obj)
+        {
+            if ((bool)obj)
+            {
+                U_LIST_MODE = 4;
+
+                U1_LIST_CHECK = false;
+                U2_LIST_CHECK = false;
+                U3_LIST_CHECK = false;
+                U4_LIST_CHECK = false;
+
+                U1_LIST_E = true;
+                U2_LIST_E = true;
+                U3_LIST_E = true;
+                U4_LIST_E = true;
+                U5_LIST_E = false;
+
+            }
+        }
+
         public void AP_IList_Toggle(object obj)
         {
             if ((bool)obj)
@@ -698,10 +845,6 @@ namespace TFTCalculator.ViewModels
                 TANK_ILIST_E = true;
 
             }
-            else
-            {
-            }
-
         }
 
         public void Silver_List_Toggle(object obj)
@@ -1108,31 +1251,67 @@ namespace TFTCalculator.ViewModels
 
         #region Lists
 
-        public List<string> unitlist = new()
-            {
-                "Jinx",
-                "Karma",
-                "Ryze",
-                "Yuumi",
-                "Ashe",
-                "Samira",
-                "Jarvan",
-                "Ksante",
-                "Leona",
-                "Poppy",
-                "Sett",
-                "Volibear",
-                "Akali"
-            };
-        public List<string> UNITLIST { get { return unitlist; } }
 
         public List<string> starlist = new()
             {
                 "1",
-                "2"
+                "2",
+                "3"
             };
         public List<string> STARLIST { get { return starlist; } }
 
+        public static ObservableCollection<string> unitlist5 = new()
+        {
+            "No_Unit",
+            "5 cost"
+        };
+        public ObservableCollection<string> UNITLIST5 { get { return unitlist5; } set { unitlist5 = value; OnPropertyChanged(); } }
+
+        public static ObservableCollection<string> unitlist4 = new()
+        {
+            "No_Unit",
+            "Jinx",
+            "Karma",
+            "Ryze",
+            "Yuumi",
+            "Ashe",
+            "Samira",
+            "Jarvan",
+            "Ksante",
+            "Leona",
+            "Poppy",
+            "Sett",
+            "Volibear",
+            "Akali"
+        };
+
+        public ObservableCollection<string> UNITLIST4 { get { return unitlist4; } set { unitlist4 = value; OnPropertyChanged(); } }
+
+        public static ObservableCollection<string> unitlist3 = new()
+        {
+            "No_Unit",
+            "Malzahar",
+            "Caitlyn",
+            "Senna",
+            "Smolder"
+        };
+        public ObservableCollection<string> UNITLIST3 { get { return unitlist3; } set { unitlist3 = value; OnPropertyChanged(); } }
+
+        public static ObservableCollection<string> unitlist2 = new()
+        {
+            "No_Unit",
+            "Katarina"
+        };
+        public ObservableCollection<string> UNITLIST2 { get { return unitlist2; } set { unitlist2 = value; OnPropertyChanged(); } }
+
+        public static ObservableCollection<string> unitlist1 = new()
+        {
+            "No_Unit",
+            "Lucian"
+        };
+        public ObservableCollection<string> UNITLIST1 { get { return unitlist1; } set { unitlist1 = value; OnPropertyChanged(); } }
+
+        // ap/as
         public static ObservableCollection<string> itemlist = new()
         {
             "None",
@@ -1147,7 +1326,8 @@ namespace TFTCalculator.ViewModels
             "AdaptiveBack",
             "Morello",
             "Gunblade",
-            "Redbuff"
+            "Redbuff",
+            "QuickSilver",
         };
 
         public ObservableCollection<string> ITEMLIST { get { return itemlist; } set { itemlist = value; OnPropertyChanged(); } }
@@ -1161,7 +1341,6 @@ namespace TFTCalculator.ViewModels
             "Shojin",
             "LastWhisper",
             "Kraken",
-            "QuickSilver",
             "HandOfJustice",
             "Titans",
             "BloodThirster",

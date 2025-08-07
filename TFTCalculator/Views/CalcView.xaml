@@ -17,7 +17,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
-            <RowDefinition Height=".5*"/>
+            <RowDefinition Height=".75*"/>
             <RowDefinition Height=".75*"/>
             <RowDefinition Height=".75*"/>
 
@@ -28,11 +28,12 @@
             <TextBlock HorizontalAlignment="Center"
                        FontSize="30"
                        FontWeight="Medium">
-                        Tft Calculator 0.1.0
+                       Tft Calculator 0.1.0
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Center" FontSize="15">
-            Made by yoohntft
+            <TextBlock HorizontalAlignment="Center" 
+                       FontSize="15">
+                       Made by yoohntft
             </TextBlock>
         </StackPanel>
 
@@ -47,168 +48,398 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+            <Border BorderBrush="Orange" 
+                    BorderThickness="5" 
+                    CornerRadius="8"
+                    Margin="5 5 5 5">
 
-            <StackPanel Grid.Column="0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width=".3*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Unit" 
+
+                <StackPanel Grid.Column="0">
+
+                    <TextBlock Text="Unit" 
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{Binding UNIT_NAME}" 
+                               HorizontalAlignment="Center"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".3*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Unit Selection" 
                                    HorizontalAlignment="Center"/>
 
-                        <ComboBox ItemsSource="{Binding UNITLIST}" 
-                                  SelectedValue="{Binding UNIT_NAME}" 
-                                  SelectedIndex="0"
-                                  Margin="10 0 10 0"
-                                  Padding="2"
-                                  HorizontalContentAlignment="Center">
-                        </ComboBox>
-                    </StackPanel>
+                            <ComboBox SelectedValue="{Binding UNIT_NAME}" 
+                                      SelectedIndex="0"
+                                      Margin="10 0 10 0"
+                                      Padding="2"
+                                      HorizontalContentAlignment="Center">
+                                <ComboBox.Style>
+                                    <Style TargetType="ComboBox">
 
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="Star Level"
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding U_LIST_MODE}" 
+                                                         Value="0">
+                                                <Setter Property="ItemsSource" 
+                                                        Value="{Binding UNITLIST1}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding U_LIST_MODE}" 
+                                                         Value="1">
+                                                <Setter Property="ItemsSource" 
+                                                        Value="{Binding UNITLIST2}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding U_LIST_MODE}" 
+                                                         Value="2">
+                                                <Setter Property="ItemsSource"
+                                                        Value="{Binding UNITLIST3}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding U_LIST_MODE}" 
+                                                         Value="3">
+                                                <Setter Property="ItemsSource"
+                                                        Value="{Binding UNITLIST4}"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding U_LIST_MODE}" 
+                                                         Value="4">
+                                                <Setter Property="ItemsSource"
+                                                        Value="{Binding UNITLIST5}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </ComboBox.Style>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Star Level"
                                    HorizontalAlignment="Center"/>
-                        <ComboBox ItemsSource="{Binding STARLIST}"
+                            <ComboBox ItemsSource="{Binding STARLIST}"
                                   SelectedValue="{Binding STAR}" 
                                   SelectedIndex="0" 
                                   Margin="10 0 10 0" 
                                   Padding="2" 
                                   HorizontalContentAlignment="Center">
-                        </ComboBox>
-                    </StackPanel>
+                            </ComboBox>
+                        </StackPanel>
 
 
-                </Grid>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width=".4*"/>
-                        <ColumnDefinition Width=".5*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="Traits" 
-                                   HorizontalAlignment="Center"
-                                   Margin="0 5 0 0"/>
-                        <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 5 5 0">
-                            <TextBlock Text="{Binding TRAIT1}" 
-                                       HorizontalAlignment="Center"/>
-                        </Border>
-                        <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 5 0">
-                            <TextBlock Text="{Binding TRAIT2}" 
-                                       HorizontalAlignment="Center"/>
-                        </Border>
-                        <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 5 0">
-                            <TextBlock Text="{Binding TRAIT3}" 
-                                       HorizontalAlignment="Center"/>
-                        </Border>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="" 
+                    </Grid>
+                    <StackPanel>
+                        <TextBlock Margin="0 10 0 0" 
+                                   Text="Unit Cost (Changes the list above)" 
                                    HorizontalAlignment="Center"/>
-                        <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 10 0">
-                            <TextBlock Text="{Binding TRAIT1_VALUE}" 
-                                       HorizontalAlignment="Center"/>
-                        </Border>
-                        <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 10 0">
-                            <TextBlock Text="{Binding TRAIT2_VALUE}" 
-                                       HorizontalAlignment="Center"/>
-                        </Border>
-                        <Border BorderThickness="1" 
-                                BorderBrush="DimGray"
-                                Margin="10 10 10 0">
-                            <TextBlock Text="{Binding TRAIT3_VALUE}" 
-                                       HorizontalAlignment="Center"/>
-                        </Border>
-                    </StackPanel>
 
-                    <StackPanel Grid.Column="2">
-                        <Grid>
+                        <Grid Margin="0 10 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <Button Margin="5 22 0 5" 
+
+
+
+                            <ToggleButton Content="1" Grid.Column="0"
+                                          Command="{Binding U1_LIST}" 
+                                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                          IsChecked="{Binding U1_LIST_CHECK}"
+                                          IsEnabled="{Binding U1_LIST_E}"
+                                          FontWeight="Medium"
+                                          Width="40"
+                                          >
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="false">
+                                                <Setter Property="Foreground" 
+                                                        Value="White" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="True">
+                                            <Setter Property="Foreground" 
+                                                    Value="Red" />
+                                            <Setter Property="Background" 
+                                                    Value="#252525"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <ToggleButton Content="2" Grid.Column="1"
+                                          Command="{Binding U2_LIST}" 
+                                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                          IsChecked="{Binding U2_LIST_CHECK}"
+                                          IsEnabled="{Binding U2_LIST_E}"
+                                          Width="40"
+                                          FontWeight="Medium"
+                                          
+                                          >
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="false">
+                                                <Setter Property="Foreground" 
+                                                        Value="White" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="True">
+                                                <Setter Property="Foreground" 
+                                                        Value="Red" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <ToggleButton Content="3" Grid.Column="2" 
+                                          Command="{Binding U3_LIST}" 
+                                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                          IsChecked="{Binding U3_LIST_CHECK}"
+                                          IsEnabled="{Binding U3_LIST_E}"
+                                          Width="40"
+                                          FontWeight="Medium"
+                                          >
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="false">
+                                                <Setter Property="Foreground" 
+                                                        Value="White" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="True">
+                                                <Setter Property="Foreground" 
+                                                        Value="Red" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <ToggleButton Content="4" Grid.Column="3" 
+                                          Command="{Binding U4_LIST}" 
+                                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                          IsChecked="{Binding U4_LIST_CHECK}"
+                                          IsEnabled="{Binding U4_LIST_E}"
+                                          Width="40"
+                                          FontWeight="Medium"
+                                          >
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" 
+                                                    Value="false">
+                                                <Setter Property="Foreground" 
+                                                        Value="White" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="True">
+                                                <Setter Property="Foreground" 
+                                                        Value="Red" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <ToggleButton Content="5" Grid.Column="4" 
+                                          Command="{Binding U5_LIST}" 
+                                          CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                          IsChecked="{Binding U5_LIST_CHECK}"
+                                          IsEnabled="{Binding U5_LIST_E}"
+                                          Width="40"
+                                          FontWeight="Medium"
+                                          >
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="false">
+                                                <Setter Property="Foreground" 
+                                                        Value="White" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" 
+                                                     Value="True">
+                                                <Setter Property="Foreground" 
+                                                        Value="Red" />
+                                                <Setter Property="Background" 
+                                                        Value="#252525"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                        </Grid>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".4*"/>
+                            <ColumnDefinition Width=".5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Traits" 
+                                   HorizontalAlignment="Center"
+                                   Margin="0 5 0 0"/>
+                            <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 5 5 0">
+                                <TextBlock Text="{Binding TRAIT1}" 
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 5 0">
+                                <TextBlock Text="{Binding TRAIT2}" 
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 5 0">
+                                <TextBlock Text="{Binding TRAIT3}" 
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="" 
+                                   HorizontalAlignment="Center"/>
+                            <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 10 0">
+                                <TextBlock Text="{Binding TRAIT1_VALUE}" 
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border BorderThickness="1" 
+                                BorderBrush="DimGray" 
+                                Margin="10 10 10 0">
+                                <TextBlock Text="{Binding TRAIT2_VALUE}" 
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                            <Border BorderThickness="1" 
+                                BorderBrush="DimGray"
+                                Margin="10 10 10 0">
+                                <TextBlock Text="{Binding TRAIT3_VALUE}" 
+                                       HorizontalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <Button Margin="5 22 0 5" 
                                         Content="+" 
                                         Padding="2" 
                                         Command="{Binding TRAIT1PLUS}" 
-                                        Height="20" />
+                                        Height="20" 
+                                        Width="25"/>
 
-                                <Button Margin="5 5 0 5" 
+                                    <Button Margin="5 5 0 5" 
                                         Content="+" 
                                         Padding="2" 
                                         Command="{Binding TRAIT2PLUS}"
-                                        Height="20"/>
+                                        Height="20"
+                                        Width="25"/>
 
-                                <Button Margin="5 5 0 5"
+                                    <Button Margin="5 5 0 5"
                                         Content="+" 
                                         Padding="2" 
                                         Command="{Binding TRAIT3PLUS}" 
-                                        Height="20"/>
+                                        Height="20"
+                                        Width="25"/>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="1">
-                                <Button Margin="5 22 0 5" 
+                                <StackPanel Grid.Column="1">
+                                    <Button Margin="5 22 5 5" 
                                         Content="-" 
                                         Padding="2" 
                                         Command="{Binding TRAIT1MINUS}" 
-                                        Height="20" />
+                                        Height="20"
+                                        Width="25"/>
 
-                                <Button Margin="5 5 0 5" 
+                                    <Button Margin="5 5 5 5" 
                                         Content="-" 
                                         Padding="2" 
                                         Command="{Binding TRAIT2MINUS}" 
-                                        Height="20"/>
+                                        Height="20"
+                                        Width="25"/>
 
-                                <Button Margin="5 5 0 5" 
+                                    <Button Margin="5 5 5 5" 
                                         Content="-" 
                                         Padding="2" 
                                         Command="{Binding TRAIT3MINUS}" 
-                                        Height="20"/>
+                                        Height="20"
+                                        Width="25"
+                                        HorizontalAlignment="Left"/>
 
-                            </StackPanel>
-                        </Grid>
+                                </StackPanel>
+                            </Grid>
 
 
-                    </StackPanel>
+                        </StackPanel>
 
 
-                </Grid>
-                <Button Margin="0 5 0 0" 
+                    </Grid>
+                    <Button Margin="0 5 0 0" 
                         Content="Reset Trait #s" 
                         Padding="2" 
                         Command="{Binding TRAITRESET}" 
                         Height="24" 
                         HorizontalAlignment="Center"/>
 
-            </StackPanel>
-
+                </StackPanel>
+            </Border>
 
 
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Items" 
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Bold"/>
                 <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 5 5 0">
+                        Margin="10 5 5 0"
+                        >
                     <TextBlock Text="{Binding ITEM1}" 
-                               HorizontalAlignment="Center"/>
+                               HorizontalAlignment="Center"
+                               />
                 </Border>
 
                 <Border BorderThickness="1" 
@@ -238,7 +469,9 @@
             <StackPanel Grid.Column="2">
 
                 <TextBlock Text="Item Selection" 
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <ComboBox SelectedIndex="0" 
                           Margin="10 5 5 0" 
@@ -452,7 +685,9 @@
 
             <StackPanel Grid.Column="3">
                 <TextBlock Text="Item DPS Comparison" 
-                           HorizontalAlignment="Center" />
+                           HorizontalAlignment="Center" 
+                           FontSize="14"
+                           FontWeight="Bold"/>
                 <ComboBox ItemsSource="{Binding COMP_LIST}" 
                           IsReadOnly="True"
                           SelectedIndex="0" 
@@ -574,7 +809,9 @@
 
                 <TextBlock Text="Stats at 15 seconds" 
                            HorizontalAlignment="Center" 
-                           Margin="0 0 0 0"/>
+                           Margin="0 0 0 0"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <TextBlock Text="Full DPS 15" 
                            HorizontalAlignment="Center"
@@ -588,7 +825,7 @@
 
                 <TextBlock Text="Auto DPS 15" 
                            HorizontalAlignment="Center" />
-                <Border BorderThickness="1" 
+                <Border BorderThickness="1"  
                         BorderBrush="DimGray" 
                         Margin="10 0 10 0">
                     <TextBlock Text="{Binding AUTO_DPS15}" 
@@ -646,7 +883,9 @@
 
                 <TextBlock Text="Stats at 30 seconds" 
                            HorizontalAlignment="Center" 
-                           Margin="0 0 0 0"/>
+                           Margin="0 0 0 0"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <TextBlock Text="Full DPS" 
                            HorizontalAlignment="Center"
@@ -719,7 +958,9 @@
 
                 <TextBlock Text="Unit Stats" 
                            HorizontalAlignment="Center" 
-                           Margin="0 0 0 10"/>
+                           Margin="0 0 0 10"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <TextBlock Text="Auto attack AD" 
                            HorizontalAlignment="Center" />
@@ -779,9 +1020,11 @@
 
             <StackPanel Grid.Column="3">
 
-                <TextBlock Text="" 
+                <TextBlock Text="Unit Stats" 
                            HorizontalAlignment="Center"
-                           Margin="0 0 0 0"/>
+                           Margin="0 0 0 0"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <TextBlock Text="Can Abilities Crit?" 
                            HorizontalAlignment="Center"
@@ -855,7 +1098,11 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-
+                <TextBlock Text="Extra Config" 
+                           HorizontalAlignment="Center" 
+                           Margin="0 0 0 0" 
+                           FontSize="14"
+                           FontWeight="Bold"/>
                 <Grid Grid.Column="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -863,6 +1110,7 @@
                         <ColumnDefinition Width=".3*"/>
                         <ColumnDefinition Width=".5*"/>
                     </Grid.ColumnDefinitions>
+                    
                     <StackPanel Grid.Column="0">
                         <Border BorderThickness="1" 
                                 BorderBrush="DimGray" 
@@ -1055,7 +1303,10 @@
 
             <StackPanel Grid.Column="1">
                 <TextBlock Text="Augments" 
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           />
                 <Border BorderThickness="1" 
                         BorderBrush="DimGray"
                         Margin="10 5 5 0">
@@ -1088,7 +1339,9 @@
             <StackPanel Grid.Column="2">
 
                 <TextBlock Text="Augment Selection" 
-                           HorizontalAlignment="Center"/>
+                           HorizontalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <ComboBox SelectedIndex="0" 
                           Margin="10 5 5 0" 
@@ -1294,12 +1547,11 @@
             </StackPanel>
 
             <StackPanel Grid.Column="3">
-                <TextBlock Text="Tank Stats EHP = effective health pool" 
+                <TextBlock Text="Tank Stats" 
                            HorizontalAlignment="Center" 
-                           Margin="0 10 0 0"/>
-                <TextBlock Text="DR = damage reduction"
-                           HorizontalAlignment="Center"
-                           Margin="0 0 0 0"/>
+                           Margin="0 10 0 0"
+                           FontSize="14"
+                           FontWeight="Bold"/>
 
                 <TextBlock Text="HP" 
                            HorizontalAlignment="Center" 
