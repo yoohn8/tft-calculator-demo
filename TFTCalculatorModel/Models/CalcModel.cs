@@ -39,9 +39,9 @@ namespace TFTCalculatorModel
                 bool, double, double, double, double, double
                 )
         Combat_Wrapper(string unit, string star, string item1, string item2, string item3, int trait1_value, int trait2_value, int trait3_value,
-                       ObservableCollection<string> outlist, ObservableCollection<string> outlist2, ObservableCollection<string> outlist3, bool comp_enable, bool full_flag,
-                       int targets, bool first10, bool shielded, bool above50, bool hit_tank,
-                       string aug1, string aug2, string aug3, int lilb, int item_n)
+                       ObservableCollection<string> outlist, ObservableCollection<string> outlist2, ObservableCollection<string> outlist3, 
+                       bool comp_enable, bool full_flag, int targets, bool first10, bool shielded, bool above50, bool hit_tank, string aug1, 
+                       string aug2, string aug3, int lilb, int item_n)
         {
             int attack_counter = 0;
             int cast_counter = 0;
@@ -98,9 +98,9 @@ namespace TFTCalculatorModel
             Aug_Holder aobj1 = new();
             Aug_Holder aobj2 = new();
             Aug_Holder aobj3 = new();
-            Trait_Holder tobj = new();
-
-
+            Trait_Holder tobj1 = new();
+            Trait_Holder tobj2 = new();
+            Trait_Holder tobj3 = new();
 
             Unit_Stat_Setter(uobj, unit, star);
 
@@ -108,43 +108,36 @@ namespace TFTCalculatorModel
             Item_Stat_Setter(iobj2, item2, hit_tank, above50);
             Item_Stat_Setter(iobj3, item3, hit_tank, above50);
 
-            tobj.TRAIT1_VALUE = trait1_value;
-            tobj.TRAIT2_VALUE = trait2_value;
-            tobj.TRAIT3_VALUE = trait3_value;
-
-            tobj.TRAIT1 = uobj.TRAIT1;
-            tobj.TRAIT2 = uobj.TRAIT2;
-            tobj.TRAIT3 = uobj.TRAIT3;
-
+            tobj1.TRAIT_VALUE = trait1_value;
+            tobj2.TRAIT_VALUE = trait2_value;
+            tobj3.TRAIT_VALUE = trait3_value;
+            
             trait1 = uobj.TRAIT1;
             trait2 = uobj.TRAIT2;
             trait3 = uobj.TRAIT3;
 
-            tobj.TARGETS = targets;
-
             cost = uobj.COST;
 
-            Trait_Stat_Setter(tobj, first10, shielded, above50);
+            Trait_Stat_Setter(tobj1, trait1, first10, shielded, above50);
+            Trait_Stat_Setter(tobj2, trait2, first10, shielded, above50);
+            Trait_Stat_Setter(tobj2, trait3, first10, shielded, above50);
 
             Aug_Stat_Setter(aobj1, aug1, lilb, item_n, cost);
             Aug_Stat_Setter(aobj2, aug2, lilb, item_n, cost);
             Aug_Stat_Setter(aobj3, aug3, lilb, item_n, cost);
 
-
-
-
             (attack_counter, cast_counter, auto_dps, cast_dps, p_cast_dps, full_dps, true_damage_dps,
                 attack_counter15, cast_counter15, auto_dps15, cast_dps15, p_cast_dps15, full_dps15, true_damage_dps15,
                 auto_ad, ad, atks, asi, ap, crit, crit_multi, mana_oh, mana_regen, amp, crit_flag,
                 phys_EHP, magic_EHP, hp, final_phys_dr, final_magic_dr, armor, mr, shield)
-                = FightSim(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, star, unit, tobj);
+                = FightSim(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, star, unit, tobj1, tobj2, tobj3, targets);
 
-            Sort_Item_List(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, unit, star, tobj,
+            Sort_Item_List(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, unit, star, tobj1, tobj2, tobj3,
                            full_flag,
                            full_dps, full_dps15,
                            comp_enable,
                            outlist, outlist2, outlist3,
-                           hit_tank, above50);
+                           hit_tank, above50, targets);
 
 
 
@@ -164,7 +157,8 @@ namespace TFTCalculatorModel
                 double, double, double, double, double, double, double, double
                 )
         FightSim(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                 Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, string star, string unit, Trait_Holder traits)
+                 Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, string star, string unit, 
+                 Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, int targets)
         {
             double base_ad = uobj.AD;
 
@@ -237,12 +231,12 @@ namespace TFTCalculatorModel
             (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
                 auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
                 inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp)
-                = Combat_Method(uobj, item1, item2, item3, aug1, aug2, aug3, star, unit, traits);
+                = Combat_Method(uobj, item1, item2, item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
 
 
             // add traits to ehp
             (phys_EHP, magic_EHP, final_hp, final_phys_dr, final_magic_dr, armor, mr, shield) =
-                EHP_calc(uobj, item1, item2, item3, aug1, aug2, aug3, traits);
+                EHP_calc(uobj, item1, item2, item3, aug1, aug2, aug3, trait1, trait2, trait3);
 
 
 
@@ -307,24 +301,23 @@ namespace TFTCalculatorModel
                         double, double, double, double, double)
         Combat_Method(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
                       Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
-                      string star, string unit, Trait_Holder traits)
+                      string star, string unit, Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, int targets)
         {
             double base_atks = uobj.ATKS;
             double max_mana = uobj.MAX_MANA;
             double base_ad = uobj.AD;
             double mana_counter = uobj.MANA_COUNT;
-
             double titans_flag = item1.TITANS_FLAG + item2.TITANS_FLAG + item3.TITANS_FLAG;
             bool ascend_flag = aug1.ASCEND_FLAG || aug2.ASCEND_FLAG || aug3.ASCEND_FLAG;
-            int targets = traits.TARGETS;
-            double potential = traits.POTENTIAL;
-            bool m_flag = traits.M_FLAG;
+            //int targets = traits.TARGETS;
+            double potential = trait1.POTENTIAL + trait2.POTENTIAL + trait3.POTENTIAL;
+            bool m_flag = trait1.M_FLAG | trait2.M_FLAG | trait3.M_FLAG;
 
-            double asi = item1.ATKS + item2.ATKS + item3.ATKS + aug1.ATKS + aug2.ATKS + aug3.ATKS + traits.ATKS;
+            double asi = item1.ATKS + item2.ATKS + item3.ATKS + aug1.ATKS + aug2.ATKS + aug3.ATKS + trait1.ATKS + trait2.ATKS + trait3.ATKS;
             double mana_regen = uobj.MANA_REGEN + item1.MANA_REGEN + item2.MANA_REGEN + item3.MANA_REGEN +
-                   aug1.MANA_REGEN + aug2.MANA_REGEN + aug3.MANA_REGEN + traits.MANA_REGEN;
+                   aug1.MANA_REGEN + aug2.MANA_REGEN + aug3.MANA_REGEN + trait1.MANA_REGEN + trait2.MANA_REGEN + trait3.MANA_REGEN;
 
-            double mana_hit = uobj.MANA_OH + item1.MANA_OH + item2.MANA_OH + item3.MANA_OH + traits.MANA_OH;
+            double mana_hit = uobj.MANA_OH + item1.MANA_OH + item2.MANA_OH + item3.MANA_OH + trait1.MANA_OH + trait2.MANA_OH + trait3.MANA_OH;
 
             double mana_mult = item1.MANA_MULT + item2.MANA_MULT + item3.MANA_MULT;
 
@@ -335,7 +328,7 @@ namespace TFTCalculatorModel
             }
 
 
-            double crit = uobj.CRIT + item1.CRIT + item2.CRIT + item3.CRIT + aug1.CRIT + aug2.CRIT + aug3.CRIT + traits.CRIT;
+            double crit = uobj.CRIT + item1.CRIT + item2.CRIT + item3.CRIT + aug1.CRIT + aug2.CRIT + aug3.CRIT + trait1.CRIT + trait2.CRIT + trait3.CRIT;
             double over_crit = 0;
             if (crit > 1)
             {
@@ -349,7 +342,7 @@ namespace TFTCalculatorModel
 
             double over_cm = over_crit / 2;
             double ie_cm = 0;
-            double crit_flag2 = aug1.CRIT_FLAG + aug2.CRIT_FLAG + aug3.CRIT_FLAG + traits.CRIT_FLAG;
+            double crit_flag2 = aug1.CRIT_FLAG + aug2.CRIT_FLAG + aug3.CRIT_FLAG + trait1.CRIT_FLAG + trait2.CRIT_FLAG + trait3.CRIT_FLAG;
 
             if (crit_flag2 > 1)
             {
@@ -361,13 +354,13 @@ namespace TFTCalculatorModel
             }
 
 
-            double crit_multi = ie_cm + over_cm + uobj.CRIT_MULTI + traits.CRIT_MULT;
+            double crit_multi = ie_cm + over_cm + uobj.CRIT_MULTI + trait1.CRIT_MULT + trait2.CRIT_MULT + trait3.CRIT_MULT;
 
             double crit_flag = ie_flag + crit_flag2; // change this to a bool eventually
 
-            double amp = item1.D_AMP + item2.D_AMP + item3.D_AMP + aug1.D_AMP + aug2.D_AMP + aug3.D_AMP + traits.D_AMP;
-            double inc_ad = item1.AD + item2.AD + item3.AD + aug1.AD + aug2.AD + aug3.AD + traits.AD;
-            double ap = item1.AP + item2.AP + item3.AP + aug1.AP + aug2.AP + aug3.AP + traits.AP;
+            double amp = item1.D_AMP + item2.D_AMP + item3.D_AMP + aug1.D_AMP + aug2.D_AMP + aug3.D_AMP + trait1.D_AMP + trait2.D_AMP + trait3.D_AMP;
+            double inc_ad = item1.AD + item2.AD + item3.AD + aug1.AD + aug2.AD + aug3.AD + trait1.AD + trait2.AD + trait3.AD;
+            double ap = item1.AP + item2.AP + item3.AP + aug1.AP + aug2.AP + aug3.AP + trait1.AP + trait2.AP + trait3.AP;
 
             double rb_flag = item1.RB_FLAG + item2.RB_FLAG + item3.RB_FLAG;
             //double rb_flag = 0;
@@ -375,9 +368,9 @@ namespace TFTCalculatorModel
             double aa_flag = item1.AA_FLAG + item2.AA_FLAG + item3.AA_FLAG;
 
             bool jinx_flag = false;
-            double trait1 = traits.TRAIT1_VALUE;
-            double trait2 = traits.TRAIT2_VALUE;
-            double trait3 = traits.TRAIT3_VALUE;
+            //double trait1 = traits.TRAIT1_VALUE;
+            //double trait2 = traits.TRAIT2_VALUE;
+            //double trait3 = traits.TRAIT3_VALUE;
 
             double nashors_flag = item1.NASHORS_FLAG + item2.NASHORS_FLAG + item3.NASHORS_FLAG;
             double nashors_tracker = 0;
@@ -387,16 +380,16 @@ namespace TFTCalculatorModel
             double gs_flag = item1.GS_FLAG + item2.GS_FLAG + item3.GS_FLAG;
 
             bool sf_t = false;
-            bool sf_flag = traits.SF_FLAG;
-            double sf_t_v = traits.SF_T_V;
-            double sf_ad = traits.SF_AD;
+            bool sf_flag = trait1.SF_FLAG || trait2.SF_FLAG || trait3.SF_FLAG;
+            double sf_t_v = trait1.SF_T_V + trait2.SF_T_V + trait3.SF_T_V;
+            double sf_ad = trait1.SF_AD + trait2.SF_AD + trait3.SF_AD;
 
-            bool duelist_flag = traits.DUELIST_FLAG;
-            double duelist_asi = traits.D_ATKS;
-            double duelist_cap = traits.D_CAP;
+            bool duelist_flag = trait1.DUELIST_FLAG | trait2.DUELIST_FLAG | trait3.DUELIST_FLAG;
+            double duelist_asi = trait1.D_ATKS + trait2.D_ATKS + trait3.D_ATKS;
+            double duelist_cap = trait1.D_CAP + trait1.D_CAP + trait1.D_CAP;
             double duelist_track = 0;
 
-            double execute = traits.EXECUTE;
+            double execute = trait1.EXECUTE + trait2.EXECUTE + trait3.EXECUTE;
 
             //if (uobj.TRAIT2 == "Soul Fighter")
             //{
@@ -411,7 +404,8 @@ namespace TFTCalculatorModel
 
             double sunder = item1.SUNDER + item2.SUNDER + item3.SUNDER;
             double shred = item1.SHRED + item2.SHRED + item3.SHRED;
-            double omnivamp = uobj.OMNIVAMP + item1.OMNIVAMP + item2.OMNIVAMP + item3.OMNIVAMP + aug1.OMNIVAMP + aug2.OMNIVAMP + aug3.OMNIVAMP;
+            double omnivamp = uobj.OMNIVAMP + item1.OMNIVAMP + item2.OMNIVAMP + item3.OMNIVAMP + aug1.OMNIVAMP + aug2.OMNIVAMP + aug3.OMNIVAMP
+                              + trait1.OMNIVAMP + trait2.OMNIVAMP + trait3.OMNIVAMP;
 
             double true_damage = 0;
             double true_damage_dps = 0;
@@ -521,44 +515,18 @@ namespace TFTCalculatorModel
                     break;
 
                 case "Jinx":
-                    // trait value 1 = sniper
-                    // trait value 2 = star guardian
-                    // no 3rd trait
-                    // ADD STAR GUARDIAN
-                    //if (trait1 == 2)
-                    //{
-                    //    amp += .25;
-                    //}
-                    //else if (trait1 == 3)
-                    //{
-                    //    amp += .36;
-                    //}
-                    //else if (trait1 == 4)
-                    //{
-                    //    amp += .57;
-                    //}
-                    //else if (trait1 >= 5)
-                    //{
-                    //    amp += .65;
-                    //}
-                    //base_atks
                     while (time_s < 30)
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
-
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
+                        
                         (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
                             half_flag, sf_t, nashors_tracker, nashors_e)
                             = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
                                            rb_flag, kraken_flag, aa_flag, duelist_flag, true, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
+                        
 
                         if (attack_flag == true)
                         {
-                            // calc auto damage here
                             auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
                             auto_damage_tracker += auto_damage;
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
@@ -580,17 +548,10 @@ namespace TFTCalculatorModel
 
                         if (cast_flag == true)
                         {
-                            //if (nashors_flag > 0)
-                            //{
-                            //    nashors_e = true;
-                            //    nashors_tracker = time_s;
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-
+                            
                             (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
                                 Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 1,
                                                 half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
                             p_cast_damage = Jinx_Spell_Damage_Calc(crit, crit_multi, inc_ad, amp, crit_flag, star);
                             phys_cast_damage_tracker += p_cast_damage;
 
@@ -1076,73 +1037,19 @@ namespace TFTCalculatorModel
                     }
                     break;
                 case "Samira":
-                    // trait 1 = edgelord
-                    // trait 2 = sf
-
-                    //if (trait1 >= 2 && trait1 < 4)
-                    //{
-                    //    //hp += 300;
-                    //    asi += .1;
-                    //    inc_ad += .15;
-                    //}
-                    //else if (trait1 >= 4 && trait1 < 6)
-                    //{
-                    //    asi += .12;
-                    //    inc_ad += .35;
-                    //}
-                    //else if (trait1 >= 6)
-                    //{
-                    //    asi += .15;
-                    //    inc_ad += .5;
-                    //}
-
-                    //if (trait2 >= 2 && trait2 < 4)
-                    //{
-                    //    sf_flag = true;
-                    //    sf_ad = .01;
-                    //    sf_t_v = .1;
-                    //}
-                    //else if (trait2 >= 4 && trait2 < 6)
-                    //{
-                    //    sf_flag = true;
-                    //    sf_ad = .02;
-                    //    sf_t_v = .16;
-                    //}
-                    //else if (trait2 >= 6 && trait2 < 8)
-                    //{
-                    //    sf_flag = true;
-                    //    sf_ad = .03;
-                    //    sf_t_v = .22;
-                    //}
-                    //else if (trait2 >= 8)
-                    //{
-                    //    sf_flag = true;
-                    //    sf_ad = .04;
-                    //    sf_t_v = .3;
-                    //}
-
-                    //base_atks
+                    
                     while (time_s < 30)
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
-
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        //         (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap)
-                        //              = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                        //                             rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
                         (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
                             half_flag, sf_t, nashors_tracker, nashors_e)
                             = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
                                            rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
+                        
 
                         if (attack_flag == true)
                         {
-                            // calc auto damage here
                             auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
+                            
                             auto_damage_tracker += auto_damage;
                             if (sf_t)
                             {
@@ -1157,7 +1064,6 @@ namespace TFTCalculatorModel
                             cast_dps15 = cast_damage_tracker / 15;
                             attack_counter15 = attack_counter;
                             cast_counter15 = cast_counter;
-                            //mana_counter15 = mana_counter;
                             true_damage_dps15 = true_damage_tracker / 15;
                             if (ascend_flag)
                             {
@@ -1179,7 +1085,6 @@ namespace TFTCalculatorModel
                             (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
                                 Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, cast_time,
                                                 half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
                             p_cast_damage = Samira_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, style, targets);
 
                             if (style < 5)
@@ -1772,7 +1677,8 @@ namespace TFTCalculatorModel
 
         private static (double, double, double, double, double, double, double, double)
         EHP_calc(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                 Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, Trait_Holder traits
+                 Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3, Trait_Holder trait1,
+                 Trait_Holder trait2, Trait_Holder trait3
                  )
         /// inputs to add
         /// stoneplate, bastion first 10 sec, shielded for protectors, above below 50% hp for jugg
@@ -1782,15 +1688,17 @@ namespace TFTCalculatorModel
         {
 
             double base_hp = uobj.HP;
-            double hp = item1.HP + item2.HP + item3.HP + aug1.HP + aug2.HP + aug3.HP + traits.HP;
-            double hp_mult = item1.HP_MULT + item2.HP_MULT + item3.HP_MULT + aug1.HP_MULT + aug2.HP_MULT + aug3.HP_MULT + traits.HP_MULT;
-            double armor = uobj.ARMOR + item1.ARMOR + item2.ARMOR + item3.ARMOR + aug1.ARMOR + aug2.ARMOR + aug3.ARMOR + traits.ARMOR;
-            double mr = uobj.MR + item1.MR + item2.MR + item3.MR + aug1.MR + aug2.MR + aug3.MR + traits.MR;
+            double hp = item1.HP + item2.HP + item3.HP + aug1.HP + aug2.HP + aug3.HP + trait1.HP + trait2.HP + trait3.HP;
+            double hp_mult = item1.HP_MULT + item2.HP_MULT + item3.HP_MULT + aug1.HP_MULT + aug2.HP_MULT + aug3.HP_MULT + trait1.HP_MULT + trait2.HP_MULT + trait3.HP_MULT;
+            double armor = uobj.ARMOR + item1.ARMOR + item2.ARMOR + item3.ARMOR + aug1.ARMOR + aug2.ARMOR + aug3.ARMOR + trait1.ARMOR + trait2.ARMOR + trait3.ARMOR;
+            double mr = uobj.MR + item1.MR + item2.MR + item3.MR + aug1.MR + aug2.MR + aug3.MR + trait1.MR + trait2.MR + trait3.MR;
             double item1_dr = item1.DR;
             double item2_dr = item2.DR;
             double item3_dr = item3.DR;
-            double trait_dr = traits.DR;
-            double shield = item1.SHIELD + item2.SHIELD + item3.SHIELD + aug1.SHIELD + aug2.SHIELD + aug3.SHIELD + traits.SHIELD;
+            double trait1_dr = trait1.DR;
+            double trait2_dr = trait2.DR;
+            double trait3_dr = trait3.DR;
+            double shield = item1.SHIELD + item2.SHIELD + item3.SHIELD + aug1.SHIELD + aug2.SHIELD + aug3.SHIELD + trait1.SHIELD + trait2.SHIELD + trait3.SHIELD;
 
             double phys_EHP;
             double magic_EHP;
@@ -1803,9 +1711,9 @@ namespace TFTCalculatorModel
 
             double mr_dr = Magic_DR_calc(mr);
 
-            double final_phys_dr = DR_calc(armor_dr, item1_dr, item2_dr, item3_dr, trait_dr);
+            double final_phys_dr = DR_calc(armor_dr, item1_dr, item2_dr, item3_dr, trait1_dr, trait2_dr, trait3_dr);
 
-            double final_magic_dr = DR_calc(mr_dr, item1_dr, item2_dr, item3_dr, trait_dr);
+            double final_magic_dr = DR_calc(mr_dr, item1_dr, item2_dr, item3_dr, trait1_dr, trait2_dr, trait3_dr);
 
             phys_EHP = total_pool / (1 - final_phys_dr);
 
@@ -1851,22 +1759,26 @@ namespace TFTCalculatorModel
 
         // dr sources: items 3x, resistance, traits, ability
         // add more when they come up later like fruits
-        private static double DR_calc(double in1, double in2, double in3, double in4, double in5)
+        private static double DR_calc(double in1, double in2, double in3, double in4, double in5, double in6, double in7)
         {
             double h = 1;
-            double h1;
-            double h2;
-            double h3;
-            double h4, h5;
-            //return in1 + (in1 * in2) + (in1 * in2 * in3) + (in1 * in2 * in3 * in4);
-            //return in1 + (in1 * in2) + (in1 * in3) + (in1 * in4);
+            double h1 = 0;
+            double h2 = 0;
+            double h3 = 0;
+            double h4 = 0;
+            double h5 = 0;
+            double h6 = 0;
+            double h7 = 0;
+            
             h1 = h - (h * in1);
             h2 = h1 - (h1 * in2);
             h3 = h2 - (h2 * in3);
             h4 = h3 - (h3 * in4);
             h5 = h4 - (h4 * in5);
-            //return h1 - h2 - h3 - h4;
-            return h - h5;
+            h6 = h5 - (h5 * in6);
+            h7 = h6 - (h6 * in7);
+
+            return h - h7;
         }
 
 
@@ -3457,9 +3369,10 @@ namespace TFTCalculatorModel
         public void
         Sort_Item_List(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
                         Aug_Holder Aug1_Slot, Aug_Holder Aug2_Slot, Aug_Holder Aug3_Slot,
-                        string unit, string star, Trait_Holder traits, bool full, double outside_full_dps, double outside_full_dps15,
+                        string unit, string star, Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3,
+                        bool full, double outside_full_dps, double outside_full_dps15,
                         bool enable, ObservableCollection<string> out_list, ObservableCollection<string> out_list2, ObservableCollection<string> out_list3,
-                        bool hit_tank, bool above50
+                        bool hit_tank, bool above50, int targets
         )
         {
             Item_DPS_Obj None_o = new(); None_o.ITEM_NAME = "None           ";
@@ -3575,15 +3488,15 @@ namespace TFTCalculatorModel
             {
 
 
-                DPS_list = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 1, full, outside_full_dps, outside_full_dps15, traits, item_list, list_int);
+                DPS_list = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 1, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
 
                 Combine_List(DPS_list, out_list);
 
-                DPS_list2 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 2, full, outside_full_dps, outside_full_dps15, traits, item_list, list_int);
+                DPS_list2 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 2, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
 
                 Combine_List(DPS_list2, out_list2);
 
-                DPS_list3 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 3, full, outside_full_dps, outside_full_dps15, traits, item_list, list_int);
+                DPS_list3 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 3, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
 
                 Combine_List(DPS_list3, out_list3);
 
@@ -3607,7 +3520,7 @@ namespace TFTCalculatorModel
         Item_DPS_Compare_Calc(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
                         Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
                         string unit, string star, int slot, bool full, double outside_full_dps, double outside_full_dps15,
-                        Trait_Holder traits, List<Item_DPS_Obj> item_list, List<Item_Holder> list_int
+                        Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, List<Item_DPS_Obj> item_list, List<Item_Holder> list_int, int targets
         )
         {
             //List<Item_Holder> list_int = Create_Item_List();
@@ -3712,7 +3625,7 @@ namespace TFTCalculatorModel
                         (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
                         auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
                         inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
-                        Combat_Method(uobj, list_int[i], item2, item3, aug1, aug2, aug3, star, unit, traits);
+                        Combat_Method(uobj, list_int[i], item2, item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
 
                         if (full)
                         {
@@ -3735,7 +3648,7 @@ namespace TFTCalculatorModel
                         (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
                         auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
                         inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
-                        Combat_Method(uobj, item1, list_int[i], item3, aug1, aug2, aug3, star, unit, traits);
+                        Combat_Method(uobj, item1, list_int[i], item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
 
                         if (full)
                         {
@@ -3756,7 +3669,7 @@ namespace TFTCalculatorModel
                         (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
                         auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
                         inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
-                        Combat_Method(uobj, item1, item2, list_int[i], aug1, aug2, aug3, star, unit, traits);
+                        Combat_Method(uobj, item1, item2, list_int[i], aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
 
                         if (full)
                         {
@@ -4768,99 +4681,94 @@ namespace TFTCalculatorModel
             }
         }
 
-        private static void Trait_Stat_Setter(Trait_Holder tobj, bool first10, bool shielded, bool above50)
+        private static void Trait_Stat_Setter(Trait_Holder tobj, string trait, bool first10, bool shielded, bool above50)
         {
-            string trait1 = tobj.TRAIT1;
-            string trait2 = tobj.TRAIT2;
-            string trait3 = tobj.TRAIT3;
 
-            switch (trait1)
+            switch (trait)
             {
                 case "None":
 
                     break;
 
                 case "Sniper":
-                    // trait value 1 = sniper
-                    // trait value 2 = star guardian
-                    // no 3rd trait
-                    // ADD STAR GUARDIAN
-                    if (tobj.TRAIT1_VALUE == 2)
+
+                    if (tobj.TRAIT_VALUE == 2)
                     {
                         tobj.D_AMP = .25;
                     }
-                    else if (tobj.TRAIT1_VALUE == 3)
+                    else if (tobj.TRAIT_VALUE == 3)
                     {
                         tobj.D_AMP = .36;
                     }
-                    else if (tobj.TRAIT1_VALUE == 4)
+                    else if (tobj.TRAIT_VALUE == 4)
                     {
                         tobj.D_AMP = .57;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 5)
+                    else if (tobj.TRAIT_VALUE >= 5)
                     {
                         tobj.D_AMP = .65;
                     }
                     break;
 
                 case "Prodigy":
-                    if (tobj.TRAIT1_VALUE == 2)
+                    if (tobj.TRAIT_VALUE == 2)
                     {
                         tobj.MANA_REGEN = 3;
                     }
-                    else if (tobj.TRAIT1_VALUE == 3)
+                    else if (tobj.TRAIT_VALUE == 3)
                     {
                         tobj.MANA_REGEN = 5;
                     }
-                    else if (tobj.TRAIT1_VALUE == 4)
+                    else if (tobj.TRAIT_VALUE == 4)
                     {
                         tobj.MANA_REGEN = 7;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 5)
+                    else if (tobj.TRAIT_VALUE >= 5)
                     {
                         tobj.MANA_REGEN = 8;
                     }
                     break;
 
                 case "Edgelord":
-                    if (tobj.TRAIT1_VALUE >= 2 && tobj.TRAIT1_VALUE < 4)
+                    // atks not yet implemented
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         //hp = 300;
-                        tobj.ATKS = .1;
+                        tobj.OMNIVAMP = .1;
                         tobj.AD = .15;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 4 && tobj.TRAIT1_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
-                        tobj.ATKS = .12;
+                        tobj.OMNIVAMP = .12;
                         tobj.AD = .35;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 6)
+                    else if (tobj.TRAIT_VALUE >= 6)
                     {
-                        tobj.ATKS = .15;
+                        tobj.OMNIVAMP = .15;
                         tobj.AD = .5;
                     }
                     break;
 
                 case "Executioner":
-                    if (tobj.TRAIT1_VALUE == 2)
+                    if (tobj.TRAIT_VALUE == 2)
                     {
                         tobj.CRIT_FLAG = 1;
                         tobj.CRIT = .25;
                         tobj.CRIT_MULT = .1;
                     }
-                    else if (tobj.TRAIT1_VALUE == 3)
+                    else if (tobj.TRAIT_VALUE == 3)
                     {
                         tobj.CRIT_FLAG = 1;
                         tobj.CRIT = .35;
                         tobj.CRIT_MULT = .12;
                     }
-                    else if (tobj.TRAIT1_VALUE == 4)
+                    else if (tobj.TRAIT_VALUE == 4)
                     {
                         tobj.CRIT_FLAG = 1;
                         tobj.CRIT = .5;
                         tobj.CRIT_MULT = .18;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 5)
+                    else if (tobj.TRAIT_VALUE >= 5)
                     {
                         tobj.CRIT_FLAG = 1;
                         tobj.CRIT = .55;
@@ -4869,7 +4777,7 @@ namespace TFTCalculatorModel
                     break;
 
                 case "Bastion":
-                    if (tobj.TRAIT1_VALUE >= 2 && tobj.TRAIT1_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         if (first10)
                         {
@@ -4884,7 +4792,7 @@ namespace TFTCalculatorModel
 
 
                     }
-                    else if (tobj.TRAIT1_VALUE >= 4 && tobj.TRAIT1_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
                         if (first10)
                         {
@@ -4898,7 +4806,7 @@ namespace TFTCalculatorModel
                         }
 
                     }
-                    else if (tobj.TRAIT1_VALUE >= 6)
+                    else if (tobj.TRAIT_VALUE >= 6)
                     {
                         if (first10)
                         {
@@ -4921,22 +4829,22 @@ namespace TFTCalculatorModel
                         tobj.DR = .05;
                     }
 
-                    if (tobj.TRAIT1_VALUE >= 2 && tobj.TRAIT1_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         tobj.SHIELD = .2;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 4 && tobj.TRAIT1_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
                         tobj.SHIELD = .4;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 6)
+                    else if (tobj.TRAIT_VALUE >= 6)
                     {
                         tobj.SHIELD = .6;
                     }
                     break;
 
                 case "Juggernaut":
-                    if (tobj.TRAIT1_VALUE >= 2 && tobj.TRAIT1_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         if (above50)
                         {
@@ -4944,7 +4852,7 @@ namespace TFTCalculatorModel
                         }
                         else tobj.DR = .15;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 4 && tobj.TRAIT1_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
                         if (above50)
                         {
@@ -4952,7 +4860,7 @@ namespace TFTCalculatorModel
                         }
                         else tobj.DR = .20;
                     }
-                    else if (tobj.TRAIT1_VALUE >= 6)
+                    else if (tobj.TRAIT_VALUE >= 6)
                     {
                         if (above50)
                         {
@@ -4962,85 +4870,78 @@ namespace TFTCalculatorModel
                     }
                     break;
 
-
-                default: break;
-
-            }
-
-            switch (trait2)
-            {
                 case "Sorcerer":
-                    if (tobj.TRAIT2_VALUE >= 2 && tobj.TRAIT2_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         tobj.AP = .2;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 4 && tobj.TRAIT2_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
                         tobj.AP = .5;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 6)
+                    else if (tobj.TRAIT_VALUE >= 6)
                     {
                         tobj.AP = .9;
                     }
                     break;
 
                 case "Strategist_B":
-                    if (tobj.TRAIT2_VALUE == 2)
+                    if (tobj.TRAIT_VALUE == 2)
                     {
                         tobj.D_AMP = .12;
                     }
-                    else if (tobj.TRAIT2_VALUE == 3)
+                    else if (tobj.TRAIT_VALUE == 3)
                     {
                         tobj.D_AMP = .18;
                     }
-                    else if (tobj.TRAIT2_VALUE == 4)
+                    else if (tobj.TRAIT_VALUE == 4)
                     {
                         tobj.D_AMP = .3;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 5)
+                    else if (tobj.TRAIT_VALUE >= 5)
                     {
                         tobj.D_AMP = .42;
                     }
                     break;
 
                 case "Battle Academia":
-                    if (tobj.TRAIT2_VALUE >= 3 && tobj.TRAIT2_VALUE < 5)
+                    if (tobj.TRAIT_VALUE >= 3 && tobj.TRAIT_VALUE < 5)
                     {
                         tobj.POTENTIAL = 3;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 5 && tobj.TRAIT2_VALUE < 7)
+                    else if (tobj.TRAIT_VALUE >= 5 && tobj.TRAIT_VALUE < 7)
                     {
                         tobj.POTENTIAL = 5;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 7)
+                    else if (tobj.TRAIT_VALUE >= 7)
                     {
                         tobj.POTENTIAL = 7;
                     }
                     break;
 
                 case "Luchador":
-                    if (tobj.TRAIT2_VALUE >= 2 && tobj.TRAIT2_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         tobj.AD = .15;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 4)
+                    else if (tobj.TRAIT_VALUE >= 4)
                     {
                         tobj.AD = .4;
                     }
                     break;
 
                 case "Supreme Cells":
-                    if (tobj.TRAIT2_VALUE == 2)
+                    if (tobj.TRAIT_VALUE == 2)
                     {
                         tobj.EXECUTE = .1;
                         tobj.D_AMP = .12;
                     }
-                    else if (tobj.TRAIT2_VALUE == 3)
+                    else if (tobj.TRAIT_VALUE == 3)
                     {
                         tobj.EXECUTE = .1;
                         tobj.D_AMP = .3;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 4)
+                    else if (tobj.TRAIT_VALUE >= 4)
                     {
                         tobj.EXECUTE = .1;
                         tobj.D_AMP = .5;
@@ -5048,19 +4949,19 @@ namespace TFTCalculatorModel
                     break;
 
                 case "Duelist":
-                    if (tobj.TRAIT2_VALUE >= 2 && tobj.TRAIT2_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         tobj.DUELIST_FLAG = true;
                         tobj.D_ATKS = .04;
                         tobj.D_CAP = .48;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 4 && tobj.TRAIT2_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
                         tobj.D_ATKS = .07;
                         tobj.DUELIST_FLAG = true;
                         tobj.D_CAP = .84;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 6)
+                    else if (tobj.TRAIT_VALUE >= 6)
                     {
                         tobj.D_ATKS = .1;
                         tobj.DUELIST_FLAG = true;
@@ -5071,28 +4972,28 @@ namespace TFTCalculatorModel
                     break;
 
                 case "Soul Fighter":
-                    if (tobj.TRAIT2_VALUE >= 2 && tobj.TRAIT2_VALUE < 4)
+                    if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
                         tobj.HP = 120;
                         tobj.SF_FLAG = true;
                         tobj.SF_AD = .01;
                         tobj.SF_T_V = .1;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 4 && tobj.TRAIT2_VALUE < 6)
+                    else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
                         tobj.HP = 240;
                         tobj.SF_FLAG = true;
                         tobj.SF_AD = .02;
                         tobj.SF_T_V = .16;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 6 && tobj.TRAIT2_VALUE < 8)
+                    else if (tobj.TRAIT_VALUE >= 6 && tobj.TRAIT_VALUE < 8)
                     {
                         tobj.HP = 450;
                         tobj.SF_FLAG = true;
                         tobj.SF_AD = .03;
                         tobj.SF_T_V = .22;
                     }
-                    else if (tobj.TRAIT2_VALUE >= 8)
+                    else if (tobj.TRAIT_VALUE >= 8)
                     {
                         tobj.HP = 700;
                         tobj.SF_FLAG = true;
@@ -5103,60 +5004,19 @@ namespace TFTCalculatorModel
 
                 case "Starguardian":
                     // only jinx implemented
-                    if (tobj.TRAIT2_VALUE >= 2)
+                    if (tobj.TRAIT_VALUE >= 2)
                     {
-                        tobj.ATKS = .05 * (1 + (tobj.TRAIT2_VALUE * .1));
+                        tobj.ATKS = .05 * (1 + (tobj.TRAIT_VALUE * .1));
                     }
 
                     break;
 
-                //case "Juggernaut":
-                //    if (tobj.TRAIT2_VALUE >= 2 && tobj.TRAIT2_VALUE < 4)
-                //    {
-                //        if (above50)
-                //        {
-                //            tobj.DR = .15;
-                //        }
-                //        else
-                //        {
-                //            tobj.DR = .25;
-                //        }
-                //    }
-                //    else if (tobj.TRAIT2_VALUE >= 4 && tobj.TRAIT2_VALUE < 6)
-                //    {
-                //        if (above50)
-                //        {
-                //            tobj.DR = .20;
-                //        }
-                //        else
-                //        {
-                //            tobj.DR = .30;
-                //        }
-                //    }
-                //    else if (tobj.TRAIT2_VALUE >= 6)
-                //    {
-                //        if (above50)
-                //        {
-                //            tobj.DR = .25;
-                //        }
-                //        else
-                //        {
-                //            tobj.DR = .35;
-                //        }
-                //    }
-                //    break;
-                default: break;
-            }
-
-            switch (trait3)
-            {
-                // for now mentor 1 only works for ryze
                 case "Mentor":
-                    if (tobj.TRAIT3_VALUE == 1)
+                    if (tobj.TRAIT_VALUE == 1)
                     {
                         tobj.MANA_OH = 2;
                     }
-                    else if (tobj.TRAIT3_VALUE == 4)
+                    else if (tobj.TRAIT_VALUE == 4)
                     {
                         tobj.MANA_OH = 2;
                         tobj.DR = .06;
@@ -5166,8 +5026,11 @@ namespace TFTCalculatorModel
                         tobj.M_FLAG = true;
                     }
                     break;
+
                 default: break;
+
             }
+
         }
 
 
@@ -5651,18 +5514,8 @@ namespace TFTCalculatorModel
 
     public class Trait_Holder
     {
-        string trait1 = "None";
 
-        string trait2 = "None";
-
-        string trait3 = "None";
-
-        double trait1_value = 0;
-
-        double trait2_value = 0;
-
-        double trait3_value = 0;
-
+        double trait_value = 0;
         double potential = 0;
         double hp = 0;
         double hp_mult = 0;
@@ -5745,15 +5598,7 @@ namespace TFTCalculatorModel
 
         public double IE_FLAG { get { return ie_flag; } set { ie_flag = value; } }
         public double EXECUTE { get { return execute; } set { execute = value; } }
-        public string TRAIT1 { get { return trait1; } set { trait1 = value; } }
-        public string TRAIT2 { get { return trait2; } set { trait2 = value; } }
-
-        public string TRAIT3 { get { return trait3; } set { trait3 = value; } }
-        public double TRAIT1_VALUE { get { return trait1_value; } set { trait1_value = value; } }
-
-        public double TRAIT2_VALUE { get { return trait2_value; } set { trait2_value = value; } }
-
-        public double TRAIT3_VALUE { get { return trait3_value; } set { trait3_value = value; } }
+        public double TRAIT_VALUE { get { return trait_value; } set { trait_value = value; } }
 
     }
 
