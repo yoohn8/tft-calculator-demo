@@ -18,8 +18,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height=".2*"/>
             <RowDefinition Height=".70*"/>
-            <RowDefinition Height=".8*"/>
-            <RowDefinition Height=".75*"/>
+            <RowDefinition Height=".83*"/>
+            <RowDefinition Height=".72*"/>
 
 
         </Grid.RowDefinitions>
@@ -60,8 +60,6 @@
                                HorizontalAlignment="Center"
                                FontSize="14"
                                FontWeight="Bold"/>
-                    <TextBlock Text="{Binding UNIT_NAME}" 
-                               HorizontalAlignment="Center"/>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -71,7 +69,8 @@
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Unit Selection" 
                                    HorizontalAlignment="Center"/>
-
+                            <TextBlock Text="{Binding UNIT_NAME}" 
+                                    HorizontalAlignment="Center"/>
                             <ComboBox SelectedValue="{Binding UNIT_NAME}" 
                                       SelectedIndex="0"
                                       Margin="10 0 10 0"
@@ -311,48 +310,64 @@
 
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Traits" 
-                                   HorizontalAlignment="Center"
-                                   Margin="0 5 0 0"/>
+                                       HorizontalAlignment="Center"
+                                       Margin="0 5 0 0"/>
                             <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 5 5 0">
+                                    BorderBrush="DimGray" 
+                                    Margin="10 5 5 0"
+                                    Background="#252525"
+                                    >
                                 <TextBlock Text="{Binding TRAIT1}" 
-                                       HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           />
                             </Border>
                             <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 5 0">
+                                    BorderBrush="DimGray" 
+                                    Margin="10 10 5 0"
+                                    Background="#252525"
+                                    >
                                 <TextBlock Text="{Binding TRAIT2}" 
-                                       HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           />
                             </Border>
                             <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 5 0">
+                                    BorderBrush="DimGray" 
+                                    Margin="10 10 5 0"
+                                    Background="#252525"
+                                    >
                                 <TextBlock Text="{Binding TRAIT3}" 
-                                       HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           />
                             </Border>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
                             <TextBlock Text="" 
-                                   HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center"/>
                             <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 10 0">
+                                    BorderBrush="DimGray" 
+                                    Margin="10 10 10 0"
+                                    Background="#252525"
+                                    >
                                 <TextBlock Text="{Binding TRAIT1_VALUE}" 
-                                       HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           />
                             </Border>
                             <Border BorderThickness="1" 
-                                BorderBrush="DimGray" 
-                                Margin="10 10 10 0">
+                                    BorderBrush="DimGray" 
+                                    Margin="10 10 10 0"
+                                    Background="#252525">
                                 <TextBlock Text="{Binding TRAIT2_VALUE}" 
-                                       HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           />
                             </Border>
                             <Border BorderThickness="1" 
-                                BorderBrush="DimGray"
-                                Margin="10 10 10 0">
+                                    BorderBrush="DimGray"
+                                    Margin="10 10 10 0"
+                                    Background="#252525">
                                 <TextBlock Text="{Binding TRAIT3_VALUE}" 
-                                       HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           />
                             </Border>
                         </StackPanel>
 
@@ -434,12 +449,13 @@
 
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Items" 
-                           HorizontalAlignment="Center"
-                           FontSize="14"
-                           FontWeight="Bold"/>
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="Bold"/>
                     <Border BorderThickness="1" 
-                        BorderBrush="DimGray" 
-                        Margin="10 5 5 0"
+                            BorderBrush="DimGray" 
+                            Margin="10 5 5 0"
+                            Background="#252525"
                         >
                         <TextBlock Text="{Binding ITEM1}" 
                                HorizontalAlignment="Center"
@@ -447,25 +463,27 @@
                     </Border>
 
                     <Border BorderThickness="1" 
-                        BorderBrush="DimGray" 
-                        Margin="10 5 5 0">
+                            BorderBrush="DimGray" 
+                            Margin="10 5 5 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ITEM2}" 
-                               HorizontalAlignment="Center"/>
+                                    HorizontalAlignment="Center"/>
                     </Border>
 
                     <Border BorderThickness="1" 
-                        BorderBrush="DimGray" 
-                        Margin="10 5 5 0">
+                            BorderBrush="DimGray" 
+                            Margin="10 5 5 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ITEM3}" 
-                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                     </Border>
 
                     <Button Margin="0 5 0 0" 
-                        Content="Reset Items" 
-                        Padding="2" 
-                        Command="{Binding ITEMRESET}" 
-                        Height="24" 
-                        HorizontalAlignment="Center"/>
+                            Content="Reset Items" 
+                            Padding="2" 
+                            Command="{Binding ITEMRESET}" 
+                            Height="24" 
+                            HorizontalAlignment="Center"/>
 
                 </StackPanel>
             </Border>
@@ -748,29 +766,29 @@
 
 
                     <ToggleButton Content="{Binding CE_TEXT}"
-                              Command="{Binding COMP_E_CHECK}"
-                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                              Margin="10 10 10 0" 
-                              HorizontalAlignment="Center"
-                              Width="100"
-                              Height="20">
+                                  Command="{Binding COMP_E_CHECK}"
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                  Margin="10 10 10 0" 
+                                  HorizontalAlignment="Center"
+                                  Width="100"
+                                  Height="20">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
                                     <Trigger Property="IsChecked" 
-                                         Value="false">
+                                             Value="false">
                                         <Setter Property="Foreground"
-                                            Value="White" />
+                                                Value="White" />
                                         <Setter Property="Background" 
-                                            Value="#252525"/>
+                                                Value="#252525"/>
                                     </Trigger>
                                     <Trigger Property="IsChecked"
-                                         Value="True">
-                                        <Setter Property="Foreground" 
-                                            Value="Red" />
+                                             Value="True">
+                                        <Setter Property="Foreground"
+                                                Value="Red" />
                                         <Setter Property="Background" 
-                                            Value="#252525"/>
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -779,29 +797,29 @@
                     </ToggleButton>
 
                     <ToggleButton Content="{Binding MODE_TEXT}"
-                              Command="{Binding COMP_MODE_CHECK}"
-                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
-                              Margin="10 10 10 0" 
-                              HorizontalAlignment="Center"
-                              Width="100"
-                              Height="20">
+                                  Command="{Binding COMP_MODE_CHECK}"
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                  Margin="10 10 10 0" 
+                                  HorizontalAlignment="Center"
+                                  Width="100"
+                                  Height="20">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
 
                                 <Style.Triggers>
                                     <Trigger Property="IsChecked" 
-                                         Value="false">
+                                            Value="false">
                                         <Setter Property="Foreground"
-                                            Value="White" />
+                                                Value="White" />
                                         <Setter Property="Background" 
-                                            Value="#252525"/>
+                                                Value="#252525"/>
                                     </Trigger>
                                     <Trigger Property="IsChecked"
-                                         Value="True">
+                                             Value="True">
                                         <Setter Property="Foreground" 
-                                            Value="Red" />
+                                                Value="Red" />
                                         <Setter Property="Background" 
-                                            Value="#252525"/>
+                                                Value="#252525"/>
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -839,7 +857,8 @@
                            Margin="0 10 0 0"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding FULL_DPS15}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -848,7 +867,8 @@
                            HorizontalAlignment="Center" />
                     <Border BorderThickness="1"  
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AUTO_DPS15}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -857,7 +877,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding CAST_DPS15}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -866,7 +887,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding P_CAST_DPS15}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -875,7 +897,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding TRUE_DAMAGE_DPS15}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -885,7 +908,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ATTACK_COUNTER15}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -894,7 +918,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding CAST_COUNTER15}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -920,7 +945,8 @@
 
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding FULL_DPS}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -929,7 +955,8 @@
                            HorizontalAlignment="Center" />
                     <Border BorderThickness="1"
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AUTO_DPS}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -938,7 +965,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding CAST_DPS}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -947,7 +975,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding P_CAST_DPS}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -956,7 +985,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding TRUE_DAMAGE_DPS}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -966,7 +996,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ATTACK_COUNTER}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -975,7 +1006,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding CAST_COUNTER}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -999,7 +1031,8 @@
                            HorizontalAlignment="Center" />
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AUTO_AD}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1008,7 +1041,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AD}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1017,7 +1051,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AP}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1026,8 +1061,9 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
-                        <TextBlock Text="{Binding ATKS}" 
+                        Margin="10 0 10 0"
+                            Background="#252525">
+                        <TextBlock Text="{Binding FINAL_ATKS}" 
                                HorizontalAlignment="Center"/>
                     </Border>
 
@@ -1036,7 +1072,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ASI}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1045,7 +1082,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AMP}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1070,7 +1108,8 @@
                            Margin="0 10 0 0"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ABILITY_CRIT}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1080,7 +1119,8 @@
                            Margin="0 0 0 0"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding CRIT}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1089,7 +1129,8 @@
                            HorizontalAlignment="Center" />
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding CRIT_MULTI}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1101,7 +1142,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding MANA_OH}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1110,7 +1152,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding MANA_REGEN}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1119,7 +1162,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding MANA_MULTI}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1160,7 +1204,8 @@
                         <StackPanel Grid.Column="0">
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray" 
-                                Margin="10 12 0 0">
+                                Margin="10 12 0 0"
+                                    Background="#252525">
                                 <TextBlock Text="# of Extra Targets" 
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" />
@@ -1168,7 +1213,8 @@
 
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray"
-                                Margin="10 12 0 0">
+                                Margin="10 12 0 0"
+                                    Background="#252525">
                                 <TextBlock Text="# of Little Buddies" 
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" />
@@ -1176,7 +1222,8 @@
 
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray" 
-                                Margin="10 12 0 0">
+                                Margin="10 12 0 0"
+                                    Background="#252525">
                                 <TextBlock Text="# Item Collector" 
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" />
@@ -1190,7 +1237,8 @@
                                 BorderBrush="DimGray"
                                 Width="50" 
                                 Margin="0 12 0 0" 
-                                HorizontalAlignment="Right">
+                                HorizontalAlignment="Right"
+                                    Background="#252525">
                                 <TextBlock Text="{Binding TARGETS}"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -1199,7 +1247,8 @@
                                 BorderBrush="DimGray" 
                                 Width="50" 
                                 Margin="0 12 0 0"
-                                HorizontalAlignment="Right">
+                                HorizontalAlignment="Right"
+                                    Background="#252525">
                                 <TextBlock Text="{Binding LILB}"
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -1208,7 +1257,8 @@
                                 BorderBrush="DimGray" 
                                 Width="50" 
                                 Margin="0 12 0 0" 
-                                HorizontalAlignment="Right">
+                                HorizontalAlignment="Right"
+                                    Background="#252525">
                                 <TextBlock Text="{Binding ITEM_N}" 
                                        HorizontalAlignment="Center"/>
                             </Border>
@@ -1277,14 +1327,16 @@
                         <StackPanel Grid.Column="0">
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray" 
-                                Margin="10 10 10 0">
+                                Margin="10 10 10 0"
+                                    Background="#252525">
                                 <TextBlock Text="First 10 sec(bastion)" 
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" Height="18"/>
                             </Border>
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray"
-                                Margin="10 15 10 10">
+                                Margin="10 15 10 10"
+                                    Background="#252525">
                                 <TextBlock Text="Shielded(protectors )" 
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" 
@@ -1292,7 +1344,8 @@
                             </Border>
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray" 
-                                Margin="10 5 10 10">
+                                Margin="10 5 10 10"
+                                    Background="#252525">
                                 <TextBlock Text="Above 50% hp(jugg and hoj)" 
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" 
@@ -1300,7 +1353,8 @@
                             </Border>
                             <Border BorderThickness="1" 
                                 BorderBrush="DimGray" 
-                                Margin="10 5 10 0">
+                                Margin="10 5 10 0"
+                                    Background="#252525">
                                 <TextBlock Text="Hitting a tank (GS)"
                                        HorizontalAlignment="Center" 
                                        Margin="0 0 0 0" 
@@ -1361,37 +1415,56 @@
                     Grid.Column="1">
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Augments" 
-                           HorizontalAlignment="Center"
-                           FontSize="14"
-                           FontWeight="Bold"
-                           />
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               />
                     <Border BorderThickness="1" 
-                        BorderBrush="DimGray"
-                        Margin="10 5 5 0">
+                            BorderBrush="DimGray"
+                            Margin="10 5 5 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AUG1}" 
-                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                     </Border>
 
                     <Border BorderThickness="1" 
-                        BorderBrush="DimGray" 
-                        Margin="10 5 5 0">
+                            BorderBrush="DimGray" 
+                            Margin="10 5 5 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AUG2}" 
-                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                     </Border>
 
                     <Border BorderThickness="1" 
-                        BorderBrush="DimGray"
-                        Margin="10 5 5 0">
+                            BorderBrush="DimGray"
+                            Margin="10 5 5 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding AUG3}" 
-                               HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"/>
                     </Border>
 
                     <Button Margin="0 5 0 0"
-                        Content="Reset Augments" 
-                        Padding="2" 
-                        Command="{Binding AUG_RESET}" 
-                        Height="24" 
-                        HorizontalAlignment="Center"/>
+                            Content="Reset Augments" 
+                            Padding="2" 
+                            Command="{Binding AUG_RESET}" 
+                            Height="24" 
+                            HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="Power Up" 
+                               HorizontalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Margin="0 37 0 0"
+                               />
+                    
+                    <Border BorderThickness="1" 
+                            BorderBrush="DimGray"
+                            Margin="10 5 5 0"
+                            Background="#252525">
+                        <TextBlock Text="{Binding POWER_UP}" 
+                                   HorizontalAlignment="Center"/>
+                    </Border>
+
                 </StackPanel>
 
             </Border>
@@ -1609,6 +1682,136 @@
                         </ToggleButton>
 
                     </Grid>
+                    <TextBlock Text="Power Up Selection" 
+                               HorizontalAlignment="Center" 
+                               Margin="0 10 0 0"
+                               FontSize="14"
+                               FontWeight="Bold"/>
+                    <ComboBox SelectedIndex="0" 
+                              Margin="10 5 5 0" 
+                              Padding="2" 
+                              HorizontalContentAlignment="Center" 
+                              SelectedValue="{Binding POWER_UP}"
+                              Height="18"
+                              >
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Katarina">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding KAT_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Caitlyn">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding CAIT_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Lucian">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding LUCIAN_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Malzahar">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding MALZ_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Senna">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding SENNA_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Akali">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding AKALI_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Ashe">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding ASHE_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Jarvan">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding JARVAN_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Jinx">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding JINX_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Ksante">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding KSANTE_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Karma">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding KARMA_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Leona">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding LEONA_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Poppy">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding POPPY_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Ryze">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding RYZE_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Samira">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding SAMIRA_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Sett">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding SETT_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Volibear">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding VOLI_FLIST}"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding UNIT_NAME}" 
+                                                 Value="Yuumi">
+                                        <Setter Property="ItemsSource" 
+                                                Value="{Binding YUUMI_FLIST}"/>
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+
+                        </ComboBox.Style>
+                    </ComboBox>
 
 
                 </StackPanel>
@@ -1631,7 +1834,8 @@
                                Margin="0 10 0 0"/>
                     <Border BorderThickness="1" 
                             BorderBrush="DimGray"
-                            Margin="10 0 10 0" >
+                            Margin="10 0 10 0" 
+                            Background="#252525">
                         <TextBlock Text="{Binding HP}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1640,7 +1844,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                             BorderBrush="DimGray"
-                            Margin="10 0 10 0">
+                            Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding ARMOR}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1649,7 +1854,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                             BorderBrush="DimGray"
-                            Margin="10 0 10 0">
+                            Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding MR}" 
                                    HorizontalAlignment="Center"/>
                     </Border>
@@ -1658,7 +1864,8 @@
                                HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding PHYS_EHP}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1667,7 +1874,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding MAGIC_EHP}"
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1676,7 +1884,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1" 
                         BorderBrush="DimGray" 
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding SHIELD}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1685,7 +1894,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding FINAL_PHYS_DR}" 
                                HorizontalAlignment="Center"/>
                     </Border>
@@ -1694,7 +1904,8 @@
                            HorizontalAlignment="Center"/>
                     <Border BorderThickness="1"
                         BorderBrush="DimGray"
-                        Margin="10 0 10 0">
+                        Margin="10 0 10 0"
+                            Background="#252525">
                         <TextBlock Text="{Binding FINAL_MAGIC_DR}" 
                                HorizontalAlignment="Center"/>
                     </Border>

@@ -3,8 +3,11 @@ using System.Buffers.Text;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,69 +31,187 @@ using System.Threading.Tasks;
 
 namespace TFTCalculatorModel
 {
-    public class CalcModel
+    public class CalcModel : INotifyPropertyChanged
     {
+        bool comp_enable = false;
+        bool full_flag = true;
+        int targets = 0;
+
+        string unit_name = "No_Unit";
+        string star = "1";
+
+        string item1_name = "None";
+        string item2_name = "None";
+        string item3_name = "None";
+
+        string aug1_name = "None";
+        string aug2_name = "None";
+        string aug3_name = "None";
+
+        string trait1_name = "None";
+        string trait2_name = "None";
+        string trait3_name = "None";
+
+        double trait1_value = 0;
+        double trait2_value = 0;
+        double trait3_value = 0;
+
+        string fruit_name = "None";
+
+        //bool ascend_flag = false;
+        int lilb = 0;
+        int item_n = 0;
+
+        bool first10 = false;
+        bool shielded = false;
+        bool above50 = false;
+        bool hit_tank = false;
+
+        int attack_counter = 0;
+        int cast_counter = 0;
+        double auto_dps = 0;
+        double cast_dps = 0;
+        double p_cast_dps = 0;
+        double full_dps = 0;
+        double true_damage_dps = 0;
+
+        int attack_counter15 = 0;
+        int cast_counter15 = 0;
+        double auto_dps15 = 0;
+        double cast_dps15 = 0;
+        double p_cast_dps15 = 0;
+        double full_dps15 = 0;
+        double true_damage_dps15 = 0;
+
+        double hp = 0;
+        double armor = 0;
+        double mr = 0;
+        double final_atks = 0;
+        double ap = 0;
+        double amp = 0;
+        double crit = 0;
+        double crit_multi = 0;
+
+        double auto_ad = 0;
+        double ad = 0;
+        double asi = 0;
+        double mana_oh = 0;
+        double mana_regen = 0;
+        double mana_multi = 0;
+
+        public double HP { get { return hp; } set { hp = value; OnPropertyChanged(); } }
+        public double ARMOR { get { return armor; } set { armor = value; OnPropertyChanged(); } }
+        public double MR { get { return mr; } set { mr = value; OnPropertyChanged(); } }
+        public double MANA_REGEN { get { return mana_regen; } set { mana_regen = value; OnPropertyChanged(); } }
+        public double AP { get { return ap; } set { ap = value; OnPropertyChanged(); } }
+        public double AD { get { return ad; } set { ad = value; OnPropertyChanged(); } }
+        public double CRIT { get { return crit; } set { crit = value; OnPropertyChanged(); } }
+        public double CRIT_MULTI { get { return crit_multi; } set { crit_multi = value; OnPropertyChanged(); } }
+        public double AMP { get { return amp; } set { amp = value; OnPropertyChanged(); } }
+        public double MANA_OH { get { return mana_oh; } set { mana_oh = value; OnPropertyChanged(); } }
+
+        public double FINAL_ATKS { get { return final_atks; } set { final_atks = value; OnPropertyChanged(); } }
+        public double AUTO_AD { get { return auto_ad; } set { auto_ad = value; OnPropertyChanged(); } }
+        public double ASI { get { return asi; } set { asi = value; OnPropertyChanged(); } }
+        public double MANA_MULTI { get { return mana_multi; } set { mana_multi = value; OnPropertyChanged(); } }
+
+        public int ATTACK_COUNTER { get { return attack_counter; } set { attack_counter = value; OnPropertyChanged(); } }
+
+        public int CAST_COUNTER { get { return cast_counter; } set { cast_counter = value; OnPropertyChanged(); } }
+
+        public int ATTACK_COUNTER15 { get { return attack_counter15; } set { attack_counter15 = value; OnPropertyChanged(); } }
+
+        public int CAST_COUNTER15 { get { return cast_counter15; } set { cast_counter15 = value; OnPropertyChanged(); } }
+
+        public double AUTO_DPS { get { return auto_dps; } set { auto_dps = value; OnPropertyChanged(); } }
+        public double CAST_DPS { get { return cast_dps; } set { cast_dps = value; OnPropertyChanged(); } }
+        public double P_CAST_DPS { get { return p_cast_dps; } set { p_cast_dps = value; OnPropertyChanged(); } }
+        public double FULL_DPS { get { return full_dps; } set { full_dps = value; OnPropertyChanged(); } }
+        public double TRUE_DAMAGE_DPS { get { return true_damage_dps; } set { true_damage_dps = value; OnPropertyChanged(); } }
+
+        public double AUTO_DPS15 { get { return auto_dps15; } set { auto_dps15 = value; OnPropertyChanged(); } }
+        public double CAST_DPS15 { get { return cast_dps15; } set { cast_dps15 = value; OnPropertyChanged(); } }
+        public double P_CAST_DPS15 { get { return p_cast_dps15; } set { p_cast_dps15 = value; OnPropertyChanged(); } }
+        public double FULL_DPS15 { get { return full_dps15; } set { full_dps15 = value; OnPropertyChanged(); } }
+        public double TRUE_DAMAGE_DPS15 { get { return true_damage_dps15; } set { true_damage_dps15 = value; OnPropertyChanged(); } }
+
+        public bool FIRST10 { get { return first10; } set { first10 = value; } }
+        public bool SHIELDED { get { return shielded; } set { shielded = value; } }
+        public bool ABOVE50 { get { return above50; } set { above50 = value; } }
+        public bool HIT_TANK { get { return hit_tank; } set { hit_tank = value; } }
+        public string TRAIT1_NAME { get { return trait1_name; } set { trait1_name = value; OnPropertyChanged(); } }
+        public string TRAIT2_NAME { get { return trait2_name; } set { trait2_name = value; OnPropertyChanged(); } }
+        public string TRAIT3_NAME { get { return trait3_name; } set { trait3_name = value; OnPropertyChanged(); } }
+
+        public string FRUIT_NAME { get { return fruit_name; } set { fruit_name = value; } }
+        public string UNIT_NAME { get { return unit_name; } set { unit_name = value; } }
+        public string STAR { get { return star; } set { star = value; } }
+
+        public string ITEM1_NAME { get { return item1_name; } set { item1_name = value; } }
+        public string ITEM2_NAME { get { return item2_name; } set { item2_name = value; } }
+        public string ITEM3_NAME { get { return item3_name; } set { item3_name = value; } }
+
+        public string AUG1_NAME { get { return aug1_name; } set { aug1_name = value; } }
+        public string AUG2_NAME { get { return aug2_name; } set { aug2_name = value; } }
+        public string AUG3_NAME { get { return aug3_name; } set { aug3_name = value; } }
+
+        public double TRAIT1_VALUE { get { return trait1_value; } set { trait1_value = value; } }
+        public double TRAIT2_VALUE { get { return trait2_value; } set { trait2_value = value; } }
+        public double TRAIT3_VALUE { get { return trait3_value; } set { trait3_value = value; } }
+
+        public int LILB { get { return lilb; } set { lilb = value; } }
+        public int ITEM_N { get { return item_n; } set { item_n = value; } }
+        //public bool ASCEND_FLAG { get { return ascend_flag; } set { ascend_flag = value; } }
+        public bool COMP_ENABLE { get { return comp_enable; } set { comp_enable = value; } }
+        public bool FULL_FLAG { get { return full_flag; } set { full_flag = value; } }
+
+        public int TARGETS { get { return targets; } set { targets = value; } }
+
+        public static ObservableCollection<string> out_list = new()
+        {
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-"
+        };
+
+        public ObservableCollection<string> OUT_LIST { get { return out_list; } }
+
+        public static ObservableCollection<string> out_list2 = new()
+        {
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-"
+        };
+        public ObservableCollection<string> OUT_LIST2 { get { return out_list2; } }
+
+        public static ObservableCollection<string> out_list3 = new()
+        {
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            "-",  "-",  "-",  "-",  "-",  "-",  "-"
+        };
+        public ObservableCollection<string> OUT_LIST3 { get { return out_list3; } }
 
         #region methods
-        public (int, int, double, double, double, double, double, int, int, double, double, double, double, double,
-                string, string, string,
-                double, double, double, double, double, double, double,
-                double, double, double, double, double, double, double,
-                bool, double, double, double, double, double
-                )
-        Combat_Wrapper(string unit, string star, string item1, string item2, string item3, int trait1_value, int trait2_value, int trait3_value,
-                       ObservableCollection<string> outlist, ObservableCollection<string> outlist2, ObservableCollection<string> outlist3, 
-                       bool comp_enable, bool full_flag, int targets, bool first10, bool shielded, bool above50, bool hit_tank, string aug1, 
-                       string aug2, string aug3, int lilb, int item_n)
+        //public (int, int, double, double, double, double, double, int, int, double, double, double, double, double,
+        //        string, string, string,
+        //        double, double, double, double, double, double, double,
+        //        double, double, double, double, double, double, double,
+        //        bool, double, double, double, double, double
+        //        )
+        public void Combat_Wrapper()
+            //(string unit, string star, string item1, string item2, string item3, int trait1_value, int trait2_value, int trait3_value,
+            //           ObservableCollection<string> outlist, ObservableCollection<string> outlist2, ObservableCollection<string> outlist3, 
+            //           bool comp_enable, bool full_flag, int targets, bool first10, bool shielded, bool above50, bool hit_tank, string aug1, 
+            //           string aug2, string aug3, int lilb, int item_n)
         {
-            int attack_counter = 0;
-            int cast_counter = 0;
-            int attack_counter15 = 0;
-            int cast_counter15 = 0;
+            // instantiate objects here
+            // combat wrapper takes in string as inputs
 
-            double crit_flag = 0;
-            double auto_dps = 0;
-            double cast_dps = 0;
-            double p_cast_dps = 0;
-            double full_dps = 0;
-            double true_damage_dps = 0;
-
-            double auto_dps15 = 0;
-            double cast_dps15 = 0;
-            double p_cast_dps15 = 0;
-            double full_dps15 = 0;
-            double true_damage_dps15 = 0;
-
-            string trait1 = "none";
-            string trait2 = "none";
-            string trait3 = "none";
-
-            bool ability_crit = false;
-
-            double hp_multi = 0;
-            double hp = 0;
-            double auto_ad = 0;
-            double ad = 0;
-            double ap = 0;
-            double atks = 0;
-            double asi = 0;
-            double amp = 0;
-
-            double crit = 0;
-            double crit_multi = 0;
-            double armor = 0;
-            double mr = 0;
-            double mana_oh = 0;
-            double mana_regen = 0;
-            double mana_multi = 0;
-
-            double phys_EHP = 0;
-            double magic_EHP = 0;
-            double final_phys_dr = 0;
-            double final_magic_dr = 0;
-            double shield = 0;
-            int cost = 0;
-
+            Post_Combat_Stats pobj = new();
             Unit_Holder uobj = new();
             Item_Holder iobj1 = new();
             Item_Holder iobj2 = new();
@@ -101,55 +222,137 @@ namespace TFTCalculatorModel
             Trait_Holder tobj1 = new();
             Trait_Holder tobj2 = new();
             Trait_Holder tobj3 = new();
+            Fruit_Holder fobj = new();
 
-            Unit_Stat_Setter(uobj, unit, star);
+            uobj.UNIT_NAME = UNIT_NAME;
+            uobj.STAR = STAR;
 
-            Item_Stat_Setter(iobj1, item1, hit_tank, above50);
-            Item_Stat_Setter(iobj2, item2, hit_tank, above50);
-            Item_Stat_Setter(iobj3, item3, hit_tank, above50);
+            iobj1.ITEM_NAME = ITEM1_NAME;
+            iobj2.ITEM_NAME = ITEM2_NAME;
+            iobj3.ITEM_NAME = ITEM3_NAME;
 
-            tobj1.TRAIT_VALUE = trait1_value;
-            tobj2.TRAIT_VALUE = trait2_value;
-            tobj3.TRAIT_VALUE = trait3_value;
+            aobj1.AUG_NAME = AUG1_NAME;
+            aobj2.AUG_NAME = AUG2_NAME;
+            aobj3.AUG_NAME = AUG3_NAME;
+
+            tobj1.TRAIT_VALUE = TRAIT1_VALUE;
+            tobj2.TRAIT_VALUE = TRAIT2_VALUE;
+            tobj3.TRAIT_VALUE = TRAIT3_VALUE;
+
+            fobj.FRUIT_NAME = FRUIT_NAME;
+
+            aobj1.LILB = LILB;
+            aobj2.LILB = LILB;
+            aobj3.LILB = LILB;
+
+            aobj1.ITEM_N = ITEM_N;
+            aobj2.ITEM_N = ITEM_N;
+            aobj3.ITEM_N = ITEM_N;
+
             
-            trait1 = uobj.TRAIT1;
-            trait2 = uobj.TRAIT2;
-            trait3 = uobj.TRAIT3;
 
-            cost = uobj.COST;
+            tobj1.FIRST10 = FIRST10;
+            tobj2.FIRST10 = FIRST10;
+            tobj3.FIRST10 = FIRST10;
 
-            Trait_Stat_Setter(tobj1, trait1, first10, shielded, above50);
-            Trait_Stat_Setter(tobj2, trait2, first10, shielded, above50);
-            Trait_Stat_Setter(tobj2, trait3, first10, shielded, above50);
+            tobj1.SHIELDED = SHIELDED;
+            tobj2.SHIELDED = SHIELDED;
+            tobj3.SHIELDED = SHIELDED;
 
-            Aug_Stat_Setter(aobj1, aug1, lilb, item_n, cost);
-            Aug_Stat_Setter(aobj2, aug2, lilb, item_n, cost);
-            Aug_Stat_Setter(aobj3, aug3, lilb, item_n, cost);
+            tobj1.ABOVE50 = ABOVE50;
+            tobj2.ABOVE50 = ABOVE50;
+            tobj3.ABOVE50 = ABOVE50;
 
-            (attack_counter, cast_counter, auto_dps, cast_dps, p_cast_dps, full_dps, true_damage_dps,
-                attack_counter15, cast_counter15, auto_dps15, cast_dps15, p_cast_dps15, full_dps15, true_damage_dps15,
-                auto_ad, ad, atks, asi, ap, crit, crit_multi, mana_oh, mana_regen, amp, crit_flag,
-                phys_EHP, magic_EHP, hp, final_phys_dr, final_magic_dr, armor, mr, shield)
-                = FightSim(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, star, unit, tobj1, tobj2, tobj3, targets);
+            iobj1.ABOVE50 = ABOVE50;
+            iobj2.ABOVE50 = ABOVE50;
+            iobj3.ABOVE50 = ABOVE50;
 
-            Sort_Item_List(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, unit, star, tobj1, tobj2, tobj3,
-                           full_flag,
-                           full_dps, full_dps15,
-                           comp_enable,
-                           outlist, outlist2, outlist3,
-                           hit_tank, above50, targets);
+            iobj1.HIT_TANK = HIT_TANK;
+            iobj2.HIT_TANK = HIT_TANK;
+            iobj3.HIT_TANK = HIT_TANK;
 
 
+            Unit_Stat_Setter(uobj);
+
+            Item_Stat_Setter(iobj1);
+            Item_Stat_Setter(iobj2);
+            Item_Stat_Setter(iobj3);
+
+            Trait_Stat_Setter(tobj1, uobj.TRAIT1);
+            Trait_Stat_Setter(tobj2, uobj.TRAIT2);
+            Trait_Stat_Setter(tobj3, uobj.TRAIT3);
+
+            Aug_Stat_Setter(aobj1, uobj);
+            Aug_Stat_Setter(aobj2, uobj);
+            Aug_Stat_Setter(aobj3, uobj);
+
+            Fruit_Stat_Setter(fobj);
+
+            
+
+            Combat_Setter(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, pobj);
+
+            Combat_Method(pobj);
+
+            // sort item list here
+            if (comp_enable)
+            {
+                Sort_Item_List(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, pobj);
+            }
+
+            // set output data here
+
+            TRAIT1_NAME = uobj.TRAIT1;
+            TRAIT2_NAME = uobj.TRAIT2;
+            TRAIT3_NAME = uobj.TRAIT3;
+
+            FULL_DPS = pobj.FULL_DPS;
+            ATTACK_COUNTER = pobj.ATTACK_COUNTER;
+            CAST_COUNTER = pobj.CAST_COUNTER;
+            AUTO_DPS = pobj.AUTO_DPS;
+            CAST_DPS = pobj.CAST_DPS;
+            P_CAST_DPS = pobj.P_CAST_DPS;
+            TRUE_DAMAGE_DPS = pobj.TRUE_DAMAGE_DPS;
+
+            FULL_DPS15 = pobj.FULL_DPS15;
+            ATTACK_COUNTER15 = pobj.ATTACK_COUNTER15;
+            CAST_COUNTER15 = pobj.CAST_COUNTER15;
+            AUTO_DPS15 = pobj.AUTO_DPS15;
+            CAST_DPS15 = pobj.CAST_DPS15;
+            P_CAST_DPS15 = pobj.P_CAST_DPS15;
+            TRUE_DAMAGE_DPS15 = pobj.TRUE_DAMAGE_DPS15;
+
+            HP = pobj.HP;
+            ARMOR = pobj.ARMOR;
+            MR = pobj.MR;
+            FINAL_ATKS = pobj.FINAL_ATKS;
+            AP = pobj.AP;
+            AMP = pobj.AMP;
+            CRIT = pobj.CRIT;
+            CRIT_MULTI = pobj.CRIT_MULTI;
+
+            AUTO_AD = pobj.AUTO_AD;
+            AD = pobj.AD;
+            ASI = pobj.ASI;
+            MANA_OH = pobj.MANA_OH;
+            MANA_REGEN = pobj.MANA_REGEN;
+            MANA_MULTI = pobj.MANA_MULT;
+
+            //Sort_Item_List(uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, unit, star, tobj1, tobj2, tobj3,
+            //               full_flag,
+            //               full_dps, full_dps15,
+            //               comp_enable,
+            //               outlist, outlist2, outlist3,
+            //               hit_tank, above50, targets);
 
 
-            ability_crit = (crit_flag > 0);
 
-            return (attack_counter, cast_counter, auto_dps, cast_dps, p_cast_dps, full_dps, true_damage_dps,
-                attack_counter15, cast_counter15, auto_dps15, cast_dps15, p_cast_dps15, full_dps15, true_damage_dps15,
-                trait1, trait2, trait3,
-                hp, auto_ad, ad, ap, atks, asi, amp, crit, crit_multi, armor, mr, mana_oh, mana_regen, mana_multi,
-                ability_crit, phys_EHP, magic_EHP, final_phys_dr, final_magic_dr, shield
-                );
+            //return (attack_counter, cast_counter, auto_dps, cast_dps, p_cast_dps, full_dps, true_damage_dps,
+            //    attack_counter15, cast_counter15, auto_dps15, cast_dps15, p_cast_dps15, full_dps15, true_damage_dps15,
+            //    trait1, trait2, trait3,
+            //    hp, auto_ad, ad, ap, atks, asi, amp, crit, crit_multi, armor, mr, mana_oh, mana_regen, mana_multi,
+            //    ability_crit, phys_EHP, magic_EHP, final_phys_dr, final_magic_dr, shield
+            //    );
         }
 
         public (int, int, double, double, double, double, double, int, int, double, double, double, double, double,
@@ -228,17 +431,7 @@ namespace TFTCalculatorModel
 
 
 
-            (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
-                auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
-                inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp)
-                = Combat_Method(uobj, item1, item2, item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
-
-
-            // add traits to ehp
-            (phys_EHP, magic_EHP, final_hp, final_phys_dr, final_magic_dr, armor, mr, shield) =
-                EHP_calc(uobj, item1, item2, item3, aug1, aug2, aug3, trait1, trait2, trait3);
-
-
+            
 
 
             //disp.AUTO_DPS = auto_dps;
@@ -281,9 +474,7 @@ namespace TFTCalculatorModel
             //stats.FINAL_PHYS_DR = final_phys_dr;
             //stats.FINAL_MAGIC_DR = final_magic_dr;
 
-            auto_ad = base_ad * (1 + inc_ad);
-            atks = base_atks * (1 + asi);
-            shield = final_hp * shield;
+
 
 
 
@@ -296,238 +487,260 @@ namespace TFTCalculatorModel
 
         }
 
-        private static (double, double, double, double, double, int, int, double, double, double,
-                        double, double, int, int, double, double, double, double, double, double,
-                        double, double, double, double, double)
-        Combat_Method(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                      Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
-                      string star, string unit, Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, int targets)
+        //private static (double, double, double, double, double, int, int, double, double, double,
+        //                double, double, int, int, double, double, double, double, double, double,
+        //                double, double, double, double, double)
+        public void 
+        Combat_Method(Post_Combat_Stats final)
         {
-            double base_atks = uobj.ATKS;
-            double max_mana = uobj.MAX_MANA;
-            double base_ad = uobj.AD;
-            double mana_counter = uobj.MANA_COUNT;
-            double titans_flag = item1.TITANS_FLAG + item2.TITANS_FLAG + item3.TITANS_FLAG;
-            bool ascend_flag = aug1.ASCEND_FLAG || aug2.ASCEND_FLAG || aug3.ASCEND_FLAG;
-            //int targets = traits.TARGETS;
-            double potential = trait1.POTENTIAL + trait2.POTENTIAL + trait3.POTENTIAL;
-            bool m_flag = trait1.M_FLAG | trait2.M_FLAG | trait3.M_FLAG;
+            #region old code
+            //double base_atks = uobj.ATKS;
+            //double max_mana = uobj.MAX_MANA;
+            //double base_ad = uobj.AD;
+            //double mana_counter = uobj.MANA_COUNT;
 
-            double asi = item1.ATKS + item2.ATKS + item3.ATKS + aug1.ATKS + aug2.ATKS + aug3.ATKS + trait1.ATKS + trait2.ATKS + trait3.ATKS;
-            double mana_regen = uobj.MANA_REGEN + item1.MANA_REGEN + item2.MANA_REGEN + item3.MANA_REGEN +
-                   aug1.MANA_REGEN + aug2.MANA_REGEN + aug3.MANA_REGEN + trait1.MANA_REGEN + trait2.MANA_REGEN + trait3.MANA_REGEN;
+            //double titans_flag = item1.TITANS_FLAG + item2.TITANS_FLAG + item3.TITANS_FLAG;
+            //bool ascend_flag = aug1.ASCEND_FLAG || aug2.ASCEND_FLAG || aug3.ASCEND_FLAG;
+            ////int targets = traits.TARGETS;
+            //double potential = trait1.POTENTIAL + trait2.POTENTIAL + trait3.POTENTIAL;
+            //bool m_flag = trait1.M_FLAG | trait2.M_FLAG | trait3.M_FLAG;
 
-            double mana_hit = uobj.MANA_OH + item1.MANA_OH + item2.MANA_OH + item3.MANA_OH + trait1.MANA_OH + trait2.MANA_OH + trait3.MANA_OH;
+            //double asi = item1.ATKS + item2.ATKS + item3.ATKS + aug1.ATKS + aug2.ATKS + aug3.ATKS + trait1.ATKS + trait2.ATKS + trait3.ATKS;
+            //double mana_regen = uobj.MANA_REGEN + item1.MANA_REGEN + item2.MANA_REGEN + item3.MANA_REGEN +
+            //       aug1.MANA_REGEN + aug2.MANA_REGEN + aug3.MANA_REGEN + trait1.MANA_REGEN + trait2.MANA_REGEN + trait3.MANA_REGEN;
 
-            double mana_mult = item1.MANA_MULT + item2.MANA_MULT + item3.MANA_MULT;
+            //double mana_hit = uobj.MANA_OH + item1.MANA_OH + item2.MANA_OH + item3.MANA_OH + trait1.MANA_OH + trait2.MANA_OH + trait3.MANA_OH;
 
-            if (mana_mult > 0)
-            {
-                mana_hit = mana_hit * (1 + (.15 * mana_mult));
-                mana_regen = mana_regen * (1 + (.15 * mana_mult));
-            }
+            //double mana_mult = item1.MANA_MULT + item2.MANA_MULT + item3.MANA_MULT;
 
-
-            double crit = uobj.CRIT + item1.CRIT + item2.CRIT + item3.CRIT + aug1.CRIT + aug2.CRIT + aug3.CRIT + trait1.CRIT + trait2.CRIT + trait3.CRIT;
-            double over_crit = 0;
-            if (crit > 1)
-            {
-                over_crit = crit - 1;
-                crit = 1;
-            }
-
-
-            // uobj.CRIT + + aug1.CRIT + aug2.CRIT + aug3.CRIT; item1.CRIT + item2.CRIT + 
-            double ie_flag = item1.IE_FLAG + item2.IE_FLAG + item3.IE_FLAG;
-
-            double over_cm = over_crit / 2;
-            double ie_cm = 0;
-            double crit_flag2 = aug1.CRIT_FLAG + aug2.CRIT_FLAG + aug3.CRIT_FLAG + trait1.CRIT_FLAG + trait2.CRIT_FLAG + trait3.CRIT_FLAG;
-
-            if (crit_flag2 > 1)
-            {
-                ie_cm = ie_flag * .1;
-            }
-            else if (ie_flag > 0)
-            {
-                ie_cm = (ie_flag - 1) * .1;
-            }
-
-
-            double crit_multi = ie_cm + over_cm + uobj.CRIT_MULTI + trait1.CRIT_MULT + trait2.CRIT_MULT + trait3.CRIT_MULT;
-
-            double crit_flag = ie_flag + crit_flag2; // change this to a bool eventually
-
-            double amp = item1.D_AMP + item2.D_AMP + item3.D_AMP + aug1.D_AMP + aug2.D_AMP + aug3.D_AMP + trait1.D_AMP + trait2.D_AMP + trait3.D_AMP;
-            double inc_ad = item1.AD + item2.AD + item3.AD + aug1.AD + aug2.AD + aug3.AD + trait1.AD + trait2.AD + trait3.AD;
-            double ap = item1.AP + item2.AP + item3.AP + aug1.AP + aug2.AP + aug3.AP + trait1.AP + trait2.AP + trait3.AP;
-
-            double rb_flag = item1.RB_FLAG + item2.RB_FLAG + item3.RB_FLAG;
-            //double rb_flag = 0;
-            double kraken_flag = item1.KRAKEN_FLAG + item2.KRAKEN_FLAG + item3.KRAKEN_FLAG;
-            double aa_flag = item1.AA_FLAG + item2.AA_FLAG + item3.AA_FLAG;
-
-            bool jinx_flag = false;
-            //double trait1 = traits.TRAIT1_VALUE;
-            //double trait2 = traits.TRAIT2_VALUE;
-            //double trait3 = traits.TRAIT3_VALUE;
-
-            double nashors_flag = item1.NASHORS_FLAG + item2.NASHORS_FLAG + item3.NASHORS_FLAG;
-            double nashors_tracker = 0;
-            bool nashors_e = false;
-
-            double qss_flag = item1.QSS_FLAG + item2.QSS_FLAG + item3.QSS_FLAG;
-            double gs_flag = item1.GS_FLAG + item2.GS_FLAG + item3.GS_FLAG;
-
-            bool sf_t = false;
-            bool sf_flag = trait1.SF_FLAG || trait2.SF_FLAG || trait3.SF_FLAG;
-            double sf_t_v = trait1.SF_T_V + trait2.SF_T_V + trait3.SF_T_V;
-            double sf_ad = trait1.SF_AD + trait2.SF_AD + trait3.SF_AD;
-
-            bool duelist_flag = trait1.DUELIST_FLAG | trait2.DUELIST_FLAG | trait3.DUELIST_FLAG;
-            double duelist_asi = trait1.D_ATKS + trait2.D_ATKS + trait3.D_ATKS;
-            double duelist_cap = trait1.D_CAP + trait1.D_CAP + trait1.D_CAP;
-            double duelist_track = 0;
-
-            double execute = trait1.EXECUTE + trait2.EXECUTE + trait3.EXECUTE;
-
-            //if (uobj.TRAIT2 == "Soul Fighter")
+            //if (mana_mult > 0)
             //{
-            //    sf_flag = traits.TRAIT2_VALUE;
+            //    mana_hit = mana_hit * (1 + (.15 * mana_mult));
+            //    mana_regen = mana_regen * (1 + (.15 * mana_mult));
             //}
 
-            /*
-            double trait1 = disp.TRAIT1_VALUE;
-            double trait2 = disp.TRAIT2_VALUE;
-            double trait3 = disp.TRAIT3_VALUE;
-            */
 
-            double sunder = item1.SUNDER + item2.SUNDER + item3.SUNDER;
-            double shred = item1.SHRED + item2.SHRED + item3.SHRED;
-            double omnivamp = uobj.OMNIVAMP + item1.OMNIVAMP + item2.OMNIVAMP + item3.OMNIVAMP + aug1.OMNIVAMP + aug2.OMNIVAMP + aug3.OMNIVAMP
-                              + trait1.OMNIVAMP + trait2.OMNIVAMP + trait3.OMNIVAMP;
-
-            double true_damage = 0;
-            double true_damage_dps = 0;
-            double true_damage_tracker = 0;
-            double true_damage_dps15 = 0;
-
-            //double mana_counter15 = 0;
+            //double crit = uobj.CRIT + item1.CRIT + item2.CRIT + item3.CRIT + aug1.CRIT + aug2.CRIT + aug3.CRIT + trait1.CRIT + trait2.CRIT + trait3.CRIT;
+            //double over_crit = 0;
+            //if (crit > 1)
+            //{
+            //    over_crit = crit - 1;
+            //    crit = 1;
+            //}
 
 
-            int ashe_counter = 0;
-            double voli_passive = 0;
-            double voli_atks = 0;
+            //// uobj.CRIT + + aug1.CRIT + aug2.CRIT + aug3.CRIT; item1.CRIT + item2.CRIT + 
+            //double ie_flag = item1.IE_FLAG + item2.IE_FLAG + item3.IE_FLAG;
 
-            double spell_start = 0;
+            //double over_cm = over_crit / 2;
+            //double ie_cm = 0;
+            //double crit_flag2 = aug1.CRIT_FLAG + aug2.CRIT_FLAG + aug3.CRIT_FLAG + trait1.CRIT_FLAG + trait2.CRIT_FLAG + trait3.CRIT_FLAG;
 
-            double j_track = 0; // track jinx's ability attack speed increase
-
-            double d_dtrack = 0; // track duelist attack speed increase
-
-            double atk_time = Attack_Time_calc(base_atks, asi); // in1 is base attack speed
-
-
-
-            double attack_checker = atk_time;
-
-            double time_s = 0;
-
-            double time_e = atk_time;
-
-            int attack_counter = 0;
-
-            int cast_counter = 0;
-
-            double cast_time = 0;
-
-            bool cast_flag = false;
-
-            int i = 0;
-
-            int rb_counter = 0;
-
-            double cast_damage_tracker = 0;
-
-            double phys_cast_damage_tracker = 0;
-
-            double auto_damage_tracker = 0;
-
-            double cast_damage = 0;
-
-            double p_cast_damage = 0;
-
-            double auto_damage = 0;
-
-            bool attack_flag = false;
-
-            double auto_dps = 0;
-
-            double cast_dps = 0;
-
-            double phys_cast_dps = 0;
-
-            double full_dps = 0;
-
-            double auto_dps15 = 0;
-
-            double cast_dps15 = 0;
-
-            double phys_cast_dps15 = 0;
-
-            int attack_counter15 = 0;
-
-            int cast_counter15 = 0;
-
-            double full_dps15 = 0;
-
-            double final_inc_ad = 0;
-
-            double final_atks = 0;
-
-            double final_ad = 0;
-
-            int break_counter = 0;
-
-            double armor_dr = 0;
-
-            double mr_dr = 0;
-
-            double tsf = 0;
-            double tef = 0;
+            //if (crit_flag2 > 1)
+            //{
+            //    ie_cm = ie_flag * .1;
+            //}
+            //else if (ie_flag > 0)
+            //{
+            //    ie_cm = (ie_flag - 1) * .1;
+            //}
 
 
-            bool half_flag = false;
+            //double crit_multi = ie_cm + over_cm + uobj.CRIT_MULTI + trait1.CRIT_MULT + trait2.CRIT_MULT + trait3.CRIT_MULT;
 
-            bool aa_check = false;
+            //double crit_flag = ie_flag + crit_flag2; // change this to a bool eventually
 
-            double voli_tracker = 0;
+            //double amp = item1.D_AMP + item2.D_AMP + item3.D_AMP + aug1.D_AMP + aug2.D_AMP + aug3.D_AMP + trait1.D_AMP + trait2.D_AMP + trait3.D_AMP;
+            //double inc_ad = item1.AD + item2.AD + item3.AD + aug1.AD + aug2.AD + aug3.AD + trait1.AD + trait2.AD + trait3.AD;
+            //double ap = item1.AP + item2.AP + item3.AP + aug1.AP + aug2.AP + aug3.AP + trait1.AP + trait2.AP + trait3.AP;
+
+            //double rb_flag = item1.RB_FLAG + item2.RB_FLAG + item3.RB_FLAG;
+            ////double rb_flag = 0;
+            //double kraken_flag = item1.KRAKEN_FLAG + item2.KRAKEN_FLAG + item3.KRAKEN_FLAG;
+            //double aa_flag = item1.AA_FLAG + item2.AA_FLAG + item3.AA_FLAG;
+
+            //bool jinx_flag = false;
+            ////double trait1 = traits.TRAIT1_VALUE;
+            ////double trait2 = traits.TRAIT2_VALUE;
+            ////double trait3 = traits.TRAIT3_VALUE;
+
+            //double nashors_flag = item1.NASHORS_FLAG + item2.NASHORS_FLAG + item3.NASHORS_FLAG;
+            //double nashors_tracker = 0;
+            //bool nashors_e = false;
+
+            //double qss_flag = item1.QSS_FLAG + item2.QSS_FLAG + item3.QSS_FLAG;
+            //double gs_flag = item1.GS_FLAG + item2.GS_FLAG + item3.GS_FLAG;
+
+            //bool sf_t = false;
+            //bool sf_flag = trait1.SF_FLAG || trait2.SF_FLAG || trait3.SF_FLAG;
+            //double sf_t_v = trait1.SF_T_V + trait2.SF_T_V + trait3.SF_T_V;
+            //double sf_ad = trait1.SF_AD + trait2.SF_AD + trait3.SF_AD;
+
+            //bool duelist_flag = trait1.DUELIST_FLAG | trait2.DUELIST_FLAG | trait3.DUELIST_FLAG;
+            //double duelist_asi = trait1.D_ATKS + trait2.D_ATKS + trait3.D_ATKS;
+            //double duelist_cap = trait1.D_CAP + trait1.D_CAP + trait1.D_CAP;
+            //double duelist_track = 0;
+
+            //double execute = trait1.EXECUTE + trait2.EXECUTE + trait3.EXECUTE;
+
+            ////if (uobj.TRAIT2 == "Soul Fighter")
+            ////{
+            ////    sf_flag = traits.TRAIT2_VALUE;
+            ////}
+
+            ///*
+            //double trait1 = disp.TRAIT1_VALUE;
+            //double trait2 = disp.TRAIT2_VALUE;
+            //double trait3 = disp.TRAIT3_VALUE;
+            //*/
+
+            //double sunder = item1.SUNDER + item2.SUNDER + item3.SUNDER;
+            //double shred = item1.SHRED + item2.SHRED + item3.SHRED;
+            //double omnivamp = uobj.OMNIVAMP + item1.OMNIVAMP + item2.OMNIVAMP + item3.OMNIVAMP + aug1.OMNIVAMP + aug2.OMNIVAMP + aug3.OMNIVAMP
+            //                  + trait1.OMNIVAMP + trait2.OMNIVAMP + trait3.OMNIVAMP;
+
+            //double true_damage = 0;
+            //double true_damage_dps = 0;
+            //double true_damage_tracker = 0;
+            //double true_damage_dps15 = 0;
+
+            ////double mana_counter15 = 0;
 
 
-            //int sf_cap = 8;
+            //int ashe_counter = 0;
+            //double voli_passive = 0;
+            //double voli_atks = 0;
+
+            //double spell_start = 0;
+
+            //double j_track = 0; // track jinx's ability attack speed increase
+
+            //double d_dtrack = 0; // track duelist attack speed increase
+
+            //double atk_time = Attack_Time_calc(base_atks, asi); // in1 is base attack speed
 
 
-            int style = 0;
 
-            switch (unit) // resolve unit specific
+            //double attack_checker = atk_time;
+
+            //double time_s = 0;
+
+            //double time_e = atk_time;
+
+            //int attack_counter = 0;
+
+            //int cast_counter = 0;
+
+            //double cast_time = 0;
+
+            //bool cast_flag = false;
+
+            //int i = 0;
+
+            //int rb_counter = 0;
+
+            //double cast_damage_tracker = 0;
+
+            //double phys_cast_damage_tracker = 0;
+
+            //double auto_damage_tracker = 0;
+
+            //double cast_damage = 0;
+
+            //double p_cast_damage = 0;
+
+            //double auto_damage = 0;
+
+            //bool attack_flag = false;
+
+            //double auto_dps = 0;
+
+            //double cast_dps = 0;
+
+            //double phys_cast_dps = 0;
+
+            //double full_dps = 0;
+
+            //double auto_dps15 = 0;
+
+            //double cast_dps15 = 0;
+
+            //double phys_cast_dps15 = 0;
+
+            //int attack_counter15 = 0;
+
+            //int cast_counter15 = 0;
+
+            //double full_dps15 = 0;
+
+            //double final_inc_ad = 0;
+
+            //double final_atks = 0;
+
+            //double final_ad = 0;
+
+            //int break_counter = 0;
+
+            //double armor_dr = 0;
+
+            //double mr_dr = 0;
+
+            //double tsf = 0;
+            //double tef = 0;
+
+
+            //bool half_flag = false;
+
+            //bool aa_check = false;
+
+            //double voli_tracker = 0;
+            #endregion
+
+            switch (final.UNIT_NAME) // resolve unit specific
             {
                 case "No_Unit":
                     break;
 
                 case "Jinx":
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, true, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        
 
-                        if (attack_flag == true)
+                        //(time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
+                        //    half_flag, sf_t, nashors_tracker, nashors_e)
+                        //    = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
+                        //                   rb_flag, kraken_flag, aa_flag, duelist_flag, true, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                        Attack_event(final);
+
+                        if (final.ATTACK_FLAG)
                         {
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
+                        }
+                        if (final.HALF_FLAG)
+                        {
+                            if (final.ASCEND_FLAG)
+                            {
+                                final.AMP += .6;
+                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
+                        }
+
+
+                        if (final.CAST_FLAG)
+                        {
+
+                            //(time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
+                            //    Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 1,
+                            //                    half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                            //p_cast_damage = Jinx_Spell_Damage_Calc(crit, crit_multi, inc_ad, amp, crit_flag, star);
+                            Base_Cast_event(final);
+                            Jinx_Spell_Damage_Calc(final);
+                            final.PHYS_CAST_DAMAGE_TRACKER += final.P_CAST_DAMAGE;
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
                             //{
@@ -536,40 +749,18 @@ namespace TFTCalculatorModel
                             //else nashors_e = false;
 
                         }
-                        if (half_flag)
+
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                        }
-
-
-                        if (cast_flag == true)
-                        {
-                            
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                                Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 1,
-                                                half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            p_cast_damage = Jinx_Spell_Damage_Calc(crit, crit_multi, inc_ad, amp, crit_flag, star);
-                            phys_cast_damage_tracker += p_cast_damage;
-
-                            //if (nashors_e && (time_e - nashors_tracker < 5))
-                            //{
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //else nashors_e = false;
-
-                        }
-
-                        if (half_flag)
-                        {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
+                            if (final.ASCEND_FLAG)
+                            {
+                                final.AMP += .6;
+                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
                     }
@@ -577,41 +768,41 @@ namespace TFTCalculatorModel
                     break;
 
                 case "Karma":
-                    // trait 1 mighty mech
-                    // trait 2 = sorc
-
-                    //if (trait2 == 2)
-                    //{
-                    //    ap += .2;
-                    //}
-                    //else if (trait2 == 4)
-                    //{
-                    //    ap += .5;
-                    //}
-                    //else if (trait2 >= 6)
-                    //{
-                    //    ap += .9;
-                    //}
-
-                    //base_atks
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
                         // attack event
                         //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
 
                         //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
+                        Attack_event(final);
 
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
+                        }
+
+                        if (final.HALF_FLAG)
+                        {
+                            if (final.ASCEND_FLAG) 
+                            {
+                                final.AMP += .6; 
+                            }
+
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
+                        }
+
+                        if (final.CAST_FLAG)
+                        {
+                            
+                            Base_Cast_event(final);
+                            Karma_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE;
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
                             //{
@@ -620,45 +811,17 @@ namespace TFTCalculatorModel
                             //else nashors_e = false;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                        }
-
-                        if (cast_flag == true)
-                        {
-                            //if (nashors_flag > 0)
-                            //{
-                            //    nashors_e = true;
-                            //    nashors_tracker = time_s;
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                                Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
-                                                half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
-                            cast_damage = Karma_Spell_Damage_Calc(crit, crit_multi, amp, crit_flag, star, ap);
-                            cast_damage_tracker += cast_damage;
-
-                            //if (nashors_e && (time_e - nashors_tracker < 5))
-                            //{
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //else nashors_e = false;
-                        }
-
-                        if (half_flag)
-                        {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
+                            if (final.ASCEND_FLAG)
+                            {
+                                final.AMP += .6;
+                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -666,123 +829,39 @@ namespace TFTCalculatorModel
                     }
                     break;
                 case "Ryze":
-                    // trait 1 mentor
-                    // trait 2 = Executioner
-                    // trait 3 = strategist
-                    //if (trait1 == 1)
-                    //{
-                    //    mana_hit += 2;
-                    //}
-                    //else if (trait1 == 4)
-                    //{
-                    //    inc_ad += .08;
-                    //    ap += .08;
-                    //    mana_hit += 2;
-                    //    asi += .1;
-                    //}
-
-                    //if (trait2 == 2)
-                    //{
-                    //    crit_flag += 1;
-                    //    crit += .25;
-                    //    crit_multi += .1;
-                    //}
-                    //else if (trait2 == 3)
-                    //{
-                    //    crit_flag += 1;
-                    //    crit += .35;
-                    //    crit_multi += .12;
-                    //}
-                    //else if (trait2 == 4)
-                    //{
-                    //    crit_flag += 1;
-                    //    crit += 5;
-                    //    crit_multi += .18;
-                    //}
-                    //else if (trait2 >= 5)
-                    //{
-                    //    crit_flag += 1;
-                    //    crit += 55;
-                    //    crit_multi += .28;
-                    //}
-
-                    //if (trait3 == 2)
-                    //{
-                    //    amp += .12;
-                    //}
-                    //else if (trait3 == 3)
-                    //{
-                    //    amp += .18;
-                    //}
-                    //else if (trait3 == 4)
-                    //{
-                    //    amp += .3;
-                    //}
-                    //else if (trait3 >= 5)
-                    //{
-                    //    amp += .42;
-                    //}
 
                     //base_atks
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
 
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        //         (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap)
-                        //              = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                        //                             rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
+                        Attack_event(final);
 
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
-                            auto_damage_tracker += auto_damage;
-                            //if (nashors_e && (time_e - nashors_tracker < 5))
-                            //{
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //else nashors_e = false;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            //mana_counter15 = mana_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
-                        if (cast_flag == true)
+                        if (final.CAST_FLAG)
                         {
-                            //if (nashors_flag > 0)
-                            //{
-                            //    nashors_e = true;
-                            //    nashors_tracker = time_s;
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                                Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 3,
-                                                half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
-                            cast_damage = Ryze_Spell_Damage_Calc(crit, crit_multi, amp, crit_flag, star, ap, targets, m_flag);
-                            cast_damage_tracker += cast_damage;
+                            
+                            Base_Cast_event(final);
+                            Ryze_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE;
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
                             //{
@@ -793,17 +872,17 @@ namespace TFTCalculatorModel
 
 
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -811,58 +890,38 @@ namespace TFTCalculatorModel
                     }
                     break;
                 case "Yuumi":
-                    // trait 1 Prodigy
-                    // trait 2 = Battle Academia
-
-                    //if (trait1 == 2)
-                    //{
-                    //    mana_regen += 3;
-                    //}
-                    //else if (trait1 == 3)
-                    //{
-                    //    mana_regen += 5;
-                    //}
-                    //else if (trait1 == 4)
-                    //{
-                    //    mana_regen += 7;
-                    //}
-                    //else if (trait1 >= 5)
-                    //{
-                    //    mana_regen += 8;
-                    //}
-
-                    //if (trait2 >= 3 && trait2 < 5)
-                    //{
-                    //    potential += 3;
-                    //}
-                    //else if (trait2 >= 5 && trait2 < 7)
-                    //{
-                    //    potential += 5;
-                    //}
-                    //else if (trait2 >= 7)
-                    //{
-                    //    potential += 7;
-                    //}
 
                     //base_atks
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
+                        Attack_event(final);
 
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
+                        }
+
+                        if (final.HALF_FLAG)
+                        {
+                            if (final.ASCEND_FLAG)
+                            {
+                                final.AMP += .6;
+                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
+                        }
+
+                        if (final.CAST_FLAG)
+                        {
+                            Base_Cast_event(final);
+                            Yuumi_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE;
+                            final.TRUE_DAMAGE_TRACKER += final.TRUE_DAMAGE;
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
                             //{
@@ -871,57 +930,17 @@ namespace TFTCalculatorModel
                             //else nashors_e = false;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            //mana_counter15 = mana_counter;
-                            true_damage_dps15 = true_damage_tracker / 15;
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
-                        }
-
-                        if (cast_flag == true)
-                        {
-                            //if (nashors_flag > 0)
-                            //{
-                            //    nashors_e = true;
-                            //    nashors_tracker = time_s;
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                                Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 2,
-                                                half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
-                            (cast_damage, true_damage) = Yuumi_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star, potential, cast_counter);
-                            cast_damage_tracker += cast_damage;
-                            true_damage_tracker += true_damage;
-
-                            //if (nashors_e && (time_e - nashors_tracker < 5))
-                            //{
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //else nashors_e = false;
-                        }
-
-                        if (half_flag)
-                        {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            true_damage_dps15 = true_damage_tracker / 15;
-                            if (ascend_flag)
-                            {
-                                amp += .6;
-                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -929,62 +948,19 @@ namespace TFTCalculatorModel
                     }
                     break;
                 case "Ashe":
-                    // trait 1 crystal gambit
-                    // trait 2 = duelist
-
-                    //if (trait1 == 7)
-                    //{
-                    //    //hp += 300;
-                    //    amp += .25;
-                    //}
-
-                    //if (trait2 >= 2 && trait2 < 4)
-                    //{
-                    //    duelist_flag = true;
-                    //    duelist_asi = .04;
-                    //    duelist_cap = .48;
-                    //}
-                    //else if (trait2 >= 4 && trait2 < 6)
-                    //{
-                    //    duelist_asi = .07;
-                    //    duelist_flag = true;
-                    //    duelist_cap = .84;
-                    //}
-                    //else if (trait2 >= 6)
-                    //{
-                    //    duelist_asi = .1;
-                    //    duelist_flag = true;
-                    //    duelist_cap = 1.2;
-                    //    // dr increases by 12
-                    //}
 
                     //base_atks
-                    while (time_s < 30) // implement ashes spell lasting 8 auto attacks
+                    while (final.TIME_S < 30) // implement ashes spell lasting 8 auto attacks
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
+                        Ashe_Attack_event(final);
 
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        /*(time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, duelist_asi, duelist_cap);
-                        */
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
-                        (time_s, time_e, cast_flag, mana_counter, asi, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, attack_flag, ap,
-                            half_flag, cast_counter, cast_flag, ashe_counter, nashors_tracker, nashors_e)
-                           = Ashe_Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, ap, half_flag, cast_counter, cast_flag, ashe_counter, duelist_flag, duelist_asi, qss_flag
-                                           , nashors_flag, nashors_tracker, nashors_e
-                                );
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG)
                         {
 
                             // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            Auto_Damage_Calc(final);
                             //attack_counter += 1;
-                            auto_damage_tracker += auto_damage;
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
                             //{
@@ -993,44 +969,37 @@ namespace TFTCalculatorModel
                             //else nashors_e = false;
 
 
-                            if (cast_flag)
+                            if (final.CAST_FLAG)
                             {
-                                //if (nashors_flag > 0)
-                                //{
-                                //    nashors_e = true;
-                                //    nashors_tracker = time_s;
-                                //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                                //}
-
-                                if (nashors_flag > 0 && nashors_e)
+                                if (final.NASHORS_FLAG > 0 && final.NASHORS_E)
                                 {
-                                    nashors_tracker = 0;
+                                    final.NASHORS_TRACKER = 0;
                                 }
-                                else if (nashors_flag > 0 && !nashors_e)
+                                else if (final.NASHORS_FLAG > 0 && !final.NASHORS_E)
                                 {
-                                    nashors_e = true;
-                                    nashors_tracker = 0;
-                                    asi += (.3 * nashors_flag);
-                                    atk_time = Attack_Time_calc(base_atks, asi);
+                                    final.NASHORS_E = true;
+                                    final.NASHORS_TRACKER = 0;
+                                    final.ASI += (.3 * final.NASHORS_FLAG);
+                                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                                 }
-
-                                phys_cast_damage_tracker += Ashe_Spell_Damage_Calc(crit, crit_multi, amp, crit_flag, star, inc_ad, asi, ap);
+                                Ashe_Spell_Damage_Calc(final);
+                                final.PHYS_CAST_DAMAGE_TRACKER += final.P_CAST_DAMAGE;
 
 
                             }
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -1038,84 +1007,72 @@ namespace TFTCalculatorModel
                     break;
                 case "Samira":
                     
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        
+                        Attack_event(final);
 
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            
-                            auto_damage_tracker += auto_damage;
-                            if (sf_t)
-                            {
-                                true_damage_tracker += sf_t_v * auto_damage;
-                            }
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            true_damage_dps15 = true_damage_tracker / 15;
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
-                        if (cast_flag == true)
+                        if (final.CAST_FLAG)
                         {
-                            if (style < 5)
+                            if (final.STYLE < 5)
                             {
-                                cast_time = .5;
+                                final.CAST_TIME = .5;
                             }
                             else
                             {
-                                cast_time = 3;
+                                final.CAST_TIME = 3;
                             }
 
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                                Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, cast_time,
-                                                half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            p_cast_damage = Samira_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, style, targets);
+                            Base_Cast_event(final);
+                            Samira_Spell_Damage_Calc(final);
 
-                            if (style < 5)
+                            if (final.STYLE < 5)
                             {
-                                style += 1;
+                                final.STYLE += 1;
                             }
                             else
                             {
-                                style = 0;
+                                final.STYLE = 0;
                             }
 
-                            phys_cast_damage_tracker += p_cast_damage;
+                            final.PHYS_CAST_DAMAGE_TRACKER += final.P_CAST_DAMAGE;
 
-                            if (sf_t)
+                            if (final.SF_T)
                             {
-                                true_damage_tracker += sf_t_v * p_cast_damage;
+                                final.TRUE_DAMAGE_TRACKER += final.SF_T_V * final.P_CAST_DAMAGE;
                             }
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            true_damage_dps15 = true_damage_tracker / 15;
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -1133,94 +1090,44 @@ namespace TFTCalculatorModel
                 case "Sett":
                     break;
                 case "Volibear":
-                    // trait 1 edgelord
-                    // trait 2 = luchador
-
-                    // implement is the enemy under 50% hp?
-
-                    //if (trait1 >= 2 && trait1 < 4)
-                    //{
-                    //    //hp += 300;
-                    //    asi += .1;
-                    //    inc_ad += .15;
-                    //}
-                    //else if (trait1 >= 4 && trait1 < 6)
-                    //{
-                    //    asi += .12;
-                    //    inc_ad += .35;
-                    //}
-                    //else if (trait1 >= 6)
-                    //{
-                    //    asi += .15;
-                    //    inc_ad += .5;
-                    //}
-
-                    //if (trait2 >= 2 && trait2 < 4)
-                    //{
-                    //    inc_ad += .15;
-                    //}
-                    //else if (trait2 >= 4)
-                    //{
-                    //    inc_ad += .4;
-                    //}
-
-                    //Voli_Spell_Damage_Calc();
 
                     //base_atks
-                    while (time_s < 30) // implement ashes spell lasting 8 auto attacks
+                    while (final.TIME_S < 30) // implement ashes spell lasting 8 auto attacks
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
-
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-
-                        (time_s, time_e, cast_flag, mana_counter, asi, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, attack_flag, ap,
-                            half_flag, cast_counter, cast_flag, spell_start, voli_atks, voli_tracker, nashors_flag)
-                        // Voli_Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, asi, attack_counter, rb_counter, inc_ad,
-                        //  rb_flag, kraken_flag, aa_flag, ap, half_flag, cast_counter, cast_flag, spell_start, voli_atks);
-                        = Voli_Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, ap, half_flag, cast_counter, cast_flag, spell_start, voli_atks, qss_flag, voli_tracker, nashors_flag);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
-
-
-
-
-                        if (attack_flag == true)
+                        Voli_Attack_event(final);
+                        
+                        if (final.ATTACK_FLAG)
                         {
                             // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
+                            Auto_Damage_Calc(final);
                             //attack_counter += 1;
 
-                            if ((attack_counter % 4) == 0)
+                            if ((final.ATTACK_COUNTER % 4) == 0)
                             {
-                                voli_passive = Voli_Spell_Damage_Calc(star, amp, crit, crit_multi, inc_ad);
+                                Voli_Spell_Damage_Calc(final);
                             }
 
-                            auto_damage_tracker += auto_damage + voli_passive;
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE + final.P_CAST_DAMAGE;
 
 
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            if (titans_flag > 0)
+                            if (final.TITANS_FLAG > 0)
                             {
-                                inc_ad += .5 * titans_flag;
-                                ap += .5 * titans_flag;
-                                //armor += 15 * titans_flag;
-                                //mr += 15 * titans_flag;
+                                final.AD += .5 * final.TITANS_FLAG;
+                                final.AP += .5 * final.TITANS_FLAG;
                             }
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-                            //mana_counter15 = mana_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -1229,24 +1136,42 @@ namespace TFTCalculatorModel
                     break;
                 case "Akali":
 
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
+                        Attack_event(final);
 
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
-                            auto_damage_tracker += auto_damage * (1 + execute);
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
+                        }
+
+                        if (final.HALF_FLAG)
+                        {
+                            if (final.TITANS_FLAG > 0)
+                            {
+                                final.AD += .5 * final.TITANS_FLAG;
+                                final.AP += .5 * final.TITANS_FLAG;
+                                //armor += 15 * titans_flag;
+                                //mr += 15 * titans_flag;
+                            }
+                            if (final.ASCEND_FLAG)
+                            {
+                                final.AMP += .6;
+                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
+                        }
+
+                        if (final.CAST_FLAG)
+                        {
+                            Base_Cast_event(final);
+                            Akali_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE * (1 + final.EXECUTE);
 
                             //if (nashors_e && (time_e - nashors_tracker < 5))
                             //{
@@ -1255,57 +1180,24 @@ namespace TFTCalculatorModel
                             //else nashors_e = false;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.TITANS_FLAG > 0)
                             {
-                                amp += .6;
+                                final.AD += .5 * final.TITANS_FLAG;
+                                final.AP += .5 * final.TITANS_FLAG;
+                                //armor += 15 * titans_flag;
+                                //mr += 15 * titans_flag;
                             }
-                        }
-
-                        if (cast_flag == true)
-                        {
-                            //if (nashors_flag > 0)
-                            //{
-                            //    nashors_e = true;
-                            //    nashors_tracker = time_s;
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //double crit, double crit_multi, double amp, double crit_flag, string star,
-                            //double ap, double targets, int cast_counter
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
-                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            //cast_flag = false; // reset cast flag (double crit, double crit_multi, , double ad, double amp, double crit_flag, string star)
-                            cast_damage = Akali_Spell_Damage_Calc(crit, crit_multi, amp, crit_flag, star, ap, targets, cast_counter);
-                            cast_damage_tracker += cast_damage * (1 + execute);
-
-                            //if (nashors_e && (time_e - nashors_tracker < 5))
-                            //{
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //else nashors_e = false;
-                        }
-
-                        if (half_flag)
-                        {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -1315,68 +1207,62 @@ namespace TFTCalculatorModel
 
                 case "Katarina":
 
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
-                        //Attack_event(double in1, double in2, double in3, double in4, double in5, double in6, double in7, double in8, double in9, double in10, double in11)
+                        Attack_event(final);
 
-                        //in1 time start, in2 time end, in3 atk time, in4 base s, in5 mana r, in6 max mana, in7 mana counter, in9 mana on hit, in10 j_track, in11 attack speed increase
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                        //rb_flag, kraken_flag, aa_flag, duelist_flag, jinx_flag);
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            //attack_counter += 1;
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
 
-                            //if (nashors_e && (time_e - nashors_tracker < 5))
-                            //{
-                            //    atk_time = Attack_Time_calc(base_atks, asi + (nashors_atks * nashors_flag));
-                            //}
-                            //else nashors_e = false;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.TITANS_FLAG > 0)
                             {
-                                amp += .6;
+                                final.AD += .5 * final.TITANS_FLAG;
+                                final.AP += .5 * final.TITANS_FLAG;
+                                //armor += 15 * titans_flag;
+                                //mr += 15 * titans_flag;
                             }
-                        }
-
-                        if (cast_flag == true)
-                        {
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
-                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            cast_damage = Kat_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star, potential, targets);
-                            cast_damage_tracker += cast_damage;
-                        }
-
-                        if (half_flag)
-                        {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
+                        }
+
+                        if (final.CAST_FLAG)
+                        {
+                            Base_Cast_event(final);
+                            Kat_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE;
+                        }
+
+                        if (final.HALF_FLAG)
+                        {
+                            if (final.TITANS_FLAG > 0)
+                            {
+                                final.AD += .5 * final.TITANS_FLAG;
+                                final.AP += .5 * final.TITANS_FLAG;
+                                //armor += 15 * titans_flag;
+                                //mr += 15 * titans_flag;
+                            }
+                            if (final.ASCEND_FLAG)
+                            {
+                                final.AMP += .6;
+                            }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -1386,59 +1272,50 @@ namespace TFTCalculatorModel
 
                 case "Malzahar":
 
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
                         // attack event
 
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
+                        Attack_event(final);
 
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
-                        if (cast_flag == true)
+                        if (final.CAST_FLAG)
                         {
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
-                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            cast_damage = Malzahar_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star);
-                            cast_damage_tracker += cast_damage;
+                            Base_Cast_event(final);
+                            Malzahar_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
 
@@ -1446,177 +1323,144 @@ namespace TFTCalculatorModel
                     }
                     break;
                 case "Caitlyn":
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
+                        Attack_event(final);
 
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
-                        if (cast_flag == true)
+                        if (final.CAST_FLAG)
                         {
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
-                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            p_cast_damage = Caitlyn_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, potential);
-                            phys_cast_damage_tracker += p_cast_damage;
+                            Base_Cast_event(final);
+                            Caitlyn_Spell_Damage_Calc(final);
+                            final.PHYS_CAST_DAMAGE_TRACKER += final.P_CAST_DAMAGE;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
                     }
                     break;
 
                 case "Senna":
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
+                        Attack_event(final);
 
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
-                        if (cast_flag == true)
+                        if (final.CAST_FLAG)
                         {
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, 1,
-                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            p_cast_damage = Senna_Spell_Damage_Calc(crit, crit_multi, inc_ad, ap, amp, crit_flag, star, targets);
-                            phys_cast_damage_tracker += p_cast_damage;
+                            Base_Cast_event(final);
+                            Senna_Spell_Damage_Calc(final);
+                            final.PHYS_CAST_DAMAGE_TRACKER += final.P_CAST_DAMAGE;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
                     }
                     break;
 
                 case "Lucian":
-                    while (time_s < 30)
+                    while (final.TIME_S < 30)
                     {
-                        // attack event
+                        Attack_event(final);
 
-                        (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, inc_ad, break_counter, attack_flag, ap,
-                            half_flag, sf_t, nashors_tracker, nashors_e)
-                            = Attack_event(time_s, time_e, atk_time, base_atks, mana_regen, max_mana, mana_counter, mana_hit, j_track, asi, attack_counter, rb_counter, inc_ad,
-                                           rb_flag, kraken_flag, aa_flag, duelist_flag, false, break_counter, ap, half_flag, qss_flag, sf_flag, sf_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-
-
-                        if (attack_flag == true)
+                        if (final.ATTACK_FLAG == true)
                         {
-                            // calc auto damage here
-                            auto_damage = Auto_Damage_Calc(crit, crit_multi, base_ad, inc_ad, amp);
-                            auto_damage_tracker += auto_damage;
+                            Auto_Damage_Calc(final);
+                            final.AUTO_DAMAGE_TRACKER += final.AUTO_DAMAGE;
+
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
-                        if (cast_flag == true)
+                        if (final.CAST_FLAG)
                         {
-
-                            (time_s, time_e, cast_counter, ap, asi, half_flag, inc_ad, sf_t, nashors_tracker, nashors_e) =
-                            Base_Cast_event(time_s, time_e, cast_counter, atk_time, aa_flag, ap, rb_flag, asi, base_atks, .5,
-                                            half_flag, qss_flag, sf_flag, sf_ad, inc_ad, sf_t, nashors_flag, nashors_tracker, nashors_e);
-                            cast_damage = Lucian_Spell_Damage_Calc(crit, crit_multi, ap, amp, crit_flag, star);
-                            cast_damage_tracker += cast_damage;
+                            Base_Cast_event(final);
+                            Lucian_Spell_Damage_Calc(final);
+                            final.CAST_DAMAGE_TRACKER += final.CAST_DAMAGE;
                         }
 
-                        if (half_flag)
+                        if (final.HALF_FLAG)
                         {
-                            auto_dps15 = auto_damage_tracker / 15;
-                            phys_cast_dps15 = phys_cast_damage_tracker / 15;
-                            cast_dps15 = cast_damage_tracker / 15;
-                            attack_counter15 = attack_counter;
-                            cast_counter15 = cast_counter;
-
-                            if (ascend_flag)
+                            if (final.ASCEND_FLAG)
                             {
-                                amp += .6;
+                                final.AMP += .6;
                             }
+                            final.AUTO_DPS15 = final.AUTO_DAMAGE_TRACKER / 15;
+                            final.P_CAST_DPS15 = final.PHYS_CAST_DAMAGE_TRACKER / 15;
+                            final.CAST_DPS15 = final.CAST_DAMAGE_TRACKER / 15;
+                            final.ATTACK_COUNTER15 = final.ATTACK_COUNTER;
+                            final.CAST_COUNTER15 = final.CAST_COUNTER;
                         }
 
                     }
@@ -1630,47 +1474,52 @@ namespace TFTCalculatorModel
             double dummy_armor = 100;
             double dummy_mr = 100;
 
-            if (sunder > 0)
+            double dummy_armor_dr = 0;
+            double dummy_mr_dr = 0;
+
+            if (final.SUNDER > 0)
             {
                 dummy_armor = 70;
             }
-            if (shred > 0)
+            if (final.SHRED > 0)
             {
                 dummy_mr = 70;
             }
 
 
-            armor_dr = Armor_DR_calc(dummy_armor);
+            dummy_armor_dr = Armor_DR_calc(dummy_armor);
 
-            mr_dr = Magic_DR_calc(dummy_mr);
+            dummy_mr_dr = Magic_DR_calc(dummy_mr);
 
             // disp outputs
 
+            final.AUTO_DPS = final.AUTO_DAMAGE_TRACKER / 30;
+            final.P_CAST_DPS = final.PHYS_CAST_DAMAGE_TRACKER / 30;
+            final.CAST_DPS = final.CAST_DAMAGE_TRACKER / 30;
+            final.TRUE_DAMAGE_DPS = final.TRUE_DAMAGE_TRACKER / 30;
 
-            auto_dps = auto_damage_tracker / 30;
-            phys_cast_dps = phys_cast_damage_tracker / 30;
-            cast_dps = cast_damage_tracker / 30;
-            true_damage_dps = true_damage_tracker / 30;
+            final.AUTO_DPS = final.AUTO_DPS - (final.AUTO_DPS * dummy_armor_dr);
+            final.P_CAST_DPS = final.P_CAST_DPS - (final.P_CAST_DPS * dummy_armor_dr);
+            final.CAST_DPS = final.CAST_DPS - (final.CAST_DPS * dummy_mr_dr);
 
-            auto_dps = auto_dps - (auto_dps * armor_dr);
-            phys_cast_dps = phys_cast_dps - (phys_cast_dps * armor_dr);
-            cast_dps = cast_dps - (cast_dps * mr_dr);
+            final.AUTO_DPS15 = final.AUTO_DPS15 - (final.AUTO_DPS15 * dummy_armor_dr);
+            final.P_CAST_DPS15 = final.P_CAST_DPS15 - (final.P_CAST_DPS15 * dummy_armor_dr);
+            final.CAST_DPS15 = final.CAST_DPS15 - (final.CAST_DPS15 * dummy_mr_dr);
 
-            auto_dps15 = auto_dps15 - (auto_dps15 * armor_dr);
-            phys_cast_dps15 = phys_cast_dps15 - (phys_cast_dps15 * armor_dr);
-            cast_dps15 = cast_dps15 - (cast_dps15 * mr_dr);
+            final.FULL_DPS = final.AUTO_DPS + final.P_CAST_DPS + final.CAST_DPS + final.TRUE_DAMAGE_DPS;
+            final.FULL_DPS15 = final.AUTO_DPS15 + final.P_CAST_DPS15 + final.CAST_DPS15 + final.TRUE_DAMAGE_DPS15;
 
-            full_dps = auto_dps + phys_cast_dps + cast_dps + true_damage_dps;
-            full_dps15 = auto_dps15 + phys_cast_dps15 + cast_dps15 + true_damage_dps15;
+            final.FINAL_ATKS = final.BASE_ATKS * (1 + final.ASI);
+            final.AUTO_AD = final.BASE_AD* (1 + final.AD);
 
             //final_ad = ase_ad * (1 + inc_ad);
 
 
 
-            return (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
-                    auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
-                    inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp
-                    );
+            //return (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
+            //        auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
+            //        inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp
+            //        );
         }
 
         // TANK STATS
@@ -1783,12 +1632,77 @@ namespace TFTCalculatorModel
 
 
         // ATTACK EVENTS
-        private static void Timed_effects()
+        private static double Fruit_Timed_effects(double ts, double te, string timed_fruit, double mana_regen)
         {
-            /// List of timed effects
-            /// rageblade, archangels, quicksilver
-            /// half_flag event
-            ///
+            // super genius 1.5
+            // critical threat 3
+            // power font 3
+            int counter = 0;
+            double tsf = Math.Floor(ts);
+            double tef = Math.Floor(te);
+
+            switch (timed_fruit)
+            {
+                case "Power Font":
+                    if ((tsf < 3) && (tef >= 3))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 6) && (tef >= 6))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 9) && (tef >= 9))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 12) && (tef >= 12))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 15) && (tef >= 15))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 18) && (tef >= 18))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 21) && (tef >= 21))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 24) && (tef >= 24))
+                    {
+                        counter += 1;
+                    }
+
+                    if ((tsf < 27) && (tef >= 27))
+                    {
+                        counter += 1;
+                    }
+
+                    break;
+
+                case "Critical Threat":
+                    break;
+
+                case "Super Genius":
+                    break;
+                default: break;
+
+                    
+            }
+            return counter;
+
+
 
         }
 
@@ -1801,101 +1715,99 @@ namespace TFTCalculatorModel
 
         }
 
-        private static (double, double, bool, double, double, double, double, int, int, double, double, int, bool, double, bool, bool, double, bool)
-        Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
-                     double mana_oh, double j_track, double asi, int attack_counter, int rb_counter, double ad,
-                     double rb_flag, double kraken_flag, double aa_flag, bool duelist_flag, bool jinx_flag, int break_counter, double ap,
-                     bool half_flag, double qss_flag, bool sf_flag, double sf_ad, bool sf_t,
-                     double nashors_flag, double nashors_tracker, bool nashors_e
-        )
+        //private static (double, double, bool, double, double, double, double, int, int, double, double, int, bool, double, bool, bool, double, bool)
+        //Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
+        //             double mana_oh, double j_track, double asi, int attack_counter, int rb_counter, double ad,
+        //             double rb_flag, double kraken_flag, double aa_flag, bool duelist_flag, bool jinx_flag, int break_counter, double ap,
+        //             bool half_flag, double qss_flag, bool sf_flag, double sf_ad, bool sf_t,
+        //             double nashors_flag, double nashors_tracker, bool nashors_e
+        //)
+        public void Attack_event(Post_Combat_Stats final)
         {
 
-            double tsf = Math.Floor(time_s);
-            double tef = Math.Floor(time_e);
+            double tsf = Math.Floor(final.TIME_S);
+            double tef = Math.Floor(final.TIME_E);
 
 
             double loop_amount = tef - tsf;
 
 
-            double j_cap = .6 * (1 + ap);
+            double j_cap = .6 * (1 + final.AP);
 
-            bool cast_flag = false;
+            //bool cast_flag = false;
 
-            bool attack_flag = false;
+            //bool attack_flag = false;
 
             //mana_counter += mana_oh;
 
-            double mana_r2 = mana_r / 2;
+            double mana_r2 = final.MANA_REGEN / 2;
 
             double r_counter = 0;
             bool aa_check = false;
             int qss_check = 0;
             int sf_check = 0;
-            int qss_cap = 9;
 
 
             // timed events
 
             // rage blade
-            if (rb_flag > 0)
+            if (final.RB_FLAG > 0)
             {
                 for (int i = 0; i < loop_amount; i++)
                 {
-                    asi += .07 * rb_flag;
-                    rb_counter += 1;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ASI += .07 * final.RB_FLAG;
+                    //rb_counter += 1;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
             // nashors
-            if (nashors_e)
+            if (final.NASHORS_E)
             {
-                if ((nashors_tracker + loop_amount) < 5)
+                if ((final.NASHORS_TRACKER + loop_amount) < 5)
                 {
-                    nashors_tracker += loop_amount;
+                    final.NASHORS_TRACKER += loop_amount;
                 }
                 else
                 {
-                    nashors_e = false;
-                    asi -= .3 * nashors_flag;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.NASHORS_E = false;
+                    final.ASI -= .3 * final.NASHORS_FLAG;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
 
             // qss
 
-            if (qss_flag > 0)
+            if (final.QSS_FLAG > 0)
             {
-                qss_check = QSS_Counter(time_s, time_e);
+                qss_check = QSS_Counter(final.TIME_S, final.TIME_E);
                 if (qss_check > 0)
                 {
-                    asi += .03 * qss_flag * qss_check;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ASI += .03 * final.QSS_FLAG * qss_check;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
-
-
             // aa
 
-            if (aa_flag > 0)
+            if (final.AA_FLAG > 0)
             {
-                aa_check = AA_Counter(time_s, time_e);
+                aa_check = AA_Counter(final.TIME_S, final.TIME_E);
                 if (aa_check)
                 {
-                    ap += .3 * aa_flag;
+                    final.AP += .3 * final.AA_FLAG;
                 }
             }
 
             // sf 
-            if (sf_flag)
+            if (final.SF_FLAG)
             {
-                (sf_check, sf_t) = SF_Counter(time_s, time_e, sf_t);
+                (sf_check) = SF_Counter(final);
                 if (sf_check > 0)
                 {
-                    ad += sf_ad * sf_check;
-                    ap += sf_ad * sf_check;
+                    final.AD += final.SF_AD * sf_check;
+                    final.AP += final.SF_AD * sf_check;
                 }
             }
 
@@ -1903,80 +1815,86 @@ namespace TFTCalculatorModel
             if ((tsf < 15) && (tef >= 15))
             {
 
-                half_flag = true;
+                final.HALF_FLAG = true;
             }
-            else half_flag = false;
+            else final.HALF_FLAG = false;
 
 
 
             // on hit effects
 
 
-            if (jinx_flag && (j_track < j_cap)) // jinx atk speed per auto
+            if (final.JINX_FLAG && final.ATTACK_COUNTER <10) // jinx atk speed per auto
             {
-                j_track += .06 * (1 + ap);
-                asi += .06 * (1 + ap);
-                atk_time = Attack_Time_calc(base_a, asi);
+                //j_track += .06 * (1 + ap);
+                final.ASI += .06 * (1 + final.AP);
+                final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
             }
 
-            if (kraken_flag > 0)
+            if (final.KRAKEN_FLAG > 0)
             {
-                ad += .03 * kraken_flag;
+                final.AD += .03 * final.KRAKEN_FLAG;
             }
 
 
             // mana events
-            r_counter = Mana_Regen_Counter(time_s, time_e);
+            r_counter = Mana_Regen_Counter(final.TIME_S, final.TIME_E);
 
-            mana_counter += (mana_r2 * r_counter) + mana_oh;
-
-            if (mana_counter >= max_mana)
+            final.MANA_COUNTER += mana_r2 * r_counter;
+            if (final.MANA_COUNTER >= final.MAX_MANA)
             {
-                cast_flag = true;
-                mana_counter -= max_mana; // overflow mana
+                final.CAST_FLAG = true;
+                final.MANA_COUNTER = final.MANA_OH;
+            }
+            else
+            {
+                final.MANA_COUNTER += final.MANA_OH;
+                if (final.MANA_COUNTER >= final.MAX_MANA)
+                {
+                    final.CAST_FLAG = true;
+                    final.MANA_COUNTER -= final.MAX_MANA;
+                }
             }
 
             // recalc for next event
 
-            time_s = time_e;
-            time_e = time_e + atk_time;
+            final.TIME_S = final.TIME_E;
+            final.TIME_E = final.TIME_E + final.ATK_TIME;
 
-            attack_flag = true;
-
-
-            attack_counter += 1;
+            final.ATTACK_FLAG = true;
 
 
+            final.ATTACK_COUNTER += 1;
 
 
 
-            return (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, ad, break_counter, attack_flag, ap,
-                    half_flag, sf_t, nashors_tracker, nashors_e);
+
+
+            //return (time_s, time_e, cast_flag, mana_counter, asi, j_track, atk_time, attack_counter, rb_counter, mana_counter, ad, break_counter, attack_flag, ap,
+            //        half_flag, sf_t, nashors_tracker, nashors_e);
         }
 
-        private static (double, double, bool, double, double, double, int, int, double, double, bool, double, bool, int, bool, int, double, bool)
-            Ashe_Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
-                              double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
-                              double rb_flag, double kraken_flag, double aa_flag, double ap,
-                              bool half_flag, int cast_counter, bool cast_flag, int ashe_counter, bool duelist_flag, double duelist_asi, double qss_flag,
-                              double nashors_flag, double nashors_tracker, bool nashors_e
-            )
+        //private static (double, double, bool, double, double, double, int, int, double, double, bool, double, bool, int, bool, int, double, bool)
+        //    Ashe_Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
+        //                      double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
+        //                      double rb_flag, double kraken_flag, double aa_flag, double ap,
+        //                      bool half_flag, int cast_counter, bool cast_flag, int ashe_counter, bool duelist_flag, double duelist_asi, double qss_flag,
+        //                      double nashors_flag, double nashors_tracker, bool nashors_e
+        //    )
+        private void Ashe_Attack_event(Post_Combat_Stats final)
         {
 
-            double tsf = Math.Floor(time_s);
-            double tef = Math.Floor(time_e);
+            double tsf = Math.Floor(final.TIME_S);
+            double tef = Math.Floor(final.TIME_E);
 
 
             double loop_amount = tef - tsf;
 
 
 
-
-            bool attack_flag = false;
-
             //mana_counter += mana_oh;
 
-            double mana_r2 = mana_r / 2;
+            double mana_r2 = final.MANA_REGEN / 2;
 
             double r_counter = 0;
 
@@ -1986,12 +1904,12 @@ namespace TFTCalculatorModel
 
 
 
-            r_counter = Mana_Regen_Counter(time_s, time_e);
+            r_counter = Mana_Regen_Counter(final.TIME_S, final.TIME_E);
 
-            if (cast_flag && ((ashe_counter) == 8))
+            if (final.CAST_FLAG && ((final.ASHE_COUNTER) == 8))
             {
-                cast_flag = false;
-                ashe_counter = 0;
+                final.CAST_FLAG = false;
+                final.ASHE_COUNTER = 0;
 
             }
 
@@ -2002,50 +1920,52 @@ namespace TFTCalculatorModel
             // timed events
 
             // rage blade
-            if (rb_flag > 0)
+            if (final.RB_FLAG > 0)
             {
                 for (int i = 0; i < loop_amount; i++)
                 {
-                    asi += .07 * rb_flag;
-                    rb_counter += 1;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ASI += .07 * final.RB_FLAG;
+                    //rb_counter += 1;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
             // nashors
-            if (nashors_e)
+            if (final.NASHORS_E)
             {
-                if ((nashors_tracker + loop_amount) < 5)
+                if ((final.NASHORS_TRACKER + loop_amount) < 5)
                 {
-                    nashors_tracker += loop_amount;
+                    final.NASHORS_TRACKER += loop_amount;
                 }
                 else
                 {
-                    nashors_e = false;
-                    asi -= .3 * nashors_flag;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.NASHORS_E = false;
+                    final.ASI -= .3 * final.NASHORS_FLAG;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
-            //qss
-            if (qss_flag > 0)
+
+            // qss
+
+            if (final.QSS_FLAG > 0)
             {
-                qss_check = QSS_Counter(time_s, time_e);
+                qss_check = QSS_Counter(final.TIME_S, final.TIME_E);
                 if (qss_check > 0)
                 {
-                    asi += .03 * qss_flag * qss_check;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ASI += .03 * final.QSS_FLAG * qss_check;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
             // aa
 
-            if (aa_flag > 0)
+            if (final.AA_FLAG > 0)
             {
-                aa_check = AA_Counter(time_s, time_e);
+                aa_check = AA_Counter(final.TIME_S, final.TIME_E);
                 if (aa_check)
                 {
-                    ap += .3 * aa_flag;
+                    final.AP += .3 * final.AA_FLAG;
                 }
             }
 
@@ -2054,75 +1974,93 @@ namespace TFTCalculatorModel
             if ((tsf < 15) && (tef >= 15))
             {
 
-                half_flag = true;
+                final.HALF_FLAG = true;
             }
-            else half_flag = false;
+            else final.HALF_FLAG = false;
 
-            // mana regen during auto event
 
 
 
             // on hit events
 
-            if (kraken_flag > 0)
+            if (final.KRAKEN_FLAG > 0)
             {
-                ad += .03 * kraken_flag;
+                final.AD += .03 * final.KRAKEN_FLAG;
             }
 
-            if (duelist_flag && (attack_counter < 12))
+            if (final.DUELIST_FLAG && (final.ATTACK_COUNTER < 12))
             {
-                asi += duelist_asi;
-                atk_time = Attack_Time_calc(base_a, asi);
+                final.ASI += final.DUELIST_ASI;
+                final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
             }
 
 
-            if (cast_flag) // mana lock
+            if (final.CAST_FLAG) // mana lock during spell
             {
 
-                ashe_counter += 1;
+                final.ASHE_COUNTER += 1;
 
             }
             else
             {
-                mana_counter += (mana_r2 * r_counter) + mana_oh;
+                //final.MANA_COUNTER += (mana_r2 * r_counter) + final.MANA_OH;
+
+                final.MANA_COUNTER += mana_r2 * r_counter;
+                if (final.MANA_COUNTER >= final.MAX_MANA)
+                {
+                    final.CAST_FLAG = true;
+                    final.MANA_COUNTER = final.MANA_OH;
+                    final.CAST_COUNTER += 1;
+                }
+                else
+                {
+                    final.MANA_COUNTER += final.MANA_OH;
+                    if (final.MANA_COUNTER >= final.MAX_MANA)
+                    {
+                        final.CAST_FLAG = true;
+                        final.MANA_COUNTER -= final.MAX_MANA;
+                        final.CAST_COUNTER += 1;
+                    }
+                }
             }
 
-            if (mana_counter >= max_mana)
-            {
-                cast_flag = true;
-                mana_counter -= max_mana; // overflow mana
-                cast_counter += 1;
-            }
+            //if (final.MANA_COUNTER >= final.MAX_MANA)
+            //{
+            //    final.CAST_FLAG = true;
+            //    final.MANA_COUNTER -= final.MAX_MANA; // OVERFLOW MANA
+            //    final.CAST_COUNTER += 1;
+            //}
 
 
 
 
 
 
-            time_s = time_e;
-            time_e = time_e + atk_time;
-            attack_counter += 1;
-            attack_flag = true;
+            final.TIME_S = final.TIME_E;
+            final.TIME_E = final.TIME_E + final.ATK_TIME;
+            final.ATTACK_COUNTER += 1;
+            final.ATTACK_FLAG = true;
 
 
 
 
 
-            return (time_s, time_e, cast_flag, mana_counter, asi, atk_time, attack_counter, rb_counter, mana_counter, ad, attack_flag, ap,
-                    half_flag, cast_counter, cast_flag, ashe_counter, nashors_tracker, nashors_e);
+            //return (time_s, time_e, cast_flag, mana_counter, asi, atk_time, attack_counter, rb_counter, mana_counter, ad, attack_flag, ap,
+              //      half_flag, cast_counter, cast_flag, ashe_counter, nashors_tracker, nashors_e);
         }
 
-        private static (double, double, bool, double, double, double, int, int, double, double, bool, double, bool, int, bool, double, double, double, double)
-            Voli_Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
-                              double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
-                              double rb_flag, double kraken_flag, double aa_flag, double ap,
-                              bool half_flag, int cast_counter, bool cast_flag, double spell_start, double voli_atks, double qss_flag, double voli_tracker,
-                              double nashors_flag
-            )
+        //private static (double, double, bool, double, double, double, int, int, double, double, bool, double, bool, int, bool, double, double, double, double)
+        //    Voli_Attack_event(double time_s, double time_e, double atk_time, double base_a, double mana_r, double max_mana, double mana_counter,
+        //                      double mana_oh, double asi, int attack_counter, int rb_counter, double ad,
+        //                      double rb_flag, double kraken_flag, double aa_flag, double ap,
+        //                      bool half_flag, int cast_counter, bool cast_flag, double spell_start, double voli_atks, double qss_flag, double voli_tracker,
+        //                      double nashors_flag
+        //    )
+        private void Voli_Attack_event(Post_Combat_Stats final)
         {
 
-            double tsf = Math.Floor(time_s);
-            double tef = Math.Floor(time_e);
+            double tsf = Math.Floor(final.TIME_S);
+            double tef = Math.Floor(final.TIME_E);
 
 
             double loop_amount = tef - tsf;
@@ -2134,7 +2072,7 @@ namespace TFTCalculatorModel
 
             //mana_counter += mana_oh;
 
-            double mana_r2 = mana_r / 2;
+            double mana_r2 = final.MANA_REGEN / 2;
 
             double r_counter = 0;
 
@@ -2143,133 +2081,177 @@ namespace TFTCalculatorModel
 
 
 
-            r_counter = Mana_Regen_Counter(time_s, time_e);
-
-            //if (cast_flag && ((time_s - spell_start) >= 5))
-            //{
-            //    cast_flag = false;
-
-
-            //}
-
-
-
+            r_counter = Mana_Regen_Counter(final.TIME_S, final.TIME_E);
 
             // timed events
 
             // rage blade
-            if (rb_flag > 0)
+            if (final.RB_FLAG > 0)
             {
                 for (int i = 0; i < loop_amount; i++)
                 {
-                    asi += .07 * rb_flag;
-                    rb_counter += 1;
-                    atk_time = Attack_Time_calc(base_a, asi + voli_atks);
+                    final.ASI += .07 * final.RB_FLAG;
+                    //rb_counter += 1;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
-            if (qss_flag > 0)
+            // nashors
+            if (final.NASHORS_E)
             {
-                qss_check = QSS_Counter(time_s, time_e);
+                if ((final.NASHORS_TRACKER + loop_amount) < 5)
+                {
+                    final.NASHORS_TRACKER += loop_amount;
+                }
+                else
+                {
+                    final.NASHORS_E = false;
+                    final.ASI -= .3 * final.NASHORS_FLAG;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+                }
+            }
+
+
+            // qss
+
+            if (final.QSS_FLAG > 0)
+            {
+                qss_check = QSS_Counter(final.TIME_S, final.TIME_E);
                 if (qss_check > 0)
                 {
-                    asi += .03 * qss_flag * qss_check;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ASI += .03 * final.QSS_FLAG * qss_check;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
-            if (aa_flag > 0)
+            // aa
+
+            if (final.AA_FLAG > 0)
             {
-                aa_check = AA_Counter(time_s, time_e);
+                aa_check = AA_Counter(final.TIME_S, final.TIME_E);
                 if (aa_check)
                 {
-                    ap += .3 * aa_flag;
+                    final.AP += .3 * final.AA_FLAG;
                 }
             }
+
+            // half
 
             if ((tsf < 15) && (tef >= 15))
             {
 
-                half_flag = true;
+                final.HALF_FLAG = true;
             }
-            else half_flag = false;
-
-            // mana regen during auto event
+            else final.HALF_FLAG = false;
 
 
-            // on hit events 
-            if (kraken_flag > 0)
+            // on hit events
+
+            if (final.KRAKEN_FLAG > 0)
             {
-                ad += .03 * kraken_flag;
+                final.AD += .03 * final.KRAKEN_FLAG;
             }
 
 
 
-            if (cast_flag) // mana lock
+            if (final.CAST_FLAG) // mana lock
             {
-                if ((voli_tracker + loop_amount) < 5)
+                if ((final.VOLI_TRACKER + loop_amount) < 5)
                 {
-                    voli_tracker += loop_amount;
+                    final.VOLI_TRACKER += loop_amount;
 
                 }
-                else
+                else //5 seconds after spell started (syncs with nashors)
                 {
-                    cast_flag = false;
-                    asi -= .99;
+                    final.CAST_FLAG = false;
+                    final.ASI -= .99;
 
-                    if (nashors_flag > 0)
+                    if (final.NASHORS_FLAG > 0)
                     {
-                        asi -= .3 * nashors_flag;
+                        final.ASI -= .3 * final.NASHORS_FLAG;
                     }
 
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
 
 
                 }
             }
             else
             {
-                mana_counter += (mana_r2 * r_counter) + mana_oh; ;
-            }
-
-            if (mana_counter >= max_mana)
-            {
-
-                mana_counter -= max_mana; // overflow mana
-
-                cast_counter += 1;
-
-                cast_flag = true;
-
-                asi += .99;
-                atk_time = Attack_Time_calc(base_a, asi);
-                voli_tracker = 0;
-                //spell_start = time_e;
-
-                if (nashors_flag > 0)
+                //final.MANA_COUNTER += (mana_r2 * r_counter) + final.MANA_OH;
+                final.MANA_COUNTER += mana_r2 * r_counter;
+                if (final.MANA_COUNTER >= final.MAX_MANA)
                 {
-                    asi += (.3 * nashors_flag);
-                    atk_time = Attack_Time_calc(base_a, asi);
-                }
+                    final.CAST_FLAG = true;
+                    final.MANA_COUNTER = final.MANA_OH;
+                    final.CAST_COUNTER += 1;
 
+                    final.ASI += .99;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+                    final.VOLI_TRACKER = 0;
+                    //spell_start = time_e;
+
+                    if (final.NASHORS_FLAG > 0)
+                    {
+                        final.ASI += (.3 * final.NASHORS_FLAG);
+                        final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+                    }
+                }
+                else
+                {
+                    final.MANA_COUNTER += final.MANA_OH;
+                    if (final.MANA_COUNTER >= final.MAX_MANA)
+                    {
+                        final.CAST_FLAG = true;
+                        final.MANA_COUNTER -= final.MAX_MANA;
+                        final.CAST_COUNTER += 1;
+
+                        final.ASI += .99;
+                        final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+                        final.VOLI_TRACKER = 0;
+                        //spell_start = time_e;
+
+                        if (final.NASHORS_FLAG > 0)
+                        {
+                            final.ASI += (.3 * final.NASHORS_FLAG);
+                            final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+                        }
+                    }
+                }
             }
 
+            //if (final.MANA_COUNTER >= final.MAX_MANA)
+            //{
+
+            //    final.MANA_COUNTER -= final.MAX_MANA; // OVERFLOW MANA
+
+            //    final.CAST_COUNTER += 1;
+
+            //    final.CAST_FLAG = true;
+
+            //    final.ASI += .99;
+            //    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+            //    final.VOLI_TRACKER = 0;
+            //    //spell_start = time_e;
+
+            //    if (final.NASHORS_FLAG > 0)
+            //    {
+            //        final.ASI += (.3 * final.NASHORS_FLAG);
+            //        final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
+            //    }
+
+            //}
+            final.TIME_S = final.TIME_E;
+            final.TIME_E = final.TIME_E + final.ATK_TIME;
+            final.ATTACK_COUNTER += 1;
+            final.ATTACK_FLAG = true;
 
 
 
 
 
-            time_s = time_e;
-            time_e = time_e + atk_time;
-            attack_counter += 1;
-            attack_flag = true;
-
-
-
-
-
-            return (time_s, time_e, cast_flag, mana_counter, asi, atk_time, attack_counter, rb_counter, mana_counter, ad, attack_flag, ap,
-                    half_flag, cast_counter, cast_flag, spell_start, voli_atks, voli_tracker, nashors_flag);
+            //return (time_s, time_e, cast_flag, mana_counter, asi, atk_time, attack_counter, rb_counter, mana_counter, ad, attack_flag, ap,
+                    //half_flag, cast_counter, cast_flag, spell_start, voli_atks, voli_tracker, nashors_flag);
         }
 
         private static double Mana_Regen_Counter(double ts, double te)
@@ -2324,73 +2306,71 @@ namespace TFTCalculatorModel
 
         }
 
-        private static (int, bool) SF_Counter(double ts, double te, bool sf_t)
+        private static int SF_Counter(Post_Combat_Stats final)
         {
             int sf_counter = 0;
             //int rb_counter = 0;
             //int qss_counter = 0;
-            double tsf = Math.Floor(ts);
-            double tef = Math.Floor(te);
+            double tsf = Math.Floor(final.TIME_S);
+            double tef = Math.Floor(final.TIME_E);
 
 
 
             if ((tsf < 1) && (tef >= 1))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 2) && (tef >= 2))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 3) && (tef >= 3))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 4) && (tef >= 4))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 5) && (tef >= 5))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 6) && (tef >= 6))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 7) && (tef >= 7))
             {
                 sf_counter += 1;
-                sf_t = false;
+                final.SF_T = false;
             }
 
             if ((tsf < 8) && (tef >= 8))
             {
                 sf_counter += 1;
-                sf_t = true;
+                final.SF_T = true;
             }
 
-            return (sf_counter, sf_t);
+            return sf_counter;
 
         }
 
         private static int QSS_Counter(double ts, double te)
         {
             int qss_counter = 0;
-            //int rb_counter = 0;
-            //int qss_counter = 0;
             double tsf = Math.Floor(ts);
             double tef = Math.Floor(te);
 
@@ -2492,12 +2472,13 @@ namespace TFTCalculatorModel
 
         }
 
-        private static (double, double, int, double, double, bool, double, bool, double, bool)
-            Base_Cast_event(double time_s, double time_e, int cast_counter,
-                            double atk_time, double aa_flag, double ap, double rb_flag, double asi, double base_a, double cast_time,
-                            bool half_flag, double qss_flag, bool sf_flag, double sf_ad, double ad, bool sf_t,
-                            double nashors_flag, double nashors_tracker, bool nashors_e
-                           )
+        //private static (double, double, int, double, double, bool, double, bool, double, bool)
+        //    Base_Cast_event(double time_s, double time_e, int cast_counter,
+        //                    double atk_time, double aa_flag, double ap, double rb_flag, double asi, double base_a, double cast_time,
+        //                    bool half_flag, double qss_flag, bool sf_flag, double sf_ad, double ad, bool sf_t,
+        //                    double nashors_flag, double nashors_tracker, bool nashors_e
+        //                   )
+        private void Base_Cast_event(Post_Combat_Stats final)
         {
 
             //double cast_time = 1;
@@ -2511,91 +2492,87 @@ namespace TFTCalculatorModel
             int sf_check = 0;
 
             //time_s = time_s;
-            time_e = time_s + cast_time;
+            final.TIME_E = final.TIME_S + final.CAST_TIME;
 
 
-            time_s_floor = Math.Floor(time_s);
+            time_s_floor = Math.Floor(final.TIME_S);
 
-            time_e_floor = Math.Floor(time_e);
+            time_e_floor = Math.Floor(final.TIME_E);
 
             loop_amount = time_e_floor - time_s_floor;
 
 
-
-
-
-
-
             // timed events
             // rage blade
-            if (rb_flag > 0)
+            if (final.RB_FLAG > 0)
             {
                 for (int i = 0; i < loop_amount; i++)
                 {
-                    asi += .07 * rb_flag;
+                    final.ASI += .07 * final.RB_FLAG;
                     //rb_counter += 1;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
-            if (nashors_flag > 0 && nashors_e)
+            if (final.NASHORS_FLAG > 0 && final.NASHORS_E)
             {
 
-                nashors_tracker = cast_time;
+                final.NASHORS_TRACKER = final.CAST_TIME;
             }
-            else if (nashors_flag > 0 && !nashors_e)
+            else if (final.NASHORS_FLAG > 0 && !final.NASHORS_E)
             {
-                nashors_e = true;
-                nashors_tracker = cast_time;
-                asi += (.3 * nashors_flag);
-                atk_time = Attack_Time_calc(base_a, asi);
+                final.NASHORS_E = true;
+                final.NASHORS_TRACKER = final.CAST_TIME;
+                final.ASI += (.3 * final.NASHORS_FLAG);
+                final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
             }
 
 
 
 
-            if (sf_flag)
+            if (final.SF_FLAG)
             {
-                (sf_check, sf_t) = SF_Counter(time_s, time_e, sf_t);
+                sf_check = SF_Counter(final);
                 if (sf_check > 0)
                 {
-                    ad += sf_ad * sf_check;
-                    ap += sf_ad * sf_check;
+                    final.AD += final.SF_AD * sf_check;
+                    final.AP += final.SF_AD * sf_check;
                 }
             }
 
-            if (qss_flag > 0)
+            if (final.QSS_FLAG > 0)
             {
-                qss_check = QSS_Counter(time_s, time_e);
+                qss_check = QSS_Counter(final.TIME_S, final.TIME_E);
                 if (qss_check > 0)
                 {
-                    asi += .03 * qss_flag * qss_check;
-                    atk_time = Attack_Time_calc(base_a, asi);
+                    final.ASI += .03 * final.QSS_FLAG * qss_check;
+                    final.ATK_TIME = Attack_Time_calc(final.BASE_ATKS, final.ASI);
                 }
             }
 
-            if (aa_flag > 0)
+            if (final.AA_FLAG > 0)
             {
-                aa_check = AA_Counter(time_s, time_e);
+                aa_check = AA_Counter(final.BASE_ATKS, final.ASI);
                 if (aa_check)
                 {
-                    ap += .3 * aa_flag;
+                    final.AP += .3 * final.AA_FLAG;
                 }
             }
 
             if ((time_s_floor < 15) && (time_e_floor >= 15))
             {
 
-                half_flag = true;
+                final.HALF_FLAG = true;
             }
-            else half_flag = false;
+            else final.HALF_FLAG = false;
 
-            time_s = time_e;
-            time_e = time_s + atk_time;
+            final.TIME_S = final.TIME_E;
+            final.TIME_E = final.TIME_S + final.ATK_TIME;
 
-            cast_counter += 1;
+            final.CAST_COUNTER += 1;
+            final.CAST_FLAG = false;
 
-            return (time_s, time_e, cast_counter, ap, asi, half_flag, ad, sf_t, nashors_tracker, nashors_e);
+            //return (time_s, time_e, cast_counter, ap, asi, half_flag, ad, sf_t, nashors_tracker, nashors_e);
         }
         private static double Attack_Time_calc(double in1, double in2)
         {
@@ -2614,28 +2591,28 @@ namespace TFTCalculatorModel
 
         }
 
-        private static double Auto_Damage_Calc(double crit, double crit_multi, double base_ad, double inc_ad, double amp)
+        private void Auto_Damage_Calc(Post_Combat_Stats final)
         {
-            double final_crit = 1 + (crit * crit_multi);
+            double final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
 
-            return base_ad * (1 + inc_ad) * final_crit * (1 + amp);
+            final.AUTO_DAMAGE = final.BASE_AD * (1 + final.AD) * final_crit * (1 + final.AMP);
 
         }
 
         // SPELL DAMAGE CALCS
 
-        private static double Jinx_Spell_Damage_Calc(double crit, double crit_multi, double ad, double amp, double crit_flag, string star)
+        private void Jinx_Spell_Damage_Calc(Post_Combat_Stats final)
         { // passive attack speed and cap handled in attack event
             double final_crit = 1;
             double base_damage = 0;
             double base_damage2 = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 520;
@@ -2652,26 +2629,25 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return (base_damage + base_damage2) * (1 + ad) * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = (base_damage + base_damage2) * (1 + final.AD) * final_crit * (1 + final.AMP);
 
         }
-        private static double Samira_Spell_Damage_Calc(double crit, double crit_multi, double inc_ad, double ap, double amp,
-                                                       double crit_flag, string star, int style, int targets)
+        private void Samira_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
             double ap_base_damage = 0;
             double mode = 1;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            if (style < 5)
+            if (final.STYLE < 5)
             {
                 ap_base_damage = 0;
-                switch (star)
+                switch (final.STAR)
                 {
                     case "1":
                         base_damage = 90;
@@ -2688,7 +2664,7 @@ namespace TFTCalculatorModel
             else
             {
                 mode = targets + 1;
-                switch (star)
+                switch (final.STAR)
                 {
                     case "1":
                         base_damage = 280;
@@ -2707,17 +2683,16 @@ namespace TFTCalculatorModel
             }
 
 
-            return (((base_damage * (1 + inc_ad)) + (ap_base_damage * (1 + ap))) * final_crit * (1 + amp) * mode);
+            final.P_CAST_DAMAGE = (((base_damage * (1 + final.AD)) + (ap_base_damage * (1 + final.AP))) * final_crit * (1 + final.AMP) * mode);
 
         }
 
-        private static (double, double) Yuumi_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
-                                                        double crit_flag, string star, double potential, int cast_tracker)
+        private void Yuumi_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
-            double page_counter = 10 + (5 * cast_tracker);
+            double page_counter = 10 + (5 * final.CAST_COUNTER);
 
             double pot_page_counter = page_counter / 5;
 
@@ -2728,12 +2703,12 @@ namespace TFTCalculatorModel
             double true_damage_f = 0;
 
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 28;
@@ -2747,27 +2722,28 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            final_damage = base_damage * (1 + ap);
+            final_damage = base_damage * (1 + final.AP);
 
             //true_damage_i = 
 
             //return (final_damage * page_counter * final_crit * (1 + amp), final_damage * pot_page_counter * potential * .32 * final_crit * (1 + amp));
-            return (final_damage * page_counter * final_crit * (1 + amp), final_damage * pot_page_counter * potential * .32 * final_crit * (1 + amp));
-
+            //return (final_damage * page_counter * final_crit * (1 + final.AMP), final_damage * pot_page_counter * final.POTENTIAL * .32 * final_crit * (1 + final.AMP));
+            
+            final.CAST_DAMAGE = final_damage * page_counter * final_crit * (1 + final.AMP);
+            final.TRUE_DAMAGE = final_damage * pot_page_counter * final.POTENTIAL * .32 * final_crit * (1 + final.AMP);
         }
 
-        private static double Ksante_Spell_Damage_Calc(double crit, double crit_multi, double amp,
-                                                        double crit_flag, string star, double armor, double mr)
+        private void Ksante_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 1.2;
@@ -2781,22 +2757,21 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return (armor + mr) * base_damage * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = (final.ARMOR + final.MR) * base_damage * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Allout_Spell_Damage_Calc(double crit, double crit_multi, double inc_ad, double ap, double amp,
-                                                        double crit_flag, string star)
+        private void Allout_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 350;
@@ -2810,12 +2785,11 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return base_damage * (1 + inc_ad) * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = base_damage * (1 + final.AD) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Ashe_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double inc_ad, double asi, double ap)
+        private void Ashe_Spell_Damage_Calc(Post_Combat_Stats final)
         { // the spell lasts for 8 auto attacks, 0 cast time
             double final_crit = 1;
             double base_damage = 0;
@@ -2824,12 +2798,12 @@ namespace TFTCalculatorModel
             double ap_base_final = 0;
             double arrows = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 13;
@@ -2846,24 +2820,26 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            base_final = base_damage * (1 + inc_ad);
-            ap_base_final = ap_base_damage * (1 + ap);
-            arrows = 8 + Math.Floor(asi * 100 / 34.5);
+            base_final = base_damage * (1 + final.AD);
+            ap_base_final = ap_base_damage * (1 + final.AP);
+            arrows = 8 + Math.Floor(final.ASI * 100 / 34.5);
 
-            return (base_final + ap_base_final) * arrows * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE =  (base_final + ap_base_final) * arrows * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Voli_Spell_Damage_Calc(string star, double amp, double crit, double crit_multi, double ad)
+        private void Voli_Spell_Damage_Calc(Post_Combat_Stats final)
 
         { // omni and asi is built into voli attack event
             double final_crit = 1;
 
             double base_damage = 0;
 
-            final_crit = 1 + (crit * crit_multi);
+            
+            final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
+            
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 90;
@@ -2879,12 +2855,11 @@ namespace TFTCalculatorModel
 
 
 
-            return base_damage * final_crit * (1 + amp) * (1 + ad);
+            final.P_CAST_DAMAGE = base_damage * final_crit * (1 + final.AMP) * (1 + final.AD);
 
         }
 
-        private static double Ryze_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double ap, double targets, bool m_flag)
+        private void Ryze_Spell_Damage_Calc(Post_Combat_Stats final)
         { // targets are # of units hit around the target, single target scenario targets = 0
           // maybe make a single target dps output later
             double final_crit = 1;
@@ -2895,15 +2870,15 @@ namespace TFTCalculatorModel
             double total_base2_damage = 0;
             double total_base_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
-                    if (m_flag)
+                    if (final.M_FLAG)
                     {
                         base_damage = 750;
                         wave_damage = 50;
@@ -2912,7 +2887,7 @@ namespace TFTCalculatorModel
                     base_damage2 = 110;
                     break;
                 case "2":
-                    if (m_flag)
+                    if (final.M_FLAG)
                     {
                         base_damage = 1125;
                         wave_damage = 75;
@@ -2921,7 +2896,7 @@ namespace TFTCalculatorModel
                     base_damage2 = 165;
                     break;
                 case "3":
-                    if (m_flag)
+                    if (final.M_FLAG)
                     {
                         wave_damage = 250;
                     }
@@ -2932,31 +2907,30 @@ namespace TFTCalculatorModel
             }
             if (targets > 0)
             {
-                total_wave_damage = wave_damage * 6 * (1 + ap) * final_crit * (1 + amp);
+                total_wave_damage = wave_damage * 6 ;
 
-                total_base2_damage = base_damage2 * targets * (1 + ap) * final_crit * (1 + amp);
+                total_base2_damage = base_damage2 * targets;
 
             }
 
-            total_base_damage = base_damage * (1 + ap) * final_crit * (1 + amp);
+            total_base_damage = base_damage;
 
-            return total_base_damage + total_wave_damage + total_base2_damage;
+            final.CAST_DAMAGE =  (total_base_damage + total_wave_damage + total_base2_damage) * (1 + final.AP) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Karma_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double ap)
+        private void Karma_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 1125;
@@ -2970,23 +2944,22 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return base_damage * (1 + ap) * final_crit * (1 + amp);
+            final.CAST_DAMAGE = base_damage * (1 + final.AP) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Jarvan_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double ap)
+        private void Jarvan_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 100;
@@ -3000,23 +2973,22 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return base_damage * (1 + ap) * final_crit * (1 + amp);
+            final.CAST_DAMAGE = base_damage * (1 + final.AP) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Akali_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double ap, double targets, int cast_counter)
+        private void Akali_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
             double base_damage2 = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 80;
@@ -3033,12 +3005,11 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return (base_damage2 * targets * (1 + ap) * final_crit * (1 + amp)) + (base_damage * (1 + ap) * final_crit * (1 + amp)) * cast_counter;
+            final.CAST_DAMAGE = (base_damage2 * targets * (1 + final.AP) * final_crit * (1 + final.AMP)) + (base_damage * (1 + final.AP) * final_crit * (1 + final.AMP)) * final.CAST_COUNTER;
 
         }
 
-        private static double Poppy_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double ad, double targets, double hp)
+        private void Poppy_Spell_Damage_Calc(Post_Combat_Stats final)
         { // targets are # of units hit around the target, single target scenario targets = 0
           // maybe make a single target dps output later
             double final_crit = 1;
@@ -3048,12 +3019,12 @@ namespace TFTCalculatorModel
             double primary = 0;
             double secondary = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 200;
@@ -3070,17 +3041,16 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            primary = ((base_damage * (1 + ad)) + (hp * .1));
-            secondary = (((base_damage2 * (1 + ad)) + (hp * .05)) * targets);
+            primary = ((base_damage * (1 + final.AD)) + (final.HP * .1));
+            secondary = (((base_damage2 * (1 + final.AD)) + (final.HP * .05)) * targets);
 
 
 
-            return (primary + secondary) * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = (primary + secondary) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Sett_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                    double ad, double targets, double hp, double healing)
+        private void Sett_Spell_Damage_Calc(Post_Combat_Stats final)
         { // targets are # of units hit around the target, single target scenario targets = 0
           // maybe make a single target dps output later
             double final_crit = 1;
@@ -3092,12 +3062,12 @@ namespace TFTCalculatorModel
             double secondary = 0;
             double tertiary = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 140;
@@ -3117,16 +3087,15 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            primary = base_damage * (1 + ad);
-            secondary = (((base_damage2 * (1 + ad)) + (hp * .04) + (base_damage3)) + (base_damage3 + (15 * healing / 100)));
-            tertiary = (((base_damage2 * (1 + ad)) + (hp * .04)) * targets);
+            primary = base_damage * (1 + final.AD);
+            secondary = (((base_damage2 * (1 + final.AD)) + (final.HP * .04) + (base_damage3)) + (base_damage3 + (15 * final.HEALING / 100)));
+            tertiary = (((base_damage2 * (1 + final.AD)) + (final.HP * .04)) * targets);
 
-            return (primary + secondary + tertiary) * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = (primary + secondary + tertiary) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Leona_Spell_Damage_Calc(double crit, double crit_multi, double amp, double crit_flag, string star,
-                                                   double targets, double armor, double mr)
+        private void Leona_Spell_Damage_Calc(Post_Combat_Stats final)
         { // targets are # of units hit around the target, single target scenario targets = 0
           // maybe make a single target dps output later
             double final_crit = 1;
@@ -3136,47 +3105,46 @@ namespace TFTCalculatorModel
             double primary = 0;
             double secondary = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
-                    base_damage = (armor + mr) * .50;
-                    base_damage2 = (armor + mr) * .25;
+                    base_damage = (final.ARMOR + final.MR) * .50;
+                    base_damage2 = (final.ARMOR + final.MR) * .25;
                     break;
                 case "2":
-                    base_damage = (armor + mr) * .75;
-                    base_damage2 = (armor + mr) * 40;
+                    base_damage = (final.ARMOR + final.MR) * .75;
+                    base_damage2 = (final.ARMOR + final.MR) * .40;
                     break;
                 case "3":
-                    base_damage = (armor + mr) * 500;
-                    base_damage2 = (armor + mr) * 200;
+                    base_damage = (final.ARMOR + final.MR) * 500;
+                    base_damage2 = (final.ARMOR + final.MR) * 200;
                     break;
                 default: break;
             }
 
-            return (base_damage + base_damage2) * final_crit * (1 + amp);
+            final.CAST_DAMAGE = (base_damage + base_damage2) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Kat_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
-                                                        double crit_flag, string star, double potential, int targets)
+        private void Kat_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
             double base_damage2 = 0;
             double final_damage = 0;
-            double pot_damage = .13 * potential;
+            double pot_damage = .13 * final.POTENTIAL;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 140;
@@ -3196,22 +3164,21 @@ namespace TFTCalculatorModel
             //true_damage_i = 
 
             //return (final_damage * page_counter * final_crit * (1 + amp), final_damage * pot_page_counter * potential * .32 * final_crit * (1 + amp));
-            return final_damage * (1 + ap) * final_crit * (1 + amp) * (targets + 1);
+            final.CAST_DAMAGE = final_damage * (1 + final.AP) * final_crit * (1 + final.AMP) * (targets + 1);
 
         }
 
-        private static double Malzahar_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
-                                                        double crit_flag, string star)
+        private void Malzahar_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 545;
@@ -3225,12 +3192,11 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return base_damage * (1 + ap) * final_crit * (1 + amp);
+            final.CAST_DAMAGE = base_damage * (1 + final.AP) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Caitlyn_Spell_Damage_Calc(double crit, double crit_multi, double ad, double ap, double amp,
-                                                        double crit_flag, string star, double potential)
+        private void Caitlyn_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
@@ -3238,12 +3204,12 @@ namespace TFTCalculatorModel
             double final_damage = 0;
             double pot_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 350;
@@ -3263,14 +3229,13 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            final_damage = (base_damage * (1 + ad)) + (ap_damage * (1 + ap)) + (pot_damage * potential * (1 + ad));
+            final_damage = (base_damage * (1 + final.AD)) + (ap_damage * (1 + final.AP)) + (pot_damage * final.POTENTIAL * (1 + final.AD));
 
-            return final_damage * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = final_damage * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Senna_Spell_Damage_Calc(double crit, double crit_multi, double ad, double ap, double amp,
-                                                        double crit_flag, string star, double targets)
+        private void Senna_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
@@ -3278,12 +3243,12 @@ namespace TFTCalculatorModel
             double ap_damage = 0;
             double final_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 385;
@@ -3300,25 +3265,24 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            final_damage = (base_damage * (1 + ad)) + (ap_damage * (1 + ap));
+            final_damage = (base_damage * (1 + final.AD)) + (ap_damage * (1 + final.AP));
             base_damage2 = final_damage * .22 * targets;
 
-            return (final_damage + base_damage2) * final_crit * (1 + amp);
+            final.P_CAST_DAMAGE = (final_damage + base_damage2) * final_crit * (1 + final.AMP);
 
         }
 
-        private static double Lucian_Spell_Damage_Calc(double crit, double crit_multi, double ap, double amp,
-                                                        double crit_flag, string star)
+        private void Lucian_Spell_Damage_Calc(Post_Combat_Stats final)
         {
             double final_crit = 1;
             double base_damage = 0;
 
-            if (crit_flag > 0)
+            if (final.CRIT_FLAG)
             {
-                final_crit = 1 + (crit * crit_multi);
+                final_crit = 1 + (final.CRIT * final.CRIT_MULTI);
             }
 
-            switch (star)
+            switch (final.STAR)
             {
                 case "1":
                     base_damage = 85;
@@ -3332,7 +3296,7 @@ namespace TFTCalculatorModel
                 default: break;
             }
 
-            return base_damage * 4 * (1 + ap) * final_crit * (1 + amp);
+            final.CAST_DAMAGE = base_damage * 4 * (1 + final.AP) * final_crit * (1 + final.AMP);
 
         }
 
@@ -3366,15 +3330,17 @@ namespace TFTCalculatorModel
 
         // COMPARE METHODS
 
-        public void
-        Sort_Item_List(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                        Aug_Holder Aug1_Slot, Aug_Holder Aug2_Slot, Aug_Holder Aug3_Slot,
-                        string unit, string star, Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3,
-                        bool full, double outside_full_dps, double outside_full_dps15,
-                        bool enable, ObservableCollection<string> out_list, ObservableCollection<string> out_list2, ObservableCollection<string> out_list3,
-                        bool hit_tank, bool above50, int targets
-        )
+        //public void
+        //Sort_Item_List(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
+        //                Aug_Holder Aug1_Slot, Aug_Holder Aug2_Slot, Aug_Holder Aug3_Slot,
+        //                string unit, string star, Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3,
+        //                bool full, double outside_full_dps, double outside_full_dps15,
+        //                bool enable, bool hit_tank, bool above50, int targets
+        //)
+        public void Sort_Item_List(Unit_Holder uobj, Item_Holder iobj1, Item_Holder iobj2, Item_Holder iobj3, Aug_Holder aobj1, Aug_Holder aobj2, Aug_Holder aobj3,
+                       Trait_Holder tobj1, Trait_Holder tobj2, Trait_Holder tobj3, Fruit_Holder fobj, Post_Combat_Stats final)
         {
+            #region item dps objects
             Item_DPS_Obj None_o = new(); None_o.ITEM_NAME = "None           ";
             Item_DPS_Obj Deathblade_o = new(); Deathblade_o.ITEM_NAME = "Deathblade     ";
             Item_DPS_Obj Giantslayer_o = new(); Giantslayer_o.ITEM_NAME = "Giantslayer    ";
@@ -3412,12 +3378,15 @@ namespace TFTCalculatorModel
             Item_DPS_Obj Crownguard_o = new(); Crownguard_o.ITEM_NAME = "Crownguard     ";
             Item_DPS_Obj SteadfastHeart_o = new(); SteadfastHeart_o.ITEM_NAME = "SteadfastHeart ";
             Item_DPS_Obj AdaptiveBack_o = new(); AdaptiveBack_o.ITEM_NAME = "AdaptiveBack   ";
+            #endregion
 
-            (List<Item_Holder> list_int, List<string> list_int_s) = Create_Item_List();
+            
+
+            List<Item_Holder> list_int = Create_Item_List();
 
             for (int i = 0; i < 37; i++)
             {
-                Item_Stat_Setter(list_int[i], list_int_s[i], hit_tank, above50);
+                Item_Stat_Setter(list_int[i]);
             }
 
             List<Item_DPS_Obj> item_list = new()
@@ -3465,40 +3434,51 @@ namespace TFTCalculatorModel
             List<Item_DPS_Obj> DPS_list2 = new();
             List<Item_DPS_Obj> DPS_list3 = new();
 
-            //List<string> out_list = new() {
+            //List<string> out_list = new() 
+            //{
+            //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
+            //        "-",  "-",  "-",  "-",  "-",  "-",  "-"
+            //};
+            //List<string> out_list2 = new() 
+            //{
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-"
             //    };
-            //List<string> out_list2 = new() {
+            //List<string> out_list3 = new() 
+            //{
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
             //        "-",  "-",  "-",  "-",  "-",  "-",  "-"
             //    };
-            //List<string> out_list3 = new() {
-            //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-            //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-            //        "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-            //        "-",  "-",  "-",  "-",  "-",  "-",  "-"
-            //    };
-
-            if (enable)
+            
+            if (comp_enable)
             {
-
-
-                DPS_list = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 1, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
-
+                DPS_list = Item_DPS_Compare_Calc(1, list_int, item_list, uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, final);
                 Combine_List(DPS_list, out_list);
 
-                DPS_list2 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 2, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
-
+                DPS_list2 = Item_DPS_Compare_Calc(2, list_int, item_list, uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, final);
                 Combine_List(DPS_list2, out_list2);
 
-                DPS_list3 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 3, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
-
+                DPS_list3 = Item_DPS_Compare_Calc(3, list_int, item_list, uobj, iobj1, iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, final);
                 Combine_List(DPS_list3, out_list3);
+
+
+                //DPS_list = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 1, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
+
+                //Combine_List(DPS_list, out_list);
+
+                //DPS_list2 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 2, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
+
+                //Combine_List(DPS_list2, out_list2);
+
+                //DPS_list3 = Item_DPS_Compare_Calc(uobj, item1, item2, item3, Aug1_Slot, Aug2_Slot, Aug3_Slot, unit, star, 3, full, outside_full_dps, outside_full_dps15, trait1, trait2, trait3, item_list, list_int, targets);
+
+                //Combine_List(DPS_list3, out_list3);
 
             }
             else
@@ -3516,66 +3496,18 @@ namespace TFTCalculatorModel
             //return (out_list, out_list2, out_list3);
         }
 
-        private static List<Item_DPS_Obj>
-        Item_DPS_Compare_Calc(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
-                        Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
-                        string unit, string star, int slot, bool full, double outside_full_dps, double outside_full_dps15,
-                        Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, List<Item_DPS_Obj> item_list, List<Item_Holder> list_int, int targets
-        )
+        public List<Item_DPS_Obj> 
+            Item_DPS_Compare_Calc(int slot, List<Item_Holder> list_int, List<Item_DPS_Obj>item_list,
+                                  Unit_Holder uobj, Item_Holder iobj1, Item_Holder iobj2, Item_Holder iobj3, Aug_Holder aobj1, 
+                                  Aug_Holder aobj2, Aug_Holder aobj3, Trait_Holder tobj1, Trait_Holder tobj2, Trait_Holder tobj3, 
+                                  Fruit_Holder fobj, Post_Combat_Stats final)
+        //Item_DPS_Compare_Calc(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3,
+        //                Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
+        //                string unit, string star, int slot, bool full, double outside_full_dps, double outside_full_dps15,
+        //                Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, List<Item_DPS_Obj> item_list, List<Item_Holder> list_int, int targets
+        //)
         {
-            //List<Item_Holder> list_int = Create_Item_List();
-
-
-
-            //DPS_Display disp_int = new();
-
-            //CopyProperties(disp,disp_int);
-
-            //Unit_Stats_Display stats_int = new();
-
-
-            //double final_dps = disp.FINAL_DPS;
-            //double final_dps15 = disp.FINAL_DPS15;
-
-            double auto_dps = 0;
-
-            double cast_dps = 0;
-
-            double phys_cast_dps = 0;
-
-            double full_dps = 0;
-
-            double auto_dps15 = 0;
-
-            double cast_dps15 = 0;
-
-            double phys_cast_dps15 = 0;
-
-            int attack_counter = 0;
-
-            int cast_counter = 0;
-
-            int attack_counter15 = 0;
-
-            int cast_counter15 = 0;
-
-            double full_dps15 = 0;
-
-            double true_damage_dps = 0;
-
-            double true_damage_dps15 = 0;
-
-            double inc_ad = 0;
-            double ap = 0;
-            double crit = 0;
-            double crit_multi = 0;
-            double asi = 0;
-            double amp = 0;
-            double omnivamp = 0;
-            double mana_hit = 0;
-            double crit_flag = 0;
-            double mana_regen = 0;
-
+           
 
 
             /*
@@ -3596,7 +3528,14 @@ namespace TFTCalculatorModel
             double ap = 0;
             */
 
+            //Post_Combat_Stats slot1 = new();
+            //Post_Combat_Stats slot2 = new();
+            //Post_Combat_Stats slot3 = new();
 
+
+            
+
+            
 
             //(DPS_Display1.AUTO_DPS, DPS_Display1.CAST_DPS, DPS_Display1.FINAL_DPS, DPS_Display1.ATTACK_COUNTER, DPS_Display1.CAST_COUNTER, DPS_Display1.BREAK_COUNTER,
             //  DPS_Display1.AD, DPS_Display1.ATKS, DPS_Display1.FINAL_ATKS, DPS_Display1.D_AMP, DPS_Display1.CRIT, DPS_Display1.FINAL_AD, DPS_Display1.CRIT_FLAG
@@ -3605,7 +3544,11 @@ namespace TFTCalculatorModel
 
             //CopyProperties(item_list2[34],Item_Blank);
 
+            //Combat_Setter(uobj, empty, iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, slot1);
 
+            //Combat_Setter(uobj, iobj1, empty, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, slot2);
+
+            //Combat_Setter(uobj, iobj1, iobj2, empty, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, slot3);
             switch (slot)
             {
 
@@ -3622,18 +3565,21 @@ namespace TFTCalculatorModel
 
                     for (int i = 0; i < 37; i++)
                     {
-                        (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
-                        auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
-                        inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
-                        Combat_Method(uobj, list_int[i], item2, item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
+                        //(auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
+                        //auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
+                        //inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
+                        //Combat_Method(uobj, list_int[i], item2, item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
+                        Post_Combat_Stats slot1 = new();
+                        Combat_Setter(uobj, list_int[i], iobj2, iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, slot1);
+                        Combat_Method(slot1);
 
-                        if (full)
+                        if (full_flag)
                         {
-                            item_list[i].ITEM_DPS = Resolve_DPS_Change(outside_full_dps, full_dps);
+                            item_list[i].ITEM_DPS = Resolve_DPS_Change(final.FULL_DPS, slot1.FULL_DPS);
                         }
                         else
                         {
-                            item_list[i].ITEM_DPS = Resolve_DPS_Change(outside_full_dps15, full_dps15);
+                            item_list[i].ITEM_DPS = Resolve_DPS_Change(final.FULL_DPS15, slot1.FULL_DPS15);
                         }
 
 
@@ -3645,18 +3591,17 @@ namespace TFTCalculatorModel
                 case 2:
                     for (int i = 0; i < 37; i++)
                     {
-                        (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
-                        auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
-                        inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
-                        Combat_Method(uobj, item1, list_int[i], item3, aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
+                        Post_Combat_Stats slot2 = new();
+                        Combat_Setter(uobj, iobj1, list_int[i], iobj3, aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, slot2);
+                        Combat_Method(slot2);
 
-                        if (full)
+                        if (full_flag)
                         {
-                            item_list[i].ITEM_DPS = Resolve_DPS_Change(outside_full_dps, full_dps);
+                            item_list[i].ITEM_DPS = Resolve_DPS_Change(final.FULL_DPS, slot2.FULL_DPS);
                         }
                         else
                         {
-                            item_list[i].ITEM_DPS = Resolve_DPS_Change(outside_full_dps15, full_dps15);
+                            item_list[i].ITEM_DPS = Resolve_DPS_Change(final.FULL_DPS15, slot2.FULL_DPS15);
                         }
 
 
@@ -3666,18 +3611,17 @@ namespace TFTCalculatorModel
                 case 3:
                     for (int i = 0; i < 37; i++)
                     {
-                        (auto_dps, cast_dps, phys_cast_dps, true_damage_dps, full_dps, attack_counter, cast_counter,
-                        auto_dps15, cast_dps15, phys_cast_dps15, true_damage_dps15, full_dps15, attack_counter15, cast_counter15,
-                        inc_ad, crit, crit_multi, asi, amp, omnivamp, mana_hit, ap, crit_flag, mana_regen, amp) =
-                        Combat_Method(uobj, item1, item2, list_int[i], aug1, aug2, aug3, star, unit, trait1, trait2, trait3, targets);
+                        Post_Combat_Stats slot3 = new();
+                        Combat_Setter(uobj, iobj1, iobj2, list_int[i], aobj1, aobj2, aobj3, tobj1, tobj2, tobj3, fobj, slot3);
+                        Combat_Method(slot3);
 
-                        if (full)
+                        if (full_flag)
                         {
-                            item_list[i].ITEM_DPS = Resolve_DPS_Change(outside_full_dps, full_dps);
+                            item_list[i].ITEM_DPS = Resolve_DPS_Change(final.FULL_DPS, slot3.FULL_DPS);
                         }
                         else
                         {
-                            item_list[i].ITEM_DPS = Resolve_DPS_Change(outside_full_dps15, full_dps15);
+                            item_list[i].ITEM_DPS = Resolve_DPS_Change(final.FULL_DPS15, slot3.FULL_DPS15);
                         }
 
 
@@ -3759,15 +3703,15 @@ namespace TFTCalculatorModel
             //return out_list;
         }
 
-        private static void Aug_Stat_Setter(Aug_Holder aobj, string aug, int lilb, int item_n, int cost)
+        private static void Aug_Stat_Setter(Aug_Holder aobj, Unit_Holder uobj)
         {
-            switch (aug)
+            switch (aobj.AUG_NAME)
             {
                 case "None":
                     break;
 
                 case "PairOfFours":
-                    if (cost == 4)
+                    if (uobj.COST == 4)
                     {
                         aobj.HP = 374;
                         aobj.ATKS = .24;
@@ -3779,10 +3723,10 @@ namespace TFTCalculatorModel
                     aobj.ATKS = .15;
                     break;
                 case "LittleBuddies":
-                    if (cost == 4 || cost == 5)
+                    if (uobj.COST == 4 || uobj.COST == 5)
                     {
-                        aobj.HP = lilb * 55;
-                        aobj.ATKS = lilb * .06;
+                        aobj.HP = aobj.LILB * 55;
+                        aobj.ATKS = aobj.LILB * .06;
                     }
                     
                     break;
@@ -3821,9 +3765,9 @@ namespace TFTCalculatorModel
                     aobj.MANA_REGEN = 2;
                     break;
                 case "ItemCollector2":
-                    aobj.HP = 20 + (item_n * 5);
-                    aobj.AD = item_n * .01;
-                    aobj.AP = item_n * .01;
+                    aobj.HP = 20 + (aobj.ITEM_N * 5);
+                    aobj.AD = aobj.ITEM_N * .01;
+                    aobj.AP = aobj.ITEM_N * .01;
 
                     break;
                 case "KnowYourEnemy":
@@ -3848,9 +3792,9 @@ namespace TFTCalculatorModel
             }
         }
 
-        private static void Item_Stat_Setter(Item_Holder iobj, string item, bool hit_tank, bool above50)
+        private static void Item_Stat_Setter(Item_Holder iobj)
         {
-            switch (item)
+            switch (iobj.ITEM_NAME)
             {
                 case "None":
                     break;
@@ -3862,7 +3806,7 @@ namespace TFTCalculatorModel
                     iobj.AP = .2;
                     iobj.AD = .2;
                     iobj.ATKS = .2;
-                    if (hit_tank)
+                    if (iobj.HIT_TANK)
                     {
                         iobj.D_AMP = .25;
                     }
@@ -3985,7 +3929,7 @@ namespace TFTCalculatorModel
                     iobj.MANA_REGEN = 1;
                     iobj.CRIT = .2;
 
-                    if (above50)
+                    if (iobj.ABOVE50)
                     {
                         iobj.AP = .3;
                         iobj.AD = .3;
@@ -4089,9 +4033,10 @@ namespace TFTCalculatorModel
             }
         }
 
-        private static void Unit_Stat_Setter(Unit_Holder uobj, string unit, string star)
+        private static void Unit_Stat_Setter(Unit_Holder uobj)
         {
-            switch (unit)
+          
+            switch (uobj.UNIT_NAME)
             {
                 case "No_Unit":
 
@@ -4108,8 +4053,9 @@ namespace TFTCalculatorModel
                     uobj.MANA_COUNT = 10;
                     uobj.ATKS = .75;
                     uobj.COST = 4;
+                    uobj.CAST_TIME = 1;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 850;
@@ -4138,7 +4084,8 @@ namespace TFTCalculatorModel
                     uobj.MANA_OH = 7;
                     uobj.MANA_REGEN = 2;
                     uobj.COST = 4;
-                    switch (star)
+                    uobj.CAST_TIME = .5;
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 850;
@@ -4170,7 +4117,8 @@ namespace TFTCalculatorModel
                     uobj.MANA_REGEN = 2;
                     uobj.MANA_COUNT = 10;
                     uobj.COST = 4;
-                    switch (star)
+                    uobj.CAST_TIME = 3;
+                    switch (uobj.STAR)
                     {
 
                         case "1":
@@ -4202,7 +4150,8 @@ namespace TFTCalculatorModel
                     uobj.MANA_OH = 7;
                     uobj.MANA_REGEN = 2;
                     uobj.COST = 4;
-                    switch (star)
+                    uobj.CAST_TIME = 2;
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 850;
@@ -4231,7 +4180,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 80; 
                     uobj.ARMOR = 35; 
                     uobj.MR = 35;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 850; 
@@ -4261,7 +4210,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 15; 
                     uobj.ARMOR = 45; 
                     uobj.MR = 45;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 850; 
@@ -4291,7 +4240,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 150;
                     uobj.ARMOR = 60; 
                     uobj.MR = 60;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1100; 
@@ -4322,7 +4271,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 90;
                     uobj.ARMOR = 60; 
                     uobj.MR = 60;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1000; 
@@ -4352,7 +4301,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 100; 
                     uobj.ARMOR = 60; 
                     uobj.MR = 60;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1200;  
@@ -4382,7 +4331,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 105;
                     uobj.ARMOR = 60;
                     uobj.MR = 60;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1100;
@@ -4410,7 +4359,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 100;
                     uobj.ARMOR = 50;
                     uobj.MR = 50;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1100;
@@ -4438,7 +4387,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 40;
                     uobj.ARMOR = 65;
                     uobj.MR = 65;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1050;
@@ -4467,7 +4416,7 @@ namespace TFTCalculatorModel
                     uobj.MR = 65;
                     uobj.ATKS = .85;
                     uobj.MANA_OH = 10;
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 1050;
@@ -4498,7 +4447,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 30;
                     uobj.ATKS = .8;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 800;
@@ -4531,7 +4480,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 35;
                     uobj.ATKS = .7;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 900;
@@ -4562,7 +4511,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 60;
                     uobj.ATKS = .7;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 650;
@@ -4594,7 +4543,7 @@ namespace TFTCalculatorModel
                     uobj.ATKS = .75;
                     uobj.MANA_COUNT = 15;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 650;
@@ -4623,7 +4572,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 30;
                     uobj.ATKS = .8;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 800;
@@ -4654,7 +4603,7 @@ namespace TFTCalculatorModel
                     uobj.MAX_MANA = 40;
                     uobj.ATKS = .7;
 
-                    switch (star)
+                    switch (uobj.STAR)
                     {
                         case "1":
                             uobj.HP = 500;
@@ -4681,10 +4630,10 @@ namespace TFTCalculatorModel
             }
         }
 
-        private static void Trait_Stat_Setter(Trait_Holder tobj, string trait, bool first10, bool shielded, bool above50)
+        private static void Trait_Stat_Setter(Trait_Holder tobj, string trait)
         {
 
-            switch (trait)
+            switch (trait)// fix this later
             {
                 case "None":
 
@@ -4779,7 +4728,7 @@ namespace TFTCalculatorModel
                 case "Bastion":
                     if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
-                        if (first10)
+                        if (tobj.FIRST10)
                         {
                             tobj.ARMOR = 36;
                             tobj.MR = 36;
@@ -4794,7 +4743,7 @@ namespace TFTCalculatorModel
                     }
                     else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
-                        if (first10)
+                        if (tobj.FIRST10)
                         {
                             tobj.ARMOR = 80;
                             tobj.MR = 80;
@@ -4808,7 +4757,7 @@ namespace TFTCalculatorModel
                     }
                     else if (tobj.TRAIT_VALUE >= 6)
                     {
-                        if (first10)
+                        if (tobj.FIRST10)
                         {
                             tobj.ARMOR = 150;
                             tobj.MR = 150;
@@ -4824,7 +4773,7 @@ namespace TFTCalculatorModel
 
                 case "Protector":
 
-                    if (shielded)
+                    if (tobj.SHIELDED)
                     {
                         tobj.DR = .05;
                     }
@@ -4846,7 +4795,7 @@ namespace TFTCalculatorModel
                 case "Juggernaut":
                     if (tobj.TRAIT_VALUE >= 2 && tobj.TRAIT_VALUE < 4)
                     {
-                        if (above50)
+                        if (tobj.ABOVE50)
                         {
                             tobj.DR = .25;
                         }
@@ -4854,7 +4803,7 @@ namespace TFTCalculatorModel
                     }
                     else if (tobj.TRAIT_VALUE >= 4 && tobj.TRAIT_VALUE < 6)
                     {
-                        if (above50)
+                        if (tobj.ABOVE50)
                         {
                             tobj.DR = .30;
                         }
@@ -4862,7 +4811,7 @@ namespace TFTCalculatorModel
                     }
                     else if (tobj.TRAIT_VALUE >= 6)
                     {
-                        if (above50)
+                        if (tobj.ABOVE50)
                         {
                             tobj.DR = .35;
                         }
@@ -5033,11 +4982,335 @@ namespace TFTCalculatorModel
 
         }
 
+        private static void Fruit_Stat_Setter(Fruit_Holder fobj)
+        {
+            switch (fobj.FRUIT_NAME)
+            {
+                case "Star Student":
+                    fobj.HP = 200;
+                    fobj.POT_MULTI = .4;
+                    break;
+                case "Not Done Yet":
+                    fobj.HP_MULT = .25;
+                    fobj.OMNIVAMP = .1;
+                    fobj.D_AMP = .25;
+                    break;
+                case "Colossal": break;
+                case "Dark Amulet": break;
+                case "Over 9000": break;
+                case "Unflinching": break;
+                case "Blink Attack": break;
+                case "On The Edge":
+                    fobj.D_AMP = .35;
+                    break;
+                case "Fusion Dance": break;
+                case "Scoialite":
+                    // currently only solo stats
+                    fobj.HP = 400;
+                    fobj.D_AMP = .24;
+                    break;
+                case "Hemorrhage": 
+                    // flag
+                    break;
+                case "Keen Eye": 
+                    // flag
+                    break;
+                case "Fairy Tail": 
+                    // flag
+                    break;
+                case "Heros Arc": 
+                    // player level input
+                    break;
+                case "Final Boss": 
+                    // ally death input
+                    break;
+                case "Magic Expert": 
+                    // somehow separate the flat ap from fruit from others
+
+                    break;
+                case "Hungry Hero": 
+                    // # of feed input
+                    break;
+                case "Weights":
+                    // assume 0 weights
+                    fobj.ATKS = .6;
+                    fobj.DR = .18;
+                    break;
+                case "Finalist": 
+                    // elim player # input
+                    break;
+                case "Tiny Terror":
+                    // auto dodge not implemented
+                    fobj.ATKS = .12;
+                    break;
+                case "100 Push Ups": 
+                    // # of reroll inputs
+                    break;
+                case "Crimson Veil": 
+                    
+                    break;
+                case "Max Arcana":
+                    //takendown # input
+                    break;
+                case "Trickster": break;
+                case "Midas Touch":
+                    fobj.EXECUTE = 1;
+                    break;
+                case "Ordinary": 
+                    // no active traits? and stage # input
+                    break;
+                case "Corrupted": 
+                    // # of dead units input
+                    break;
+                case "Sky Piercer": break;
+                case "Shadow Clone": break;
+                case "Mage": break;
+                case "Power Font":
+                    fobj.MANA_REGEN = 1;
+                    fobj.TIMED_EVENT = "Power Font";
+                    break;
+                case "Critical Threat":
+                    fobj.CRIT_FLAG = 1;
+                    fobj.TIMED_EVENT = "Critical Threat";
+                    break;
+                case "Efficient": break;
+                case "Bludgeoner": break;
+                case "Gather Force": break;
+                case "Solar Breath": break;
+                case "Max Attack": break;
+                case "Hat Trick": break;
+                case "Attack Expert": break;
+                case "Cyclone Rush": break;
+                case "Precision": break;
+                case "Classy": break;
+                case "Max Speed": break;
+                case "Pursuit": break;
+                case "Storm Bender": break;
+                case "Mech Pilot": break;
+                case "Demolitionist": break;
+                case "Bullet Hell": break;
+                case "Killer Instinct":
+                    fobj.MANA_REGEN = 3;
+                    break;
+                case "Caretaker": break;
+                case "Essence Share": break;
+                case "Robo Range": break;
+                case "Super Genius": break;
+                case "Thrillseeker": break;
+                case "Supremacy": break;
+                case "Frost Touch": break;
+                case "Desperado": break;
+                case "Doublestrike": break;
+                case "Kahunahuna": break;
+                case "Spirit Sword": break;
+                case "Resistant": break;
+                case "Adaptive Skin": break;
+                case "Round Two": break;
+                case "Stand Alone":
+                    fobj.HP_MULT = .35;
+                    break;
+                case "Corrosive": break;
+                case "Body Change": break;
+                case "Inner Fire": break;
+                case "Regenerative": break;
+                case "Strong Spark": break;
+                case "Selfish": break;
+                case "Tank-zilla":
+                    fobj.HP_MULT = .2;
+                    break;
+                case "Robo Ranger": break;
+                case "Spiky Shell":
+                    fobj.ARMOR = 40;
+                    break;
+                case "Mana Rush": break;
+                case "Star Sailor": break;
+                case "Hyperactive": break;
+                case "Golden Edge": break;
+                case "Ramping Rage": break;
+                case "All Out": break;
+                case "Atomic": break;
+                case "Warming Up": break;
+                case "Pure Heart": break;
+                case "Unstoppable": break;
+                case "Soul Chipper": break;
+                case "Esence Share": break;
+                case "Living Wall": break;
+                case "Singularity": break;
+                case "Best Defense": break;
+                case "Ice Bender": break;
+                case "Annihilation": break;
+                case "Resistance": break;
+                case "Serious Slam": break;
+                case "Bladenado": break;
+                case "Stretchy Arms":
+                    fobj.ATKS = .1;
+                    break;
+
+                default: break;
+            }
+        }
+
+        private static void Combat_Setter(Unit_Holder uobj, Item_Holder item1, Item_Holder item2, Item_Holder item3, Aug_Holder aug1, Aug_Holder aug2, Aug_Holder aug3,
+                       Trait_Holder trait1, Trait_Holder trait2, Trait_Holder trait3, Fruit_Holder fobj, Post_Combat_Stats pobj)
+        {
+            pobj.UNIT_NAME = uobj.UNIT_NAME;
+            pobj.STAR = uobj.STAR;
+            pobj.BASE_ATKS = uobj.ATKS;
+            pobj.MAX_MANA = uobj.MAX_MANA;
+            pobj.BASE_AD = uobj.AD;
+            pobj.MANA_COUNTER = uobj.MANA_COUNT;
+
+            pobj.CAST_TIME = uobj.CAST_TIME;
+            pobj.CAST_TIME2 = uobj.CAST_TIME2;
+
+            pobj.TITANS_FLAG = item1.TITANS_FLAG + item2.TITANS_FLAG + item3.TITANS_FLAG;
+            pobj.ASCEND_FLAG = aug1.ASCEND_FLAG || aug2.ASCEND_FLAG || aug3.ASCEND_FLAG;
+            
+            pobj.POTENTIAL = trait1.POTENTIAL + trait2.POTENTIAL + trait3.POTENTIAL;
+            pobj.M_FLAG = trait1.M_FLAG | trait2.M_FLAG | trait3.M_FLAG;
+
+            pobj.ASI = item1.ATKS + item2.ATKS + item3.ATKS + aug1.ATKS + aug2.ATKS + aug3.ATKS + trait1.ATKS + trait2.ATKS + trait3.ATKS;
+            
+            pobj.MANA_REGEN = uobj.MANA_REGEN + item1.MANA_REGEN + item2.MANA_REGEN + item3.MANA_REGEN +
+                   aug1.MANA_REGEN + aug2.MANA_REGEN + aug3.MANA_REGEN + trait1.MANA_REGEN + trait2.MANA_REGEN + trait3.MANA_REGEN;
+
+            pobj.MANA_OH = uobj.MANA_OH + item1.MANA_OH + item2.MANA_OH + item3.MANA_OH + trait1.MANA_OH + trait2.MANA_OH + trait3.MANA_OH;
+
+            pobj.MANA_MULT = item1.MANA_MULT + item2.MANA_MULT + item3.MANA_MULT;
+
+            if (pobj.MANA_MULT > 0)
+            {
+                pobj.MANA_OH = pobj.MANA_OH * (1 + (.15 * pobj.MANA_MULT));
+                pobj.MANA_REGEN = pobj.MANA_REGEN * (1 + (.15 * pobj.MANA_MULT));
+            }
+
+
+            pobj.CRIT = uobj.CRIT + item1.CRIT + item2.CRIT + item3.CRIT + aug1.CRIT + aug2.CRIT + aug3.CRIT + trait1.CRIT + trait2.CRIT + trait3.CRIT;
+            double over_crit = 0;
+            if (pobj.CRIT > 1)
+            {
+                over_crit = pobj.CRIT - 1;
+                pobj.CRIT = 1;
+            }
+
+
+            // uobj.CRIT + + aug1.CRIT + aug2.CRIT + aug3.CRIT; item1.CRIT + item2.CRIT + 
+            pobj.IE_FLAG = item1.IE_FLAG + item2.IE_FLAG + item3.IE_FLAG;
+
+            double over_cm = over_crit / 2;
+            double ie_cm = 0;
+            pobj.CRIT_FLAG2 = aug1.CRIT_FLAG + aug2.CRIT_FLAG + aug3.CRIT_FLAG + trait1.CRIT_FLAG + trait2.CRIT_FLAG + trait3.CRIT_FLAG;
+
+            if (pobj.CRIT_FLAG2 > 1)
+            {
+                ie_cm = pobj.IE_FLAG * .1;
+            }
+            else if (pobj.IE_FLAG > 0)
+            {
+                ie_cm = (pobj.IE_FLAG - 1) * .1;
+            }
+
+
+            pobj.CRIT_MULTI = ie_cm + over_cm + uobj.CRIT_MULTI + trait1.CRIT_MULT + trait2.CRIT_MULT + trait3.CRIT_MULT;
+
+            if (pobj.IE_FLAG + pobj.CRIT_FLAG2 > 0)
+            {
+                pobj.CRIT_FLAG = true;
+            }
+            else pobj.CRIT_FLAG = false;
+
+            //pobj.CRIT_FLAG = ie_flag + crit_flag2; // change this to a bool eventually
+
+            pobj.AMP = item1.D_AMP + item2.D_AMP + item3.D_AMP + aug1.D_AMP + aug2.D_AMP + aug3.D_AMP + trait1.D_AMP + trait2.D_AMP + trait3.D_AMP;
+            pobj.AD = item1.AD + item2.AD + item3.AD + aug1.AD + aug2.AD + aug3.AD + trait1.AD + trait2.AD + trait3.AD;
+            pobj.AP = item1.AP + item2.AP + item3.AP + aug1.AP + aug2.AP + aug3.AP + trait1.AP + trait2.AP + trait3.AP;
+
+            pobj.RB_FLAG = item1.RB_FLAG + item2.RB_FLAG + item3.RB_FLAG;
+            //double rb_flag = 0;
+            pobj.KRAKEN_FLAG = item1.KRAKEN_FLAG + item2.KRAKEN_FLAG + item3.KRAKEN_FLAG;
+            pobj.AA_FLAG = item1.AA_FLAG + item2.AA_FLAG + item3.AA_FLAG;
+
+            if (uobj.UNIT_NAME == "Jinx")
+            {
+                pobj.JINX_FLAG = true;
+            }
+            else pobj.JINX_FLAG = false;
+
+            pobj.NASHORS_FLAG = item1.NASHORS_FLAG + item2.NASHORS_FLAG + item3.NASHORS_FLAG;
+            pobj.NASHORS_TRACKER = 0;
+            pobj.NASHORS_E = false;
+
+            pobj.QSS_FLAG = item1.QSS_FLAG + item2.QSS_FLAG + item3.QSS_FLAG;
+            pobj.GS_FLAG = item1.GS_FLAG + item2.GS_FLAG + item3.GS_FLAG;
+
+            pobj.SF_T = false;
+            pobj.SF_FLAG = trait1.SF_FLAG || trait2.SF_FLAG || trait3.SF_FLAG;
+            pobj.SF_T_V = trait1.SF_T_V + trait2.SF_T_V + trait3.SF_T_V;
+            pobj.SF_AD = trait1.SF_AD + trait2.SF_AD + trait3.SF_AD;
+
+            pobj.DUELIST_FLAG = trait1.DUELIST_FLAG | trait2.DUELIST_FLAG | trait3.DUELIST_FLAG;
+            pobj.DUELIST_ASI = trait1.D_ATKS + trait2.D_ATKS + trait3.D_ATKS;
+
+            pobj.EXECUTE = trait1.EXECUTE + trait2.EXECUTE + trait3.EXECUTE;
+
+            pobj.SUNDER = item1.SUNDER + item2.SUNDER + item3.SUNDER;
+            pobj.SHRED = item1.SHRED + item2.SHRED + item3.SHRED;
+            pobj.OMNIVAMP = uobj.OMNIVAMP + item1.OMNIVAMP + item2.OMNIVAMP + item3.OMNIVAMP + aug1.OMNIVAMP + aug2.OMNIVAMP + aug3.OMNIVAMP
+                              + trait1.OMNIVAMP + trait2.OMNIVAMP + trait3.OMNIVAMP;
+
+            pobj.TRUE_DAMAGE = 0;
+            pobj.TRUE_DAMAGE_DPS = 0;
+            pobj.TRUE_DAMAGE_TRACKER = 0;
+            pobj.TRUE_DAMAGE_DPS15 = 0;
+
+            //double mana_counter15 = 0;
+
+
+            pobj.ASHE_COUNTER = 0;
+            pobj.VOLI_PASSIVE = 0;
+            pobj.VOLI_ATKS = 0;
+
+            pobj.SPELL_START = 0;
+
+            //double j_track = 0; // track jinx's ability attack speed increase
+
+            //double d_dtrack = 0; // track duelist attack speed increase
+
+            pobj.ATK_TIME = Attack_Time_calc(pobj.BASE_ATKS, pobj.ASI); // in1 is base attack speed
+
+
+            pobj.TIME_S = 0;
+
+            pobj.TIME_E = pobj.ATK_TIME;
+
+
+            pobj.CAST_FLAG = false;
+
+
+
+            pobj.ATTACK_FLAG = false;
+
+            pobj.ARMOR_DR = 0;
+
+            pobj.MR_DR = 0;
+
+
+
+            pobj.HALF_FLAG = false;
+
+            pobj.AA_CHECK = false;
+
+            pobj.VOLI_TRACKER = 0;
+
+            pobj.STYLE = 0;
+
+        }
+
 
 
         // List methods
 
-        public static (List<Item_Holder>, List<string>) Create_Item_List()
+        public static List<Item_Holder> Create_Item_List()
         {
             Item_Holder None = new();
             Item_Holder Deathblade = new();
@@ -5076,6 +5349,44 @@ namespace TFTCalculatorModel
             Item_Holder Crownguard = new();
             Item_Holder SteadfastHeart = new();
             Item_Holder AdaptiveBack = new();
+
+            None.ITEM_NAME = "None";
+            Deathblade.ITEM_NAME = "Deathblade";
+            Giantslayer.ITEM_NAME = "Giantslayer";
+            Gunblade.ITEM_NAME = "Gunblade";
+            Shojin.ITEM_NAME = "Shojin";
+            EdgeOfNight.ITEM_NAME = "EdgeOfNight";
+            BloodThirster.ITEM_NAME = "BloodThirster";
+            Steraks.ITEM_NAME = "Steraks";
+            InfinityEdge.ITEM_NAME = "InfinityEdge";
+            Redbuff.ITEM_NAME = "Redbuff";
+            Rageblade.ITEM_NAME = "Rageblade";
+            VoidStaff.ITEM_NAME = "VoidStaff";
+            Titans.ITEM_NAME = "Titans";
+            Kraken.ITEM_NAME = "Kraken";
+            Nashor.ITEM_NAME = "Nashor";
+            LastWhisper.ITEM_NAME = "LastWhisper";
+            Deathcap.ITEM_NAME = "Deathcap";
+            Archangels.ITEM_NAME = "Archangels";
+            Morello.ITEM_NAME = "Morello";
+            JeweledGauntlet.ITEM_NAME = "JeweledGauntlet";
+            HandOfJustice.ITEM_NAME = "HandOfJustice";
+            BlueBuff.ITEM_NAME = "BlueBuff";
+            QuickSilver.ITEM_NAME = "QuickSilver";
+            StrikersFlail.ITEM_NAME = "StrikersFlail";
+            Warmogs.ITEM_NAME = "Warmogs";
+            Sunfire.ITEM_NAME = "Sunfire";
+            SpiritVisage.ITEM_NAME = "SpiritVisage";
+            EvenShroud.ITEM_NAME = "EvenShroud";
+            Spark.ITEM_NAME = "Spark";
+            AdaptiveFront.ITEM_NAME = "AdaptiveFront";
+            Stoneplate.ITEM_NAME = "Stoneplate";
+            DragonClaw.ITEM_NAME = "DragonClaw";
+            Bramble.ITEM_NAME = "Bramble";
+            ProtectorsVow.ITEM_NAME = "ProtectorsVow";
+            Crownguard.ITEM_NAME = "Crownguard";
+            SteadfastHeart.ITEM_NAME = "SteadfastHeart";
+            AdaptiveBack.ITEM_NAME = "AdaptiveBack";
 
             List<Item_Holder> list1 = new()
             {
@@ -5118,50 +5429,50 @@ namespace TFTCalculatorModel
                 AdaptiveBack
             };
 
-            List<string> list2 = new()
-            {
-                "None",
-                "Deathblade",
-                "Giantslayer",
-                "Gunblade",
-                "Shojin",
-                "EdgeOfNight",
-                "BloodThirster",
-                "Steraks",
-                "InfinityEdge",
-                "Redbuff",
-                "Rageblade",
-                "VoidStaff",
-                "Titans",
-                "Kraken",
-                "Nashor",
-                "LastWhisper",
-                "Deathcap",
-                "Archangels",
-                "Morello",
-                "JeweledGauntlet",
-                "HandOfJustice",
-                "BlueBuff",
-                "QuickSilver",
-                "StrikersFlail",
-                "Warmogs",
-                "Sunfire",
-                "SpiritVisage",
-                "EvenShroud",
-                "Spark",
-                "AdaptiveFront",
-                "Stoneplate",
-                "DragonClaw",
-                "Bramble",
-                "ProtectorsVow",
-                "Crownguard",
-                "SteadfastHeart",
-                "AdaptiveBack"
-            };
+            //List<string> list2 = new()
+            //{
+            //    "None",
+            //    "Deathblade",
+            //    "Giantslayer",
+            //    "Gunblade",
+            //    "Shojin",
+            //    "EdgeOfNight",
+            //    "BloodThirster",
+            //    "Steraks",
+            //    "InfinityEdge",
+            //    "Redbuff",
+            //    "Rageblade",
+            //    "VoidStaff",
+            //    "Titans",
+            //    "Kraken",
+            //    "Nashor",
+            //    "LastWhisper",
+            //    "Deathcap",
+            //    "Archangels",
+            //    "Morello",
+            //    "JeweledGauntlet",
+            //    "HandOfJustice",
+            //    "BlueBuff",
+            //    "QuickSilver",
+            //    "StrikersFlail",
+            //    "Warmogs",
+            //    "Sunfire",
+            //    "SpiritVisage",
+            //    "EvenShroud",
+            //    "Spark",
+            //    "AdaptiveFront",
+            //    "Stoneplate",
+            //    "DragonClaw",
+            //    "Bramble",
+            //    "ProtectorsVow",
+            //    "Crownguard",
+            //    "SteadfastHeart",
+            //    "AdaptiveBack"
+            //};
 
 
 
-            return (list1, list2);
+            return list1;
         }
 
         public List<Unit_Holder> Create_Unit_List1()
@@ -5351,6 +5662,13 @@ namespace TFTCalculatorModel
         }
 
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
     }
 
     #region classes
@@ -5365,8 +5683,16 @@ namespace TFTCalculatorModel
         public double ITEM_DPS { get { return item_dps; } set { item_dps = value; } }
     }
 
+    public class Input_Obj
+    {
+        
+
+    }
+
     public class Unit_Holder
     {
+        string unit_name = "No_Unit";
+        string star = "1";
         double hp = 0;
         double max_mana = 0;
         double armor = 0;
@@ -5380,13 +5706,19 @@ namespace TFTCalculatorModel
         double omnivamp = 0;
         double mana_regen = 0;
         double mana_count = 0;
+        double cast_time = 0;
+        double cast_time2 = 0;
         int cost = 0;
 
         string trait1 = "none";
         string trait2 = "none";
         string trait3 = "none";
 
+        public string STAR { get { return star; } set { star = value; } }
+        public string UNIT_NAME { get { return unit_name; } set { unit_name = value; } }
         public int COST { get { return cost; } set { cost = value; } }
+        public double CAST_TIME { get { return cast_time; } set { cast_time = value; } }
+        public double CAST_TIME2 { get { return cast_time2; } set { cast_time2 = value; } }
         public double MANA_COUNT { get { return mana_count; } set { mana_count = value; } }
         public double HP { get { return hp; } set { hp = value; } }
         public double MAX_MANA { get { return max_mana; } set { max_mana = value; } }
@@ -5410,6 +5742,8 @@ namespace TFTCalculatorModel
 
     public class Item_Holder
     {
+
+        string item_name = "None";
         double hp = 0;
         double hp_mult = 0;
         double armor = 0;
@@ -5431,7 +5765,6 @@ namespace TFTCalculatorModel
         double rb_flag = 0;
         double aa_flag = 0;
         double kraken_flag = 0;
-        double mana_regen_mult = 0;
         double crit_flag = 0;
         double titans_flag = 0;
         double nashors_flag = 0;
@@ -5439,7 +5772,12 @@ namespace TFTCalculatorModel
         double mana_mult = 0;
         double qss_flag = 0;
         double ie_flag = 0;
+        bool above50 = false;
+        bool hit_tank = false;
 
+        public string ITEM_NAME { get { return item_name; } set { item_name = value; } }
+        public bool HIT_TANK { get { return hit_tank; } set { hit_tank = value; } }
+        public bool ABOVE50 { get { return above50; } set { above50 = value; } }
         public double HP { get { return hp; } set { hp = value; } }
         public double HP_MULT { get { return hp_mult; } set { hp_mult = value; } }
         public double ARMOR { get { return armor; } set { armor = value; } }
@@ -5461,20 +5799,22 @@ namespace TFTCalculatorModel
         public double RB_FLAG { get { return rb_flag; } set { rb_flag = value; } }
         public double AA_FLAG { get { return aa_flag; } set { aa_flag = value; } }
         public double KRAKEN_FLAG { get { return kraken_flag; } set { kraken_flag = value; } }
-        public double MANA_REGEN_MULT { get { return mana_regen_mult; } set { mana_regen_mult = value; } }
         public double CRIT_FLAG { get { return crit_flag; } set { crit_flag = value; } }
         public double TITANS_FLAG { get { return titans_flag; } set { titans_flag = value; } }
         public double NASHORS_FLAG { get { return nashors_flag; } set { nashors_flag = value; } }
-        public double AUTO_DR { get { return auto_dr; } set { auto_dr = value; } }
+        
         public double MANA_MULT { get { return mana_mult; } set { mana_mult = value; } }
         public double QSS_FLAG { get { return qss_flag; } set { qss_flag = value; } }
 
         public double IE_FLAG { get { return ie_flag; } set { ie_flag = value; } }
+
+        public double AUTO_DR { get { return auto_dr; } set { auto_dr = value; } }
     }
 
 
     public class Aug_Holder
     {
+        string aug_name = "None";
         double hp = 0;
         double hp_mult = 0;
         double armor = 0;
@@ -5492,7 +5832,12 @@ namespace TFTCalculatorModel
         double more_mult = 0;
         bool ascend_flag = false;
         bool water_lotus = false;
+        int lilb = 0;
+        int item_n = 0;
 
+        public int LILB { get { return lilb; } set { lilb = value; } }
+        public int ITEM_N { get { return item_n; } set { item_n = value; } }
+        public string AUG_NAME { get { return aug_name; } set { aug_name = value; } }
         public bool WATER_LOTUS { get { return water_lotus; } set { water_lotus = value; } }
         public bool ASCEND_FLAG { get { return ascend_flag; } set { ascend_flag = value; } }
         public double MORE_MULT { get { return more_mult; } set { more_mult = value; } }
@@ -5556,7 +5901,13 @@ namespace TFTCalculatorModel
         double sf_t_v = 0;
         bool m_flag = false;
         int targets = 0;
+        bool above50 = false;
+        bool first10 = false;
+        bool shielded = false;
 
+        public bool SHIELDED { get { return shielded; } set { shielded = value; } }
+        public bool FIRST10 { get { return first10; } set { first10 = value; } }
+        public bool ABOVE50 { get { return above50; } set { above50 = value; } }
         public int TARGETS { get { return targets; } set { targets = value; } }
         public bool M_FLAG { get { return m_flag; } set { m_flag = value; } }
         public double SF_AD { get { return sf_ad; } set { sf_ad = value; } }
@@ -5604,6 +5955,7 @@ namespace TFTCalculatorModel
 
     public class Fruit_Holder
     {
+        string fruit_name = "None";
         double hp = 0;
         double hp_mult = 0;
         double armor = 0;
@@ -5629,7 +5981,12 @@ namespace TFTCalculatorModel
         double crit_flag = 0;
         double titans_flag = 0;
         double execute = 0;
+        double pot_multi = 0;
+        string timed_event = "None";
 
+        public string FRUIT_NAME { get { return fruit_name; } set { fruit_name = value; } }
+        public string TIMED_EVENT { get { return timed_event; } set { timed_event = value; } }
+        public double POT_MULTI { get { return pot_multi; } set { pot_multi = value; } }
         public double HP { get { return hp; } set { hp = value; } }
         public double HP_MULT { get { return hp_mult; } set { hp_mult = value; } }
         public double ARMOR { get { return armor; } set { armor = value; } }
@@ -5656,5 +6013,895 @@ namespace TFTCalculatorModel
         public double TITANS_FLAG { get { return titans_flag; } set { titans_flag = value; } }
         public double EXECUTE { get { return execute; } set { execute = value; } }
     }
-    #endregion
-}
+
+    public class MVM_Connector
+    {
+        
+    }
+
+    public class Post_Combat_Stats
+    {
+        
+
+        #region properties
+        int attack_counter = 0;
+        int cast_counter = 0;
+        int attack_counter15 = 0;
+        int cast_counter15 = 0;
+
+        string unit_name = "No_Unit";
+        string star = "1";
+        
+        double auto_dps = 0;
+        double cast_dps = 0;
+        double p_cast_dps = 0;
+        double full_dps = 0;
+        double true_damage_dps = 0;
+
+        double auto_dps15 = 0;
+        double cast_dps15 = 0;
+        double p_cast_dps15 = 0;
+        double full_dps15 = 0;
+        double true_damage_dps15 = 0;
+
+        double auto_ad = 0;
+        double final_atks = 0;
+        double shield = 0;
+
+        double hp = 0;
+        double hp_mult = 0;
+        double armor = 0;
+        double mr = 0;
+
+        double healing = 0;
+
+        //
+        int targets = 0;
+        int style = 0;
+        int ashe_counter = 0;
+
+        bool crit_flag = false;
+        bool m_flag = false;
+        bool ascend_flag = false;
+        bool jinx_flag = false;
+        bool nashors_e = false;
+        bool sf_t = false;
+        bool sf_flag = false;
+        bool duelist_flag = false;
+        bool cast_flag = false;
+        bool half_flag = false;
+        bool aa_check = false;
+        bool attack_flag = false;
+
+        double base_atks = 0;
+        double max_mana = 0;
+        double base_ad = 0;
+        double mana_counter = 0;
+
+        double titans_flag = 0;
+        double potential = 0;
+        double asi = 0;
+        double mana_regen = 0;
+
+        double mana_oh = 0;
+        double mana_mult = 0;
+
+        double crit = 0;
+        double over_crit = 0;
+
+        double ie_flag = 0;
+        double over_cm = 0;
+        double ie_cm = 0;
+        double crit_flag2 = 0;
+        double crit_multi = 0;
+
+        double amp = 0;
+        double ad = 0;
+        double ap = 0;
+
+        double rb_flag = 0;
+        double kraken_flag = 0;
+        double aa_flag = 0;
+
+        double nashors_flag = 0;
+        double nashors_tracker = 0;
+        
+        double qss_flag = 0;
+        double gs_flag = 0;
+
+        double sf_t_v = 0;
+        double sf_ad = 0;
+
+        double duelist_asi = 0;
+        double duelist_cap = 0;
+        double duelist_track = 0;
+        double execute = 0;
+
+        double sunder = 0;
+        double shred = 0;
+        double omnivamp = 0;
+
+        double true_damage = 0;
+        double true_damage_tracker = 0;
+
+        
+        double voli_passive = 0;
+        double voli_atks = 0;
+
+        double spell_start = 0;
+
+        double atk_time = 0; 
+
+        double time_s = 0;
+
+        double time_e = 0;
+
+        double cast_time = 0;
+        double cast_time2 = 0;
+        
+
+        double cast_damage_tracker = 0;
+
+        double phys_cast_damage_tracker = 0;
+
+        double auto_damage_tracker = 0;
+
+        double cast_damage = 0;
+
+        double p_cast_damage = 0;
+
+        double auto_damage = 0;
+
+
+        double armor_dr = 0;
+
+        double mr_dr = 0;
+
+        double tsf = 0;
+        double tef = 0;
+
+        double voli_tracker = 0;
+        #endregion
+
+        public string UNIT_NAME { get { return unit_name; } set { unit_name = value; } }
+        public string STAR { get { return star; } set { star = value; } }
+        public double HEALING { get { return healing; } set { healing = value; } }
+        public double ARMOR { get { return armor; } set { armor = value; } }
+        public double MR { get { return mr; } set { mr = value; } }
+        public double HP { get { return hp; } set { hp = value; } }
+        public double HP_MULT { get { return hp_mult; } set { hp_mult = value; } }
+        public double ARMOR_DR { get { return armor_dr; } set { armor_dr = value; } }
+        public double MR_DR { get { return mr_dr; } set { mr_dr = value; } }
+        public double CAST_TIME { get { return cast_time; } set { cast_time = value; } }
+        public double CAST_TIME2 { get { return cast_time2; } set { cast_time2 = value; } }
+        public double TIME_S { get { return time_s; } set { time_s = value; } }
+        public double TIME_E { get { return time_e; } set { time_e = value; } }
+        public int ASHE_COUNTER { get { return ashe_counter; } set { ashe_counter = value; } }
+        public double VOLI_PASSIVE{ get { return voli_passive; } set { voli_passive = value; } }
+        public double FINAL_ATKS { get { return final_atks; } set { final_atks = value; } }
+        public double AUTO_AD { get { return auto_ad; } set { auto_ad = value; } }
+        public double VOLI_ATKS { get { return voli_atks; } set { voli_atks = value; } }
+        public double SPELL_START { get { return spell_start; } set { spell_start = value; } }
+        public double ATK_TIME { get { return atk_time; } set { atk_time = value; } }
+        public double TRUE_DAMAGE { get { return true_damage; } set { true_damage = value; } }
+        public double TRUE_DAMAGE_TRACKER { get { return true_damage_tracker; } set { true_damage_tracker = value; } }
+        public double EXECUTE { get { return execute; } set { execute = value; } }
+        public double DUELIST_ASI { get { return duelist_asi; } set { duelist_asi = value; } }
+        public double NASHORS_TRACKER { get { return nashors_tracker; } set { nashors_tracker = value; } }
+        public double AP { get { return ap; } set { ap = value; } }
+        public double AMP { get { return amp; } set { amp = value; } }
+        public double AD { get { return ad; } set { ad = value; } }
+        public double CRIT { get { return crit; } set { crit = value; } }
+        public double CRIT_MULTI { get { return crit_multi; } set { crit_multi = value; } }
+        public double MANA_OH { get { return mana_oh; } set { mana_oh = value; } }
+        public double OMNIVAMP { get { return omnivamp; } set { omnivamp = value; } }
+        public double MANA_REGEN { get { return mana_regen; } set { mana_regen = value; } }
+        public double ASI { get { return asi; } set { asi = value; } }
+        public bool M_FLAG { get { return m_flag; } set { m_flag = value; } }
+        public double SF_AD { get { return sf_ad; } set { sf_ad = value; } }
+        public double SF_T_V { get { return sf_t_v; } set { sf_t_v = value; } }
+        public bool CAST_FLAG { get { return cast_flag; } set { cast_flag = value; } }
+        public bool ATTACK_FLAG { get { return attack_flag; } set { attack_flag = value; } }
+        public bool NASHORS_E { get { return nashors_e; } set { nashors_e = value; } }
+        public bool SF_FLAG { get { return sf_flag; } set { sf_flag = value; } }
+        public bool SF_T { get { return sf_t; } set { sf_t = value; } }
+        public bool JINX_FLAG { get { return jinx_flag; } set { jinx_flag = value; } }
+        public bool DUELIST_FLAG { get { return duelist_flag; } set { duelist_flag = value; } }
+        public double POTENTIAL { get { return potential; } set { potential = value; } }
+        public double BASE_ATKS { get { return base_atks; } set { base_atks = value; } }
+        public double BASE_AD { get { return base_ad; } set { base_ad = value; } }
+        public double MAX_MANA { get { return max_mana; } set { max_mana = value; } }
+        public double MANA_COUNTER { get { return mana_counter; } set { mana_counter = value; } }
+        public bool ASCEND_FLAG { get { return ascend_flag; } set { ascend_flag = value; } }
+        public double SUNDER { get { return sunder; } set { sunder = value; } }
+        public double SHRED { get { return shred; } set { shred = value; } }
+        //public double ANTIHEAL { get { return antiheal; } set { antiheal = value; } }
+        public double GS_FLAG { get { return gs_flag; } set { gs_flag = value; } }
+        public double RB_FLAG { get { return rb_flag; } set { rb_flag = value; } }
+        public double AA_FLAG { get { return aa_flag; } set { aa_flag = value; } }
+        public double KRAKEN_FLAG { get { return kraken_flag; } set { kraken_flag = value; } }
+        public bool CRIT_FLAG { get { return crit_flag; } set { crit_flag = value; } }
+        public double CRIT_FLAG2 { get { return crit_flag2; } set { crit_flag2 = value; } }
+        public double TITANS_FLAG { get { return titans_flag; } set { titans_flag = value; } }
+        public double NASHORS_FLAG { get { return nashors_flag; } set { nashors_flag = value; } }
+
+        public double MANA_MULT { get { return mana_mult; } set { mana_mult = value; } }
+        public double QSS_FLAG { get { return qss_flag; } set { qss_flag = value; } }
+
+        public double IE_FLAG { get { return ie_flag; } set { ie_flag = value; } }
+
+        public double AUTO_DPS { get { return auto_dps; } set { auto_dps = value; } }
+        public double CAST_DPS { get { return cast_dps; } set { cast_dps = value; } }
+        public double P_CAST_DPS { get { return p_cast_dps; } set { p_cast_dps = value; } }
+        public double FULL_DPS { get { return full_dps; } set { full_dps = value; } }
+        public double TRUE_DAMAGE_DPS { get { return true_damage_dps; } set { true_damage_dps = value; } }
+        public double AUTO_DPS15 { get { return auto_dps15; } set { auto_dps15 = value; } }
+        public double CAST_DPS15 { get { return cast_dps15; } set { cast_dps15 = value; } }
+        public double P_CAST_DPS15 { get { return p_cast_dps15; } set { p_cast_dps15 = value; } }
+        public double FULL_DPS15{ get { return full_dps15; } set { full_dps15 = value; } }
+        public double TRUE_DAMAGE_DPS15 { get { return true_damage_dps15; } set { true_damage_dps15 = value; } }
+        public int ATTACK_COUNTER { get { return attack_counter; } set { attack_counter = value; } }
+        public int ATTACK_COUNTER15 { get { return attack_counter15; } set { attack_counter15 = value; } }
+        public int CAST_COUNTER { get { return cast_counter; } set { cast_counter = value; } }
+        public int CAST_COUNTER15 { get { return cast_counter15; } set { cast_counter15 = value; } }
+        public double CAST_DAMAGE_TRACKER { get { return cast_damage_tracker; } set { cast_damage_tracker = value; } }
+        public double PHYS_CAST_DAMAGE_TRACKER { get { return phys_cast_damage_tracker; } set { phys_cast_damage_tracker = value; } }
+        public double AUTO_DAMAGE_TRACKER { get { return auto_damage_tracker; } set { auto_damage_tracker = value; } }
+        public double CAST_DAMAGE { get { return cast_damage; } set { cast_damage = value; } }
+        public double P_CAST_DAMAGE { get { return p_cast_damage; } set { p_cast_damage = value; } }
+        public double AUTO_DAMAGE { get { return auto_damage; } set { auto_damage = value; } }
+        public bool HALF_FLAG { get { return half_flag; } set { half_flag = value; } }
+        public bool AA_CHECK { get { return aa_check; } set { aa_check = value; } }
+        public double VOLI_TRACKER{ get { return voli_tracker; } set { voli_tracker = value; } }
+        public int STYLE { get { return style; } set { style = value; } }
+
+
+        
+
+    }
+
+
+    public class List_Obj
+    {
+
+        public static List<string> kat_flist = new()
+        {
+            "None",
+            "Star Student",
+            "Not Done Yet",
+            "Colossal",
+            "Dark Amulet",
+            "Over 9000",
+            "Unflinching",
+            "Blink Attack",
+            "On The Edge",
+            "Fusion Dance",
+            "Scoialite",
+            "Hemorrhage",
+            "Keen Eye",
+            "Fairy Tail",
+            "Heros Arc",
+            "Final Boss",
+            "Magic Expert",
+            "Hungry Hero",
+            "Weights",
+            "Finalist",
+            "Tiny Terror",
+            "100 Push Ups",
+            "Crimson Veil",
+            "Max Arcana",
+            "Trickster",
+            "Midas Touch",
+            "Ordinary",
+            "Corrupted"
+
+        };
+
+        public List<string> KAT_FLIST { get { return kat_flist; } }
+
+        public static List<string> cait_flist = new()
+        {
+            "None",
+            "Star Student",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Mage",
+            "Over 9000",
+            "Power Font",
+            "Critical Threat",
+            "Efficient",
+            "Bludgeoner",
+            "Gather Force",
+            "Solar Breath",
+            "Max Attack",
+            "Hat Trick",
+            "Attack Expert",
+            "Cyclone Rush",
+            "Precision",
+            "Classy",
+            "Midas Touch",
+            "Ordinary",
+            "Max Speed"
+
+
+        };
+
+        public List<string> CAIT_FLIST { get { return cait_flist; } }
+
+        public static List<string> lucian_flist = new()
+        {
+            "None",
+            "Pursuit",
+            "Storm Bender",
+            "Mech Pilot",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Mage",
+            "Over 9000",
+            "Power Font",
+            "Demolitionist",
+            "Bullet Hell",
+            "Critical Threat",
+            "Killer Instinct",
+            "Keen Eye",
+            "Caretaker",
+            "Fairy Tail",
+            "Essence Share",
+            "Solar Breath",
+            "Heros Arc",
+            "Magic Expert",
+            "Hungry Hero",
+            "Max Arcana",
+            "Robo Range",
+            "Classy",
+            "Midas Touch"
+
+        };
+
+        public List<string> LUCIAN_FLIST { get { return lucian_flist; } }
+
+        public static List<string> malz_flist = new()
+        {
+            "None",
+            "Storm Bender",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Mage",
+            "Power Font",
+            "Critical Threat",
+            "Killer Instinct",
+            "Keen Eye",
+            "Caretaker",
+            "Fairy Tail",
+            "Essence Share",
+            "Super Genius",
+            "Solar Breath",
+            "Magic Expert",
+            "Max Arcana",
+            "Hat Trick",
+            "Classy",
+            "Midas Touch"
+
+        };
+
+        public List<string> MALZ_FLIST { get { return malz_flist; } }
+
+        public static List<string> senna_flist = new()
+        {
+            "None",
+            "Storm Bender",
+            "Mech Pilot",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Over 9000",
+            "Efficient",
+            "Bludgeoner",
+            "Gather Force",
+            "Solar Breath",
+            "Max Attack",
+            "Hat Trick",
+            "Attack Expert",
+            "Cyclone Rush",
+            "Precision",
+            "Midas Touch",
+            "Ordinary"
+
+        };
+
+        public List<string> SENNA_FLIST { get { return senna_flist; } }
+
+        public static List<string> akali_flist = new()
+        {
+            "None",
+            "Thrillseeker",
+            "Mage",
+            "Dark Amulet",
+            "Unflinching",
+            "Blink Attack",
+            "Supremacy",
+            "On The Edge",
+            "Fusion Dance",
+            "Hemorrhage",
+            "Keen Eye",
+            "Magic Expert",
+            "Finalist",
+            "Tiny Terror",
+            "Crimson Veil",
+            "Trickster",
+            "Corrupted"
+
+        };
+
+        public List<string> AKALI_FLIST { get { return akali_flist; } }
+
+        public static List<string> ashe_flist = new()
+        {
+            "None",
+            "Frost Touch",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Over 9000",
+            "Desperado",
+            "Bullet Hell",
+            "Critical Threat",
+            "Bludgeoner",
+            "Doublestrike",
+            "Solar Breath",
+            "Kahunahuna",
+            "Spirit Sword",
+            "Attack Expert",
+            "Cyclone Rush",
+            "Precision",
+            "Midas Touch",
+            "Ordinary"
+
+        };
+
+        public List<string> ASHE_FLIST { get { return ashe_flist; } }
+
+        public static List<string> jarvan_flist = new()
+        {
+            "None",
+            "Mech Pilot",
+            "Resistant",
+            "Colossal",
+            "Adaptive Skin",
+            "Round Two",
+            "Stand Alone",
+            "Corrosive",
+            "Body Change",
+            "Inner Fire",
+            "Regenerative",
+            "Strong Spark",
+            "Selfish",
+            "Tank-zilla",
+            "Robo Ranger",
+            "Spiky Shell",
+            "Classy",
+            "Mana Rush"
+
+        };
+
+        public List<string> JARVAN_FLIST { get { return jarvan_flist; } }
+
+        public static List<string> jinx_flist = new()
+        {
+            "None",
+            "Star Sailor",
+            "Storm Bender",
+            "Sky Piercer",
+            "Hyperactive",
+            "Mage",
+            "Desperado",
+            "Power Font",
+            "Critical Threat",
+            "Hemorrhage",
+            "Golden Edge",
+            "Gather Force",
+            "Doublestrike",
+            "Solar Breath",
+            "Ramping RAge",
+            "Attack Expert",
+            "Cyclone Rush",
+            "Precision",
+            "Classy",
+            "Midas Touch",
+            "Ordinary"
+
+        };
+
+        public List<string> JINX_FLIST { get { return jinx_flist; } }
+
+        public static List<string> ksante_flist = new()
+        {
+            "None",
+            "All Out",
+            "Resistant",
+            "Colossal",
+            "Stand Alone",
+            "Corrosive",
+            "Atomic",
+            "Warming Up",
+            "Body Change",
+            "Fusion Dance",
+            "Inner Fire",
+            "Regenerative",
+            "Pure Heart",
+            "Selfish",
+            "Weights",
+            "Tank-zilla",
+            "Unstoppable",
+            "Spiky Shell",
+            "Ordinary"
+        };
+
+        public List<string> KSANTE_FLIST { get { return ksante_flist; } }
+
+        public static List<string> karma_flist = new()
+        {
+            "None",
+            "Storm Bender",
+            "Mech Pilot",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Mage",
+            "Soul Chipper",
+            "Power Font",
+            "Critical Threat",
+            "Efficient",
+            "Keen Eye",
+            "Caretaker",
+            "Esence Share",
+            "Super Genius",
+            "Solar Breath",
+            "Magic Expert",
+            "Robo Ranger",
+            "Classy",
+            "Midas Touch"
+
+        };
+
+        public List<string> KARMA_FLIST { get { return karma_flist; } }
+
+        public static List<string> leona_flist = new()
+        {
+            "None",
+            "Star Student",
+            "Resistant",
+            "Colossal",
+            "Round Two",
+            "Stand Alone",
+            "Corrosive",
+            "Atomic",
+            "Body Change",
+            "Inner Fire",
+            "Regenerative",
+            "Pure Heart",
+            "Selfish",
+            "Tank-zilla",
+            "Living Wall",
+            "Unstoppable",
+            "Spiky Shell",
+            "Classy"
+
+        };
+
+        public List<string> LEONA_FLIST { get { return leona_flist; } }
+
+        public static List<string> poppy_flist = new()
+        {
+            "None",
+            "Star Sailor",
+            "Colossal",
+            "Singularity",
+            "Adaptive Skin",
+            "Stand Alone",
+            "Corrosive",
+            "Best Defense",
+            "Atomic",
+            "Body Change",
+            "Inner Fire",
+            "Regenerative",
+            "Strong Spark",
+            "Pure Heart",
+            "Tank-zilla",
+            "Unstoppable",
+            "Spiky Shell",
+            "Classy"
+
+        };
+
+        public List<string> POPPY_FLIST { get { return poppy_flist; } }
+
+        public static List<string> ryze_flist = new()
+        {
+            "None",
+            "Ice Bender",
+            "Storm Bender",
+            "Sky Piercer",
+            "Shadow Clone",
+            "Soul Chipper",
+            "Critical Threat",
+            "Efficient",
+            "Killer Instinct",
+            "Keen Eye",
+            "Super Genius",
+            "Solar Breath",
+            "Magic Expert",
+            "Annihilation",
+            "Classy",
+            "Midas Touch"
+
+        };
+
+        public List<string> RYZE_FLIST { get { return ryze_flist; } }
+
+        public static List<string> samira_flist = new()
+        {
+            "None",
+            "Storm Bender",
+            "Sky Piercer",
+            "Shadow Clone",
+            "On The Edge",
+            "Critical Threat",
+            "Killer Instinct",
+            "Bludgeoner",
+            "Fairy Tail",
+            "Essence Share",
+            "Gather Force",
+            "Solar Breath",
+            "Finalist",
+            "Crimson Veil",
+            "Attack Expert",
+            "Cyclone Rush",
+            "Precision",
+            "Midas Touch",
+            "Ordinary"
+
+        };
+
+        public List<string> SAMIRA_FLIST { get { return samira_flist; } }
+
+        public static List<string> sett_flist = new()
+        {
+            "None",
+            "Resistance",
+            "Colossal",
+            "Adaptive Skin",
+            "Round Two",
+            "Stand Alone",
+            "Corrosive",
+            "Best Defense",
+            "Atomic",
+            "Body Change",
+            "Inner Fire",
+            "Regenerative",
+            "Strong Spark",
+            "Pure Heart",
+            "Selfish",
+            "Tank-zilla",
+            "Spiky Shell"
+        };
+
+        public List<string> SETT_FLIST { get { return sett_flist; } }
+
+        public static List<string> voli_flist = new()
+        {
+            "None",
+            "Thrillseeker",
+            "Colossal",
+            "Unflinching",
+            "Serious Slam",
+            "On The Edge",
+            "Warming Up",
+            "Fusion Dance",
+            "Bludgeoner",
+            "Bladenado",
+            "Doublestrike",
+            "Final Boss",
+            "Stretchy Arms",
+            "Weights",
+            "Finalist",
+            "Tiny Terror",
+            "Attack Expert",
+            "Classy",
+            "Trickster",
+            "Midas Touch",
+            "Ordinary",
+            "Corrupted"
+
+        };
+
+        public List<string> VOLI_FLIST { get { return voli_flist; } }
+
+        public static List<string> yuumi_flist = new()
+        {
+            "None",
+            "Star Student",
+            "Storm Bender",
+            "Sky Piercer",
+            "Power Font",
+            "Bullet Hell",
+            "Critical Threat",
+            "Keen Eye",
+            "Caretaker",
+            "Fairy Tail",
+            "Essence Share",
+            "Super Genius",
+            "Solar Breath",
+            "Magic Expert",
+            "Classy",
+            "Midas Touch"
+
+        };
+
+        public List<string> YUUMI_FLIST { get { return yuumi_flist; } }
+        public static List<string> g_auglist = new()
+        {
+            "None",
+            "PairOfFours",
+            "BestFriends2",
+            "LittleBuddies",
+            "MacesWill",
+            "Preparation2",
+            "ScoreboardScrapper",
+            "BackUpDancers",
+            "BlazingSoul2",
+            "GlassCannon2",
+            "CyberImplants2",
+            "CyberUplink2",
+            "ItemCollector2",
+            "KnowYourEnemy",
+            "PumpingUp2",
+            "SpearsWill",
+            "WaterLotus",
+            "Ascension"
+        };
+
+        public List<string> G_AUGLIST { get { return g_auglist; } }
+
+        public static List<string> s_auglist = new()
+        {
+            "None",
+            "silver"
+        };
+
+        public List<string> S_AUGLIST { get { return s_auglist; } }
+
+        public static List<string> p_auglist = new()
+        {
+            "None",
+            "prismatic"
+        };
+
+        public List<string> P_AUGLIST { get { return p_auglist; } }
+
+        // ad items
+        public static List<string> itemlist2 = new()
+         {
+            "None",
+            "Deathblade",
+            "Giantslayer",
+            "InfinityEdge",
+            "Shojin",
+            "LastWhisper",
+            "Kraken",
+            "HandOfJustice",
+            "Titans",
+            "BloodThirster",
+            "Gunblade",
+            "EdgeOfNight"
+        };
+
+        //tank items
+        public List<string> ITEMLIST2 { get { return itemlist2; } }
+
+        public static List<string> itemlist3 = new()
+        {
+            "None",
+            "Warmogs",
+            "SpiritVisage",
+            "Bramble",
+            "DragonClaw",
+            "ProtectorsVow",
+            "SteadfastHeart",
+            "Crownguard",
+            "Stoneplate",
+            "AdaptiveFront",
+            "Spark",
+            "EvenShroud",
+            "Sunfire"
+        };
+
+        public List<string> ITEMLIST3 { get { return itemlist3; } }
+
+        // ap/as
+        public static List<string> itemlist = new()
+        {
+            "None",
+            "Archangels",
+            "Deathcap",
+            "JeweledGauntlet",
+            "VoidStaff",
+            "Rageblade",
+            "BlueBuff",
+            "Nashor",
+            "StrikersFlail",
+            "AdaptiveBack",
+            "Morello",
+            "Gunblade",
+            "Redbuff",
+            "QuickSilver",
+        };
+        public List<string> ITEMLIST { get { return itemlist; } }
+
+        public static List<string> unitlist3 = new()
+        {
+            "No_Unit",
+            "Malzahar",
+            "Caitlyn",
+            "Senna",
+            "Smolder"
+        };
+        public List<string> UNITLIST3 { get { return unitlist3; } }
+
+        public static List<string> unitlist2 = new()
+        {
+            "No_Unit",
+            "Katarina"
+        };
+        public List<string> UNITLIST2 { get { return unitlist2; } }
+
+        public static List<string> unitlist1 = new()
+        {
+            "No_Unit",
+            "Lucian"
+        };
+        public List<string> UNITLIST1 { get { return unitlist1; } }
+
+        
+        public static List<string> unitlist4 = new()
+        {
+            "No_Unit",
+            "Jinx",
+            "Karma",
+            "Ryze",
+            "Yuumi",
+            "Ashe",
+            "Samira",
+            "Jarvan",
+            "Ksante",
+            "Leona",
+            "Poppy",
+            "Sett",
+            "Volibear",
+            "Akali"
+        };
+
+        public List<string> UNITLIST4 { get { return unitlist4; } }
+
+        public static List<string> unitlist5 = new()
+        {
+        "No_Unit",
+        "5 cost"
+        };
+        public List<string> UNITLIST5 { get { return unitlist5; } }
+
+        public List<string> starlist = new()
+            {
+                "1",
+                "2",
+                "3"
+            };
+        public List<string> STARLIST { get { return starlist; } }
+
+        
+
+
+    }
+    
+
+
+
+        #endregion
+    }

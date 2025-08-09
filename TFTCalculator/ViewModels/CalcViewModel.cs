@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using TFTCalculatorModel;
 using TFTCalculator.ViewModels.Helper;
+using System.Security.Cryptography.Pkcs;
 
 namespace TFTCalculator.ViewModels
 {
@@ -19,8 +20,24 @@ namespace TFTCalculator.ViewModels
         #region properties1
         private bool canExecute = true;
 
-        public string unit_name = "No_Unit";
+        string unit_name = "No_Unit";
 
+        string fruit_name = "None";
+
+        string star = "1";
+
+        string item1 = "None";
+        string item2 = "None";
+        string item3 = "None";
+
+        string aug1 = "None";
+        string aug2 = "None";
+        string aug3 = "None";
+
+        //string trait1 = "none";
+        //string trait2 = "none";
+        //string trait3 = "none";
+        
         int attack_counter = 0;
         int cast_counter = 0;
         double auto_dps = 0;
@@ -57,9 +74,10 @@ namespace TFTCalculator.ViewModels
 
         int targets = 0;
 
-        string trait1 = "none";
-        string trait2 = "none";
-        string trait3 = "none";
+        string trait1 = "None";
+        string trait2 = "None";
+        string trait3 = "None";
+
 
         int trait1_value = 0;
         int trait2_value = 0;
@@ -122,24 +140,7 @@ namespace TFTCalculator.ViewModels
         bool u5_list_e = true;
 
 
-        ObservableCollection<string> comp_list = new() {
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-"
-                };
-        ObservableCollection<string> comp_list2 = new() {
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-"
-                };
-        ObservableCollection<string> comp_list3 = new() {
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",  "-",
-                    "-",  "-",  "-",  "-",  "-",  "-",  "-"
-                };
+        
 
         public bool U1_LIST_CHECK { get { return u1_list_check; } set { u1_list_check = value; OnPropertyChanged(); } }
         public bool U2_LIST_CHECK { get { return u2_list_check; } set { u2_list_check = value; OnPropertyChanged(); } }
@@ -160,9 +161,8 @@ namespace TFTCalculator.ViewModels
         public double FINAL_MAGIC_DR { get { return final_magic_dr; } set { final_magic_dr = value; OnPropertyChanged(); } }
         public double SHIELD { get { return shield; } set { shield = value; OnPropertyChanged(); } }
 
-        public int LILB { get { return lilb; } set { lilb = value; OnPropertyChanged(); } }
-        public int ITEM_N { get { return item_n; } set { item_n = value; OnPropertyChanged(); } }
-        public int TARGETS{ get { return targets; } set { targets = value; OnPropertyChanged(); } }
+        
+        
         public int ATTACK_COUNTER { get { return attack_counter;} set {attack_counter = value; OnPropertyChanged();} }
 
         public int CAST_COUNTER { get { return cast_counter; } set { cast_counter = value; OnPropertyChanged(); } }
@@ -184,14 +184,14 @@ namespace TFTCalculator.ViewModels
         public double TRUE_DAMAGE_DPS15 { get { return true_damage_dps15; } set { true_damage_dps15 = value; OnPropertyChanged(); } }
 
 
+        //public string TRAIT1 { get { return trait1; } set { trait1 = value; OnPropertyChanged(); } }
+        //public string TRAIT2 { get { return trait2; } set { trait2 = value; OnPropertyChanged(); } }
+        //public string TRAIT3 { get { return trait3; } set { trait3 = value; OnPropertyChanged(); } }
+
+
         public string TRAIT1 { get { return trait1; } set { trait1 = value; OnPropertyChanged(); } }
         public string TRAIT2 { get { return trait2; } set { trait2 = value; OnPropertyChanged(); } }
         public string TRAIT3 { get { return trait3; } set { trait3 = value; OnPropertyChanged(); } }
-
-        public int TRAIT1_VALUE { get { return trait1_value ; } set { trait1_value = value; OnPropertyChanged(); } }
-        public int TRAIT2_VALUE { get { return trait2_value; } set { trait2_value = value; OnPropertyChanged(); } }
-        public int TRAIT3_VALUE { get { return trait3_value; } set { trait3_value = value; OnPropertyChanged(); } }
-
         public string CE_TEXT { get { return ce_text; } set { ce_text = value; OnPropertyChanged(); } }
 
         public string MODE_TEXT { get { return mode_text; } set { mode_text = value; OnPropertyChanged(); } }
@@ -216,10 +216,7 @@ namespace TFTCalculator.ViewModels
         public bool AD_ILIST_E { get { return ad_ilist_e; } set { ad_ilist_e = value; OnPropertyChanged(); } }
         public bool AP_ILIST_E { get { return ap_ilist_e; } set { ap_ilist_e = value; OnPropertyChanged(); } }
         public bool AS_ILIST_E { get { return as_ilist_e; } set { as_ilist_e = value; OnPropertyChanged(); } }
-        public bool FIRST10 { get { return first10; } set { first10 = value; OnPropertyChanged(); } }
-        public bool SHIELDED { get { return shielded; } set { shielded = value; OnPropertyChanged(); } }
-        public bool ABOVE50 { get { return above50; } set { above50 = value; OnPropertyChanged(); } }
-        public bool HIT_TANK { get { return hit_tank; } set { hit_tank = value; OnPropertyChanged(); } }
+        
         public int LIST_MODE { get { return list_mode; } set { list_mode = value; OnPropertyChanged(); } }
         public int A_LIST_MODE { get { return a_list_mode; } set { a_list_mode = value; OnPropertyChanged(); } }
 
@@ -248,33 +245,159 @@ namespace TFTCalculator.ViewModels
         public double ASI { get { return asi; } set { asi = value; OnPropertyChanged(); } }
         public double MANA_MULTI { get { return mana_multi; } set { mana_multi = value; OnPropertyChanged(); } }
 
-        public ObservableCollection<string> COMP_LIST { get { return comp_list; } set { comp_list = value; OnPropertyChanged(); } }
-        public ObservableCollection<string> COMP_LIST2 { get { return comp_list2; } set { comp_list2 = value; OnPropertyChanged(); } }
-        public ObservableCollection<string> COMP_LIST3 { get { return comp_list3; } set { comp_list3 = value; OnPropertyChanged(); } }
+        
 
         #endregion
 
 
-        #region instantiate model
+        #region instantiate objects from model
         CalcModel CM = new();
+        List_Obj LC = new();
         #endregion
 
 
         #region properties with calcs on set
+
+        public int LILB 
+        { 
+            get { return lilb; } 
+            set 
+            {
+                lilb = value;
+                OnPropertyChanged();
+                CM.LILB = lilb;
+                CM.Combat_Wrapper();
+                Data_Helper();
+                //CM.Combat_Wrapper(string unit_name, string star, string item1, string item2, string item3, string aug1, string aug2, string aug3, );
+
+            } 
+        }
+        public int ITEM_N 
+        { 
+            get { return item_n; }
+            set 
+            { 
+                item_n = value; 
+                OnPropertyChanged();
+                CM.ITEM_N = item_n;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            } 
+        }
+        public int TRAIT1_VALUE 
+        { 
+            get { return trait1_value; } 
+            set 
+            { 
+                trait1_value = value; 
+                OnPropertyChanged();
+                CM.TRAIT1_VALUE = trait1_value;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            } 
+        }
+        public int TRAIT2_VALUE 
+        { 
+            get { return trait2_value;} 
+            set 
+            { 
+                trait2_value = value; 
+                OnPropertyChanged();
+                CM.TRAIT2_VALUE = trait2_value;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            } 
+        }
+        public int TRAIT3_VALUE 
+        { 
+            get { return trait3_value; } 
+            set 
+            { 
+                trait3_value = value; 
+                OnPropertyChanged();
+                CM.TRAIT3_VALUE = trait3_value;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            } 
+        }
+
+        public bool FIRST10 
+        { 
+            get { return first10; } 
+            set 
+            { 
+                first10 = value; 
+                OnPropertyChanged();
+                CM.FIRST10 = first10;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            }
+        }
+        public bool SHIELDED 
+        { 
+            get { return shielded; } 
+            set
+            { 
+                shielded = value; 
+                OnPropertyChanged();
+                CM.SHIELDED = shielded;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            } 
+        }
+        public bool ABOVE50 
+        { 
+            get { return above50; } 
+            set 
+            { 
+                above50 = value; 
+                OnPropertyChanged();
+                CM.ABOVE50= above50;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            } 
+        }
+        public bool HIT_TANK 
+        { 
+            get { return hit_tank; } 
+            set 
+            { 
+                hit_tank = value; 
+                OnPropertyChanged();
+                CM.HIT_TANK = hit_tank;
+                CM.Combat_Wrapper();
+                Data_Helper();
+            }
+        }
+
+        public int TARGETS 
+        {   
+            get { return targets; } 
+            set 
+            {
+                targets = value;
+                CM.TARGETS = targets; 
+                OnPropertyChanged();
+                CM.Combat_Wrapper();
+                Data_Helper();
+                //(ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
+                //        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
+                //        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
+                //        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
+                //        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
+                //                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
+                //                            aug1, aug2, aug3, lilb, item_n);
+            } 
+        }
         public bool COMP_ENABLE
         {
             get { return comp_enable; }
             set
             {
-                comp_enable = value; 
-                OnPropertyChanged();
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                comp_enable = value;
+                CM.COMP_ENABLE = comp_enable; 
+                OnPropertyChanged(); CM.Combat_Wrapper();
+                Data_Helper();
             }
         }
         public bool FULL_FLAG 
@@ -282,20 +405,33 @@ namespace TFTCalculator.ViewModels
             get { return full_flag; } 
             set 
             { 
-                full_flag = value; 
+                full_flag = value;
+                CM.FULL_FLAG = full_flag; 
                 OnPropertyChanged();
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                CM.Combat_Wrapper();
+                Data_Helper();
             } 
+        }
+
+        public string FRUIT_NAME
+        {
+            get { return fruit_name; }
+            set
+            {
+                if (value != null)
+                {
+                    fruit_name = value.ToString();
+                    OnPropertyChanged();
+                    CM.FRUIT_NAME = fruit_name;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
+                }
+            }
         }
 
         public string UNIT_NAME
         {
+            //get { return unit_name; }
             get { return unit_name; }
             set
             {
@@ -303,19 +439,16 @@ namespace TFTCalculator.ViewModels
                 {
                     unit_name = value.ToString();
                     OnPropertyChanged();
-                    //ATTACK_COUNTER += 1;
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.UNIT_NAME = unit_name;
+                    FRUIT_NAME = "None";
+                    CM.FRUIT_NAME = fruit_name;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
             }
         }
 
-        public string star = "1";
+        //public string star = "1";
         public string STAR
         {
             get { return star; }
@@ -323,18 +456,17 @@ namespace TFTCalculator.ViewModels
             {
                 star = value.ToString();
                 OnPropertyChanged();
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
+                CM.STAR = star;
+
+                CM.Combat_Wrapper();
+                Data_Helper();
+
+
 
             }
         }
 
-        public string item1 = "None";
+        //public string item1 = "None";
         public string ITEM1
         {
             get { return item1; }
@@ -344,20 +476,16 @@ namespace TFTCalculator.ViewModels
                 {
                     item1 = value.ToString();
                     OnPropertyChanged();
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.ITEM1_NAME = item1;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
                 
 
             }
         }
 
-        public string item2 = "None";
+        //public string item2 = "None";
         public string ITEM2
         {
             get { return item2; }
@@ -367,20 +495,16 @@ namespace TFTCalculator.ViewModels
                 {
                     item2 = value.ToString();
                     OnPropertyChanged();
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.ITEM2_NAME = item2;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
                     
 
             }
         }
 
-        public string item3 = "None";
+        //public string item3 = "None";
         public string ITEM3
         {
             get { return item3; }
@@ -390,20 +514,16 @@ namespace TFTCalculator.ViewModels
                 {
                     item3 = value.ToString();
                     OnPropertyChanged();
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.ITEM3_NAME = item3;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
                 
 
             }
         }
 
-        public string aug1 = "None";
+        //public string aug1 = "None";
 
         public string AUG1
         {
@@ -414,20 +534,16 @@ namespace TFTCalculator.ViewModels
                 {
                     aug1 = value.ToString();
                     OnPropertyChanged();
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.AUG1_NAME = aug1;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
 
 
             }
         }
 
-        public string aug2 = "None";
+       //public string aug2 = "None";
 
         public string AUG2
         {
@@ -438,20 +554,16 @@ namespace TFTCalculator.ViewModels
                 {
                     aug2 = value.ToString();
                     OnPropertyChanged();
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.AUG2_NAME = aug2;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
 
 
             }
         }
 
-        public string aug3 = "None";
+        //public string aug3 = "None";
 
         public string AUG3
         {
@@ -462,13 +574,9 @@ namespace TFTCalculator.ViewModels
                 {
                     aug3 = value.ToString();
                     OnPropertyChanged();
-                    (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                        ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                        , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                        , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                        = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                            COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                            aug1, aug2, aug3, lilb, item_n);
+                    CM.AUG3_NAME = aug3;
+                    CM.Combat_Wrapper();
+                    Data_Helper();
                 }
 
 
@@ -477,11 +585,93 @@ namespace TFTCalculator.ViewModels
 
         #endregion
 
+        #region list declarations
+        public ObservableCollection<string> COMP_LIST { get; }
+        public ObservableCollection<string> COMP_LIST2 { get; }
+        public ObservableCollection<string> COMP_LIST3 { get; }
+        public List<string> STARLIST {get;}
+        public List<string> UNITLIST5 {get;}
+        public List<string> UNITLIST4 {get;}
+        public List<string> UNITLIST3 { get; }
+        public List<string> UNITLIST2 { get; }
+        public List<string> UNITLIST1 { get; }
+        public List<string> ITEMLIST { get; }
+        public List<string> ITEMLIST2 { get; }
+        public List<string> ITEMLIST3 { get; }
+        public List<string> G_AUGLIST { get; }
+        public List<string> S_AUGLIST { get; }
+        public List<string> P_AUGLIST { get; }
+        public List<string> KAT_FLIST { get; }
+        public List<string> CAIT_FLIST { get; }
+        public List<string> LUCIAN_FLIST { get; }
+        public List<string> MALZ_FLIST { get; }
+        public List<string> SENNA_FLIST { get; }
+        public List<string> AKALI_FLIST { get; }
+        public List<string> ASHE_FLIST { get; }
+        public List<string> JARVAN_FLIST { get; }
+        public List<string> JINX_FLIST { get; }
+        public List<string> KSANTE_FLIST { get; }
+        public List<string> KARMA_FLIST { get; }
+        public List<string> LEONA_FLIST { get; }
+        public List<string> POPPY_FLIST { get; }
+        public List<string> RYZE_FLIST { get; }
+        public List<string> SAMIRA_FLIST { get; }
+        public List<string> SETT_FLIST { get; }
+        public List<string> VOLI_FLIST { get; }
+        public List<string> YUUMI_FLIST { get; }
+        #endregion
+
         // constructor
         public CalcViewModel()
         {
-            //HiButtonCommand = new RelayCommand(DoSomething, param => this.canExecute);
+            // intiialize lists
+            COMP_LIST = CM.OUT_LIST;
+            COMP_LIST2 = CM.OUT_LIST2;
+            COMP_LIST3 = CM.OUT_LIST3;
 
+            #region fruit lists
+            KAT_FLIST = LC.KAT_FLIST;
+            CAIT_FLIST = LC.CAIT_FLIST;
+            LUCIAN_FLIST = LC.LUCIAN_FLIST;
+            MALZ_FLIST = LC.MALZ_FLIST;
+            SENNA_FLIST = LC.SENNA_FLIST;
+            AKALI_FLIST = LC.AKALI_FLIST;
+            ASHE_FLIST = LC.ASHE_FLIST;
+            JARVAN_FLIST = LC.JARVAN_FLIST;
+            JINX_FLIST = LC.JINX_FLIST;
+            KSANTE_FLIST = LC.KSANTE_FLIST;
+            KARMA_FLIST = LC.KARMA_FLIST;
+            LEONA_FLIST = LC.LEONA_FLIST;
+            POPPY_FLIST = LC.POPPY_FLIST;
+            RYZE_FLIST = LC.RYZE_FLIST;
+            SAMIRA_FLIST = LC.SAMIRA_FLIST;
+            SETT_FLIST = LC.SETT_FLIST;
+            VOLI_FLIST = LC.VOLI_FLIST;
+            YUUMI_FLIST = LC.YUUMI_FLIST;
+            #endregion
+
+            #region augment lists
+            G_AUGLIST = LC.G_AUGLIST;
+            S_AUGLIST = LC.S_AUGLIST;
+            P_AUGLIST = LC.P_AUGLIST;
+            #endregion
+
+            #region item lists
+            ITEMLIST = LC.ITEMLIST;
+            ITEMLIST2 = LC.ITEMLIST2;
+            ITEMLIST3 = LC.ITEMLIST3;
+            #endregion
+
+            #region unit lists
+            STARLIST = LC.STARLIST;
+            UNITLIST5 = LC.UNITLIST5;
+            UNITLIST4 = LC.UNITLIST4;
+            UNITLIST3 = LC.UNITLIST3;
+            UNITLIST2 = LC.UNITLIST2;
+            UNITLIST1 = LC.UNITLIST1;
+            #endregion
+
+            #region commands
             LILB_PLUS = new RelayCommand(Lilb_inc);
             ITEM_N_PLUS = new RelayCommand(Item_n_inc);
 
@@ -525,13 +715,53 @@ namespace TFTCalculator.ViewModels
             U4_LIST = new RelayCommand(U4_List_Toggle, param => this.canExecute);
             U5_LIST = new RelayCommand(U5_List_Toggle, param => this.canExecute);
 
-            //AS_ILIST = new RelayCommand(AS_IList_Toggle, param => this.canExecute);
+            #endregion
         }
 
-        #region icommand
-        private ICommand hiButtonCommand;
+        public void Data_Helper()
+        {
+            
+            TRAIT1 = CM.TRAIT1_NAME;
+            TRAIT2 = CM.TRAIT2_NAME;
+            TRAIT3 = CM.TRAIT3_NAME;
 
-        private ICommand toggleExecuteCommand { get; set; }
+            FULL_DPS = CM.FULL_DPS;
+            ATTACK_COUNTER = CM.ATTACK_COUNTER;
+            CAST_COUNTER = CM.CAST_COUNTER;
+            AUTO_DPS = CM.AUTO_DPS;
+            CAST_DPS = CM.CAST_DPS;
+            P_CAST_DPS = CM.P_CAST_DPS;
+            TRUE_DAMAGE_DPS = CM.TRUE_DAMAGE_DPS;
+
+            FULL_DPS15 = CM.FULL_DPS15;
+            ATTACK_COUNTER15 = CM.ATTACK_COUNTER15;
+            CAST_COUNTER15 = CM.CAST_COUNTER15;
+            AUTO_DPS15 = CM.AUTO_DPS15;
+            CAST_DPS15 = CM.CAST_DPS15;
+            P_CAST_DPS15 = CM.P_CAST_DPS15;
+            TRUE_DAMAGE_DPS15 = CM.TRUE_DAMAGE_DPS15;
+
+            
+
+            HP = CM.HP;
+            ARMOR = CM.ARMOR;
+            MR = CM.MR;
+            FINAL_ATKS = CM.FINAL_ATKS;
+            AP = CM.AP;
+            AMP = CM.AMP;
+            CRIT = CM.CRIT;
+            CRIT_MULTI = CM.CRIT_MULTI;
+
+            AUTO_AD = CM.AUTO_AD;
+            AD = CM.AD;
+            ASI = CM.ASI;
+            MANA_OH = CM.MANA_OH;
+            MANA_REGEN = CM.MANA_REGEN;
+            MANA_MULTI = CM.MANA_MULTI;
+
+        }
+
+        #region commands
 
         private ICommand u1_list;
         private ICommand u2_list;
@@ -642,6 +872,7 @@ namespace TFTCalculator.ViewModels
 
         //}
 
+        //d
         public void Hit_Tank_Toggle(object obj)
         {
             if ((bool)obj)
@@ -649,18 +880,14 @@ namespace TFTCalculator.ViewModels
                 HIT_TANK = true;
 
             }
-            else HIT_TANK = false;
-
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
+            else
+            {
+                HIT_TANK = false;
+            } 
 
         }
 
+        //d
         public void First10_Toggle(object obj)
         {
             if ((bool)obj)
@@ -668,37 +895,31 @@ namespace TFTCalculator.ViewModels
                 FIRST10 = true;
 
             }
-            else FIRST10 = false;
+            else
+            {
+                FIRST10 = false;
+            }
+            
 
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
 
         }
 
+        //d
         public void Shielded_Toggle(object obj)
         {
             if ((bool)obj)
             {
                 SHIELDED = true;
-
             }
-            else SHIELDED = false;
-
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
+            else
+            {
+                SHIELDED = false;
+            } 
+                
 
         }
 
+        //d
         public void Above50_Toggle(object obj)
         {
             if ((bool)obj)
@@ -706,15 +927,12 @@ namespace TFTCalculator.ViewModels
                 ABOVE50 = true;
 
             }
-            else ABOVE50 = false;
+            else
+            {
+                ABOVE50 = false;
 
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
+            }
+
 
         }
 
@@ -992,13 +1210,6 @@ namespace TFTCalculator.ViewModels
             TRAIT2_VALUE = 0;
             TRAIT3_VALUE = 0;
 
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
         }
 
         public void Item_reset(object obj)
@@ -1008,13 +1219,6 @@ namespace TFTCalculator.ViewModels
             ITEM2 = "None";
             ITEM3 = "None";
 
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
         }
 
         public void Aug_reset(object obj)
@@ -1024,13 +1228,6 @@ namespace TFTCalculator.ViewModels
             AUG2 = "None";
             AUG3 = "None";
 
-            (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
         }
 
         public void Lilb_inc(object obj)
@@ -1038,14 +1235,6 @@ namespace TFTCalculator.ViewModels
             if (lilb < 6)
             {
                 LILB += 1;
-
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
         }
@@ -1056,13 +1245,6 @@ namespace TFTCalculator.ViewModels
             {
                 LILB -= 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
         }
@@ -1072,14 +1254,6 @@ namespace TFTCalculator.ViewModels
             if (item_n < 19)
             {
                 ITEM_N += 1;
-
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
         }
@@ -1089,48 +1263,27 @@ namespace TFTCalculator.ViewModels
             if (item_n > 0)
             {
                 ITEM_N -= 1;
-
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
         }
 
         public void Target_inc(object obj)
         {
-            if (targets < 5)
+            if (TARGETS < 5)
             {
                 TARGETS += 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
+                
             }
 
         }
 
         public void Target_dec(object obj)
         {
-            if (targets > 0)
+            if (TARGETS > 0)
             {
                 TARGETS -= 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
 
@@ -1143,13 +1296,6 @@ namespace TFTCalculator.ViewModels
             {
                 TRAIT1_VALUE += 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
 
@@ -1162,13 +1308,6 @@ namespace TFTCalculator.ViewModels
             {
                 TRAIT2_VALUE += 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
 
@@ -1181,13 +1320,6 @@ namespace TFTCalculator.ViewModels
             {
                 TRAIT3_VALUE += 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
             
@@ -1199,13 +1331,6 @@ namespace TFTCalculator.ViewModels
             {
                 TRAIT1_VALUE -= 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
 
             
@@ -1217,13 +1342,6 @@ namespace TFTCalculator.ViewModels
             {
                 TRAIT2_VALUE -= 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
             
         }
@@ -1234,13 +1352,6 @@ namespace TFTCalculator.ViewModels
             {
                 TRAIT3_VALUE -= 1;
 
-                (ATTACK_COUNTER, CAST_COUNTER, AUTO_DPS, CAST_DPS, P_CAST_DPS, FULL_DPS, TRUE_DAMAGE_DPS,
-                    ATTACK_COUNTER15, CAST_COUNTER15, AUTO_DPS15, CAST_DPS15, P_CAST_DPS15, FULL_DPS15, TRUE_DAMAGE_DPS15
-                    , TRAIT1, TRAIT2, TRAIT3, HP, AUTO_AD, AD, AP, ATKS, ASI, AMP, CRIT, CRIT_MULTI, ARMOR, MR, MANA_OH, MANA_REGEN, MANA_MULTI
-                    , ABILITY_CRIT, PHYS_EHP, MAGIC_EHP, FINAL_PHYS_DR, FINAL_MAGIC_DR, SHIELD)
-                    = CM.Combat_Wrapper(unit_name, star, item1, item2, item3, trait1_value, trait2_value, trait3_value,
-                                        COMP_LIST, COMP_LIST2, COMP_LIST3, comp_enable, full_flag, targets, first10, shielded, above50, hit_tank,
-                                        aug1, aug2, aug3, lilb, item_n);
             }
             
         }
@@ -1249,168 +1360,6 @@ namespace TFTCalculator.ViewModels
         #endregion 
 
 
-        #region Lists
-
-
-        public List<string> starlist = new()
-            {
-                "1",
-                "2",
-                "3"
-            };
-        public List<string> STARLIST { get { return starlist; } }
-
-        public static ObservableCollection<string> unitlist5 = new()
-        {
-            "No_Unit",
-            "5 cost"
-        };
-        public ObservableCollection<string> UNITLIST5 { get { return unitlist5; } set { unitlist5 = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> unitlist4 = new()
-        {
-            "No_Unit",
-            "Jinx",
-            "Karma",
-            "Ryze",
-            "Yuumi",
-            "Ashe",
-            "Samira",
-            "Jarvan",
-            "Ksante",
-            "Leona",
-            "Poppy",
-            "Sett",
-            "Volibear",
-            "Akali"
-        };
-
-        public ObservableCollection<string> UNITLIST4 { get { return unitlist4; } set { unitlist4 = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> unitlist3 = new()
-        {
-            "No_Unit",
-            "Malzahar",
-            "Caitlyn",
-            "Senna",
-            "Smolder"
-        };
-        public ObservableCollection<string> UNITLIST3 { get { return unitlist3; } set { unitlist3 = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> unitlist2 = new()
-        {
-            "No_Unit",
-            "Katarina"
-        };
-        public ObservableCollection<string> UNITLIST2 { get { return unitlist2; } set { unitlist2 = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> unitlist1 = new()
-        {
-            "No_Unit",
-            "Lucian"
-        };
-        public ObservableCollection<string> UNITLIST1 { get { return unitlist1; } set { unitlist1 = value; OnPropertyChanged(); } }
-
-        // ap/as
-        public static ObservableCollection<string> itemlist = new()
-        {
-            "None",
-            "Archangels",
-            "Deathcap",
-            "JeweledGauntlet",
-            "VoidStaff",
-            "Rageblade",
-            "BlueBuff",
-            "Nashor",
-            "StrikersFlail",
-            "AdaptiveBack",
-            "Morello",
-            "Gunblade",
-            "Redbuff",
-            "QuickSilver",
-        };
-
-        public ObservableCollection<string> ITEMLIST { get { return itemlist; } set { itemlist = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> itemlist2 = new()
-         {
-            "None",
-            "Deathblade",
-            "Giantslayer",
-            "InfinityEdge",
-            "Shojin",
-            "LastWhisper",
-            "Kraken",
-            "HandOfJustice",
-            "Titans",
-            "BloodThirster",
-            "Gunblade",
-            "EdgeOfNight"
-        };
-
-        public ObservableCollection<string> ITEMLIST2 { get { return itemlist2; } set { itemlist2 = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> itemlist3 = new()
-        {
-            "None",
-            "Warmogs",
-            "SpiritVisage",
-            "Bramble",
-            "DragonClaw",
-            "ProtectorsVow",
-            "SteadfastHeart",
-            "Crownguard",
-            "Stoneplate",
-            "AdaptiveFront",
-            "Spark",
-            "EvenShroud",
-            "Sunfire"
-        };
-
-        public ObservableCollection<string> ITEMLIST3 { get { return itemlist3; } set { itemlist3 = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> g_auglist = new()
-        {
-            "None",
-            "PairOfFours",
-            "BestFriends2",
-            "LittleBuddies",
-            "MacesWill",
-            "Preparation2",
-            "ScoreboardScrapper",
-            "BackUpDancers",
-            "BlazingSoul2",
-            "GlassCannon2",
-            "CyberImplants2",
-            "CyberUplink2",
-            "ItemCollector2",
-            "KnowYourEnemy",
-            "PumpingUp2",
-            "SpearsWill",
-            "WaterLotus",
-            "Ascension"
-        };
-
-        public ObservableCollection<string> G_AUGLIST { get { return g_auglist; } set { g_auglist = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> s_auglist = new()
-        {
-            "None",
-            "silver"
-        };
-
-        public ObservableCollection<string> S_AUGLIST { get { return s_auglist; } set { s_auglist = value; OnPropertyChanged(); } }
-
-        public static ObservableCollection<string> p_auglist = new()
-        {
-            "None",
-            "prismatic"
-        };
-
-        public ObservableCollection<string> P_AUGLIST { get { return p_auglist; } set { p_auglist = value; OnPropertyChanged(); } }
-
-
-        #endregion
 
     }
 
